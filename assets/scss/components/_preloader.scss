@@ -1,0 +1,93 @@
+@use '../abstracts/variables' as *;
+
+/*
+    ax-preloader-1-start
+    a navy sheet with the name in big letters: every letter rises out of its own mask, a gold line and the tag follow. When the
+    page is ready the letters leave upwards and the sheet fades out. main.js runs it
+*/
+
+.ax-preloader-1 {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #02263B;
+    color: #fff;
+    will-change: opacity;
+
+    &-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 26px;
+        padding: 0 20px;
+    }
+
+    &-word {
+        display: flex;
+        justify-content: center;
+        font-family: var(--ax-font-2);
+        font-size: clamp(52px, 10.5vw, 168px);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+    }
+
+    // the mask of a letter: it cuts the letter off while it is below its line
+    &-letter {
+        display: block;
+        overflow: hidden;
+        padding: 0 0.02em;
+    }
+
+    &-char {
+        display: block;
+        transform: translateY(110%);
+        will-change: transform;
+    }
+
+    &-sub {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    // the gold line, main.js grows it from the left
+    &-line {
+        flex: none;
+        display: block;
+        width: 56px;
+        height: 1px;
+        background: var(--ax-clr-ac-1);
+        transform: scaleX(0);
+        transform-origin: left center;
+
+        @media #{$xs} {
+            width: 32px;
+        }
+    }
+
+    &-tag {
+        font-family: var(--ax-font-2);
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgb(255 255 255 / 70%);
+        opacity: 0;
+
+        @media #{$xs} {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+        }
+    }
+}
+
+/*
+    ax-preloader-1-end
+*/

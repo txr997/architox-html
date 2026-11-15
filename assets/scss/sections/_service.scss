@@ -1,0 +1,723 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-service-1-start
+*/
+.ax-service-1 {
+    // 1920 x 1469 in the design: black with a fine grid, the title and the button on top, the slider of the three cards (the arrows sit on
+    // its edges), under it the wide card and the narrow one. Two light strips (28px) close the section: at the top right and at the bottom left
+    &-area {
+        position: relative;
+        isolation: isolate;
+        padding: 132px 0;
+        overflow: hidden;
+        background: #000;
+        color: #fff;
+
+        // the strips take the colour of the sections round this one, one end of each is cut slanted (1140 of 1920 wide)
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            z-index: 3;
+            width: 59.375%;
+            height: 28px;
+            background: var(--ax-clr-bg-5);
+            pointer-events: none;
+        }
+
+        &::before {
+            top: 0;
+            right: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%);
+        }
+
+        &::after {
+            bottom: -1px;
+            left: 0;
+            clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 100%, 0 100%);
+        }
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 575px) {
+            padding: 70px 0;
+
+            &::before,
+            &::after {
+                height: 16px;
+            }
+
+            &::before {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 16px 100%);
+            }
+
+            &::after {
+                clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 0 100%);
+            }
+        }
+    }
+
+    // the grid, it covers the whole section
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    &-container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // the title on the left, the button on the right at the foot of the title
+    &-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 28px 40px;
+
+        @media (max-width: 991px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    &-head-content {
+        max-width: 852px;
+    }
+
+    &-title {
+        margin-top: 20px;
+    }
+
+    // the slider is 1400 wide with 28px between the cards, the arrows are centred on its left and right edge
+    &-slider-wrap {
+        position: relative;
+        margin-top: 52px;
+
+        @media #{$xs} {
+            margin-top: 40px;
+        }
+    }
+
+    &-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        margin-top: -26px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: rgb(65 65 65 / 40%);
+        -webkit-backdrop-filter: blur(44px);
+        backdrop-filter: blur(44px);
+        box-shadow: 0 8px 32px rgb(0 0 0 / 25%);
+        color: #fff;
+        transition: var(--ax-cube-1);
+
+        &:is(.is-prev) {
+            left: -26px;
+        }
+
+        &:is(.is-next) {
+            right: -26px;
+        }
+
+        &:hover {
+            background: var(--ax-clr-ac-1);
+            color: #000;
+        }
+
+        // no room outside the cards on a phone: the arrows sit on them
+        @media #{$xs} {
+            width: 44px;
+            height: 44px;
+            margin-top: -22px;
+
+            &:is(.is-prev) {
+                left: 8px;
+            }
+
+            &:is(.is-next) {
+                right: 8px;
+            }
+        }
+    }
+
+    // the card of the slider: the title, the icon between two thin lines, the words and the tags. On hover it turns into its picture: the
+    // words go up and out, the picture comes up clear and a glass panel (black at 40% over a blur of 20px) rises at the foot of the card
+    // with the title, two lines of the words and a round button
+    &-card {
+        position: relative;
+        height: 100%;
+        padding: 48px 40px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #151515;
+
+        @media #{$xl} {
+            padding: 40px 30px;
+        }
+
+        @media #{$xs} {
+            padding: 36px 24px;
+        }
+
+        &-img {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.08);
+            transition: opacity .6s ease, transform .9s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        &-in {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: opacity .4s ease, transform .6s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        // 12px from the left, the right and the foot of the card
+        &-hover {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            left: 12px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 38px;
+            border-radius: 8px;
+            background: rgb(0 0 0 / 40%);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(32px);
+            pointer-events: none;
+            transition: opacity .4s ease, transform .6s cubic-bezier(.18, .82, .41, 1);
+
+            @media #{$xl,$xs} {
+                padding: 24px 24px;
+            }
+        }
+
+        &:hover,
+        &:focus-within {
+            .ax-service-1-card-img {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .ax-service-1-card-in {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+
+            .ax-service-1-card-hover {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+                transition-delay: .1s;
+            }
+        }
+
+        &-hover-title {
+            font-family: var(--ax-font-3);
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 32px;
+            letter-spacing: 0.01em;
+            color: #fff;
+
+            @media #{$xl,$md,$sm} {
+                font-size: 24px;
+                line-height: 30px;
+            }
+
+            @media #{$xs} {
+                font-size: 22px;
+                line-height: 28px;
+            }
+        }
+
+        // two lines, what does not fit ends in "..."
+        &-hover-text {
+            display: -webkit-box;
+            margin: 0;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: rgb(255 255 255 / 80%);
+
+            @media #{$xl,$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        // the pill (56 x 36) with a thin gold outline and the arrow, it fills with gold on its own hover
+        &-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 36px;
+            border: 1px solid var(--ax-clr-ac-1);
+            border-radius: 60px;
+            color: #fff;
+            transition: var(--ax-cube-1);
+
+            i {
+                display: block;
+                font-size: 20px;
+            }
+
+            &:hover {
+                background: var(--ax-clr-ac-1);
+                color: #000;
+            }
+        }
+
+        &-title {
+            margin: 0;
+            padding-bottom: 32px;
+            border-bottom: 1px solid rgb(255 255 255 / 16%);
+            font-family: var(--ax-font-3);
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 32px;
+            letter-spacing: 0.01em;
+            text-align: center;
+            color: #fff;
+
+            @media #{$md,$sm} {
+                font-size: 24px;
+                line-height: 30px;
+            }
+
+            @media #{$xs} {
+                font-size: 22px;
+                line-height: 28px;
+            }
+        }
+
+        // 88px icon with 52px over and under it
+        &-mid {
+            padding: 52px 0;
+            border-bottom: 1px solid rgb(255 255 255 / 16%);
+        }
+
+        // the icon is a flaticon (the font), gold, as big as its box
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 88px;
+            height: 88px;
+            margin: 0 auto;
+            font-size: 88px;
+            line-height: 1;
+            color: var(--ax-clr-ac-1);
+
+            i {
+                display: block;
+            }
+        }
+
+        &-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            margin-top: 32px;
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            text-align: center;
+            color: rgb(255 255 255 / 80%);
+
+            @media #{$xl,$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        &-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        &-tag {
+            display: inline-flex;
+            align-items: center;
+            height: 29px;
+            padding: 0 16px;
+            border: 1px solid rgb(255 255 255 / 30%);
+            border-radius: 100px;
+            font-family: var(--ax-font-3);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            color: rgb(255 255 255 / 68%);
+        }
+    }
+
+    // the two cards under the slider: the wide one (1048 x 444) and the narrow one (324 x 444) with 28px between them. Under 1200px they stand
+    // one under the other
+    &-down {
+        display: grid;
+        grid-template-columns: minmax(0, 1048fr) minmax(0, 324fr);
+        gap: 28px;
+        margin-top: 28px;
+
+        @media (max-width: 1199px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    // the wide card is a box that keeps the proportions of the design, its two halves are the card itself (cut at the bottom right) and the
+    // chip that sits in the cut
+    &-big-wrap {
+        position: relative;
+
+        @media (min-width: 576px) {
+            aspect-ratio: 1048 / 444;
+        }
+
+        // a phone only (under 576px): $xs is everything under 768px, it would reach the next size too, where min-height and the ratio
+        // together push the box wider than its column
+        @media (max-width: 575px) {
+            min-height: 380px;
+        }
+    }
+
+    // the cut: a corner of 171 x 171 is gone at the bottom right. From 576px it is a mask (an inline svg of 1048 x 444, stretched over the box
+    // that keeps that ratio, corners rounded by 12px), on a phone the box is taller than that ratio, so there it is a plain polygon
+    &-big {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #151515;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 101px), calc(100% - 101px) 100%, 0 100%);
+
+        @media (min-width: 576px) {
+            border-radius: 0;
+            clip-path: none;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1048 444' preserveAspectRatio='none'%3E%3Cpath d='M0 12A12 12 0 0 1 12 0L1036 0A12 12 0 0 1 1048 12L1048 268.03A12 12 0 0 1 1044.49 276.51L880.51 440.49A12 12 0 0 1 872.03 444L12 444A12 12 0 0 1 0 432Z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1048 444' preserveAspectRatio='none'%3E%3Cpath d='M0 12A12 12 0 0 1 12 0L1036 0A12 12 0 0 1 1048 12L1048 268.03A12 12 0 0 1 1044.49 276.51L880.51 440.49A12 12 0 0 1 872.03 444L12 444A12 12 0 0 1 0 432Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        // the picture is 20% taller than the card (10% over the top and 10% under the foot), main.js moves it with the scroll (parallax)
+        &-img {
+            position: absolute;
+            top: -10%;
+            right: 0;
+            bottom: -10%;
+            left: 0;
+        }
+
+        // 584 of 1048: the dark of the card runs out over the picture
+        &-shade {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 55.73%;
+            background: linear-gradient(90deg, #151515 0%, rgb(21 21 21 / 0%) 100%);
+
+            @media (max-width: 575px) {
+                width: 100%;
+                background: linear-gradient(90deg, rgb(21 21 21 / 92%) 0%, rgb(21 21 21 / 40%) 100%);
+            }
+        }
+
+        // 44px from the top, the left and the foot: the title on top, the words at the bottom
+        &-content {
+            position: absolute;
+            top: 44px;
+            bottom: 44px;
+            left: 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+            width: min(439px, calc(100% - 88px));
+
+            @media #{$xl} {
+                top: 36px;
+                bottom: 36px;
+                left: 36px;
+            }
+
+            @media #{$lg,$md} {
+                top: 32px;
+                bottom: 32px;
+                left: 32px;
+            }
+
+            @media #{$sm} {
+                top: 24px;
+                bottom: 24px;
+                left: 24px;
+            }
+
+            // the cut takes the bottom right corner of the phone card, so the words keep out of it
+            @media (max-width: 575px) {
+                top: 28px;
+                bottom: 28px;
+                left: 24px;
+                width: calc(100% - 96px);
+            }
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 36px;
+            font-weight: 500;
+            line-height: 40px;
+            color: #fff;
+
+            @media #{$xl} {
+                font-size: 32px;
+                line-height: 36px;
+            }
+
+            @media #{$md} {
+                font-size: 30px;
+                line-height: 34px;
+            }
+
+            @media #{$sm,$xs} {
+                font-size: 24px;
+                line-height: 28px;
+            }
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: rgb(255 255 255 / 80%);
+
+            @media #{$xl} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+
+            @media #{$md} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            @media #{$sm,$xs} {
+                font-size: 15px;
+                line-height: 22px;
+            }
+        }
+    }
+
+    // the black triangle in the cut (136 of 1048 wide), its outline is 1px of white and the arrow sits where the weight of the triangle is
+    &-chip {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        display: block;
+        width: 12.98%;
+        aspect-ratio: 1;
+
+        // the chip of the phone card (its cut is a polygon of 101px, see &-big)
+        @media (max-width: 575px) {
+            width: 80px;
+        }
+
+        &-shape {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            fill: #000;
+            stroke: #fff;
+            stroke-width: 1;
+            transition: stroke .4s ease;
+        }
+
+        &-icon {
+            position: absolute;
+            top: 55.9%;
+            left: 52.2%;
+            width: 29.41%;
+            aspect-ratio: 1;
+            transition: transform .5s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        &:hover {
+            .ax-service-1-chip-shape {
+                stroke: var(--ax-clr-ac-1);
+            }
+
+            .ax-service-1-chip-icon {
+                transform: translate(8%, -8%);
+            }
+        }
+    }
+
+    // the narrow card: the picture in grey, the dark comes up from its foot, the badge at the top right and the words at the bottom
+    &-quality {
+        position: relative;
+        min-height: 380px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #151515;
+
+        @media (min-width: 1200px) {
+            min-height: 0;
+        }
+
+        &-img {
+            position: absolute;
+            inset: 0;
+            filter: grayscale(1);
+            transition: transform 1.2s cubic-bezier(.18, .82, .41, 1);
+        }
+
+
+
+        // 245 of 444 (55%) and a layer of black at 20% over the whole picture
+        &-shade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, #151515 0%, rgb(21 21 21 / 0%) 55%), rgb(0 0 0 / 20%);
+        }
+
+        // the badge: 66 x 66, only its right and its bottom edge are drawn (the bottom right corner is rounded by 6px), the plate inside is white at 20%
+        &-icon {
+            position: absolute;
+            top: 24px;
+            right: 20px;
+            width: 66px;
+            height: 66px;
+            padding: 0 6px 6px 0;
+            border-right: 1px solid rgb(255 255 255 / 40%);
+            border-bottom: 1px solid rgb(255 255 255 / 40%);
+            border-radius: 0 0 6px 0;
+
+            @media #{$xl} {
+                top: 20px;
+                right: 16px;
+            }
+        }
+
+        &-icon-in {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            background: rgb(255 255 255 / 20%);
+        }
+
+        &-icon-img {
+            width: 100%;
+            height: 100%;
+        }
+
+        &-content {
+            position: absolute;
+            right: 27px;
+            bottom: 28px;
+            left: 28px;
+
+            @media #{$xl} {
+                right: 20px;
+                bottom: 24px;
+                left: 24px;
+            }
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 28px;
+            letter-spacing: -0.01em;
+            color: #fff;
+
+            @media #{$xl} {
+                font-size: 22px;
+                line-height: 26px;
+            }
+        }
+
+        &-text {
+            margin: 16px 0 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            color: rgb(239 239 235 / 80%);
+
+            @media #{$xl} {
+                font-size: 16px;
+                line-height: 22px;
+            }
+        }
+    }
+}
+/*
+    ax-service-1-end
+*/

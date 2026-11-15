@@ -1,0 +1,587 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-hero-1-start
+*/
+.ax-hero-1 {
+    // 1920 x 964 in the design: the photo, the blue wash, the glass card, the building, the social bar, the stats and the text, stacked in that order
+    &-area {
+        position: relative;
+        min-height: 964px;
+        overflow: hidden;
+        background: #000;
+
+        @media #{$xxxl} {
+            min-height: 920px;
+        }
+
+        @media #{$xxl} {
+            min-height: 880px;
+        }
+
+        @media #{$xl} {
+            min-height: 820px;
+        }
+
+        @media #{$lg} {
+            min-height: 780px;
+        }
+
+        // the height comes from the text and the room left under it for the building
+        @media #{$md,$sm,$xs} {
+            min-height: 0;
+        }
+    }
+
+    // the photo runs 43px past the bottom edge of the hero
+    &-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% + 43px);
+    }
+
+    // 699px of the 964 (72.5%), 80% strong, it multiplies the pale sky into the deep blue
+    &-shade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 72.5%;
+        background: var(--ax-clr-gd-11);
+        opacity: 0.8;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+    }
+
+    // the cut-out of the building, 1920 x 681 in the design, 37px of it below the hero
+    &-building {
+        position: absolute;
+        bottom: -1.93vw;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        aspect-ratio: 1920 / 681;
+        pointer-events: none;
+
+        // too small to read at the width of a phone: it keeps 780px and is cropped by the screen
+        @media #{$sm,$xs} {
+            bottom: -12px;
+            left: 50%;
+            width: 780px;
+            margin-left: -390px;
+        }
+    }
+
+    // the glass card behind the building, 533 x 546 at 189px from the top and 92px from the right edge
+    &-card {
+        position: absolute;
+        top: 189px;
+        right: 92px;
+        z-index: 2;
+        width: 533px;
+        height: 546px;
+        padding: 39px 28px 0 32px;
+        border-radius: 20px 20px 0 0;
+        // solid white at the top, 20% at 40% of the height, clear at the bottom
+        background: linear-gradient(180deg, #fff 0%, rgb(255 255 255 / 20%) 39.9%, rgb(255 255 255 / 0%) 100%);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+
+        // the 1px edge fades the same way (white, 20% at 42%, clear), it is cut out of a layer with the size of the card
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(180deg, #fff 0%, rgb(255 255 255 / 20%) 42.3%, rgb(255 255 255 / 0%) 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        @media #{$xxxl} {
+            top: 175px;
+            right: 48px;
+        }
+
+        @media #{$xxl} {
+            top: 160px;
+            right: 32px;
+            width: 480px;
+            height: 520px;
+            padding: 32px 24px 0 28px;
+        }
+
+        @media #{$xl} {
+            top: 150px;
+            right: 24px;
+            width: 420px;
+            height: 480px;
+            padding: 28px 20px 0 24px;
+        }
+
+        @media #{$lg} {
+            top: 140px;
+            right: 16px;
+            width: 360px;
+            height: 440px;
+            padding: 24px 16px 0 20px;
+        }
+
+        @media #{$md,$sm,$xs} {
+            display: none;
+        }
+
+        &-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        &-left {
+            flex: none;
+            width: 238px;
+
+            @media #{$xxl} {
+                width: 210px;
+            }
+
+            @media #{$xl} {
+                width: 180px;
+            }
+
+            @media #{$lg} {
+                width: 150px;
+            }
+        }
+
+        &-tags {
+            display: flex;
+            gap: 7px;
+        }
+
+        // the two outlined tags: gold on white, and black at 60% without a fill for the second one
+        &-tag {
+            display: inline-flex;
+            align-items: center;
+            height: 27px;
+            padding: 0 12px;
+            border: 1.5px solid var(--ax-clr-ac-1);
+            border-radius: 4px;
+            font-family: var(--ax-font-3);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 24px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--ax-clr-ac-1);
+
+            &:is(.is-dark) {
+                border-color: rgb(0 0 0 / 60%);
+                background: transparent;
+                color: rgb(0 0 0 / 60%);
+            }
+
+            @media #{$xl} {
+                height: 24px;
+                padding: 0 8px;
+                font-size: 13px;
+                line-height: 21px;
+            }
+
+            @media #{$lg} {
+                height: 22px;
+                padding: 0 6px;
+                font-size: 11px;
+                line-height: 19px;
+            }
+        }
+
+        &-title {
+            margin: 32px 0 0;
+            font-family: var(--ax-font-3);
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 38px;
+            color: #000;
+
+            @media #{$xxl} {
+                margin-top: 24px;
+                font-size: 28px;
+                line-height: 34px;
+            }
+
+            @media #{$xl} {
+                margin-top: 20px;
+                font-size: 24px;
+                line-height: 30px;
+            }
+
+            @media #{$lg} {
+                margin-top: 16px;
+                font-size: 20px;
+                line-height: 26px;
+            }
+        }
+
+        // 205 x 205, it sits 11px above the tags
+        &-img {
+            flex: none;
+            width: 205px;
+            height: 205px;
+            margin-top: -11px;
+            border-radius: 10px;
+
+            @media #{$xxl} {
+                width: 190px;
+                height: 190px;
+            }
+
+            @media #{$xl} {
+                width: 150px;
+                height: 150px;
+            }
+
+            @media #{$lg} {
+                width: 130px;
+                height: 130px;
+            }
+        }
+
+        &-text {
+            margin: 32px 0 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: rgb(0 0 0 / 72%);
+
+            @media #{$xl,$lg} {
+                margin-top: 24px;
+                font-size: 15px;
+                line-height: 24px;
+            }
+        }
+    }
+
+    // the bar on the left edge, 111 x 425 with the outline of the design: it sweeps down from the top of the left edge
+    // to the 68px wide bar and flares out to the right at the bottom (the icons sit in the 68px, the 43px on the right are the flare)
+    &-social {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 111px;
+        height: 425px;
+        padding: 70px 43px 16px 0;
+        background: var(--ax-clr-bg-5);
+        clip-path: path("M0 0C0 0 0.744357 15.7646 7 22.8232C15.4771 32.3883 31.3523 37.3355 44.7822 39.8848C57.5719 42.3127 68 52.9438 68 65.9619V382.748C68.1226 390.404 69.3426 411.82 79 418C89.3899 424.649 111 425 111 425H0V0Z");
+
+        // the bar needs the room of the container: only on the wide screens
+        @media (max-width: 1599px) {
+            display: none;
+        }
+
+        // the text reads from the bottom up
+        &-follow {
+            flex: none;
+            height: 96px;
+            font-family: var(--ax-font-2);
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 28px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: #565557;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        &-line {
+            flex: none;
+            width: 1px;
+            height: 27px;
+            background: rgb(0 0 0 / 20%);
+        }
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        &-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgb(0 0 0 / 8%);
+            border-radius: 8px;
+            background: #fff;
+            font-size: 16px;
+            line-height: 1;
+            color: #000;
+            transition: var(--ax-cube-1);
+
+            &:hover,
+            &:is(.is-active) {
+                border-color: #000;
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+
+    // the rating card and the two number cards, joined at the bottom right: 857 x 108, 15px from the right edge
+    &-stats {
+        position: absolute;
+        right: 15px;
+        bottom: 0;
+        z-index: 4;
+        display: flex;
+        align-items: flex-end;
+
+        @media #{$md,$sm,$xs} {
+            display: none;
+        }
+    }
+
+    &-rating {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 455px;
+        height: 108px;
+        padding-left: 86px;
+        background: var(--ax-clr-bg-5);
+        // the slanted left side that rises to the flat top, and the right side that sinks into the first number card
+        clip-path: path("M455 108H0C0 108 20.6872 106.415 28 93.9999C44.7309 65.5962 55.5576 45.0649 62.5416 30.58C70.8827 13.2805 88.8948 0 108.1 0H377.661C401.612 0 418.921 23.1675 417.402 47.071C416.211 65.8092 417.986 85.4993 428 96.5C438.663 108.214 455 108 455 108Z");
+
+        // hover: the avatars fan out (the 2nd and the 3rd slide to the right with a transform, so the stack takes no more room
+        // and the text next to it stays put) and jump up one after the other
+        &-avatars {
+            display: flex;
+            flex: none;
+
+            &:hover .ax-hero-1-rating-avatar {
+                transform: translateY(-5px);
+
+                &:nth-child(2) {
+                    transform: translate(7px, -5px);
+                }
+
+                &:nth-child(3) {
+                    transform: translate(14px, -5px);
+                }
+            }
+        }
+
+        // 56px, 23px of each one is covered by the next
+        &-avatar {
+            flex: none;
+            width: 56px;
+            height: 56px;
+            border: 3px solid var(--ax-clr-bg-5);
+            border-radius: 14px;
+            transition: transform .5s cubic-bezier(.34, 1.56, .64, 1);
+
+            &:not(:first-child) {
+                margin-left: -23px;
+            }
+
+            &:nth-child(2) {
+                transition-delay: .06s;
+            }
+
+            &:nth-child(3) {
+                transition-delay: .12s;
+            }
+        }
+
+        &-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        &-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        &-stars {
+            display: flex;
+            gap: 1px;
+
+            i {
+                width: 14px;
+                font-size: 12px;
+                line-height: 14px;
+                text-align: center;
+                color: var(--ax-clr-star-2);
+            }
+        }
+
+        &-num {
+            font-family: var(--ax-font-3);
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 28px;
+            color: #000;
+        }
+
+        &-label {
+            margin-left: -1px;
+            font-family: var(--ax-font-3);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 28px;
+            color: #000;
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 20px;
+            white-space: nowrap;
+            color: var(--ax-clr-p-3);
+        }
+    }
+
+    // 227 x 108 each, the first one covers the last 38px of the rating card and the second one the last 14px of the first.
+    // The cards are cut with a path of the design, so their size stays fixed
+    &-stat {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 227px;
+        height: 108px;
+        padding-left: 24px;
+        background: #fff;
+        // the slanted top left corner, the other three corners are rounded by 16px
+        clip-path: path("M227 92C227 100.837 219.837 108 211 108H16C7.16344 108 0 100.837 0 92V44C0 38.9639 2.37111 34.2217 6.4 31.2L43.7333 3.2C46.5029 1.12285 49.8714 0 53.3333 0H211C219.837 0 227 7.16344 227 16V92Z");
+
+        &:nth-child(2) {
+            margin-left: -38px;
+        }
+
+        &:nth-child(3) {
+            margin-left: -14px;
+        }
+
+        &-icon {
+            flex: none;
+            width: 36px;
+            height: 36px;
+        }
+
+        &-num {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 36px;
+            color: #000;
+
+            span {
+                color: rgb(0 0 0 / 40%);
+            }
+        }
+
+        &-text {
+            margin: 4px 0 0;
+            font-family: var(--ax-font-3);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 22px;
+            white-space: nowrap;
+            color: var(--ax-clr-p-3);
+        }
+    }
+
+    // the text starts 236px from the top and 260px from the left (the container of 1400)
+    &-container {
+        position: relative;
+        padding-top: 236px;
+        z-index: 3;
+
+        @media #{$xxxl} {
+            padding-top: 220px;
+        }
+
+        @media #{$xxl} {
+            padding-top: 200px;
+        }
+
+        @media #{$xl} {
+            padding-top: 180px;
+        }
+
+        @media #{$lg} {
+            padding-top: 170px;
+        }
+
+        // room under the text for the building
+        @media #{$md} {
+            padding-top: 150px;
+            padding-bottom: 36vw;
+        }
+
+        @media #{$sm} {
+            padding-top: 140px;
+            padding-bottom: 290px;
+        }
+
+        @media #{$xs} {
+            padding-top: 120px;
+            padding-bottom: 290px;
+        }
+    }
+
+    &-content {
+        max-width: 635px;
+
+        @media #{$xxl} {
+            max-width: 600px;
+        }
+
+        @media #{$xl} {
+            max-width: 540px;
+        }
+
+        @media #{$lg} {
+            max-width: 450px;
+        }
+
+        @media #{$md} {
+            max-width: 600px;
+        }
+    }
+
+    &-text {
+        margin-top: 20px;
+    }
+
+    &-btn {
+        margin-top: 32px;
+    }
+}
+/*
+    ax-hero-1-end
+*/

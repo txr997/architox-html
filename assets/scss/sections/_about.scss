@@ -1,0 +1,540 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-about-1-start
+*/
+@keyframes ax-about-1-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.ax-about-1 {
+    // 1920 x 1307 in the design: the sketch of the building at the bottom right, five faint half circles from the top middle, the text and
+    // the photo on the left, the three number cards stepped on the right (the container of 1400, 132px of room over and under)
+    &-area {
+        position: relative;
+        isolation: isolate;
+        padding: 132px 0;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media #{$xs} {
+            padding: 70px 0;
+        }
+    }
+
+    // the sketch, 1060 x 907 at the bottom right corner. Its image multiplies into the page colour (the white of the sketch is gone) and the top and
+    // the left edge melt into the page. It has no z-index of its own, so the multiply still sees the colour of the section
+    &-bg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: min(1060px, 55.21vw);
+        aspect-ratio: 1060 / 907;
+        pointer-events: none;
+
+        // 342px of 907 and of 1060
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        &::before {
+            right: 0;
+            height: 37.7%;
+            background: linear-gradient(180deg, #EFEFEB 0%, rgb(239 239 235 / 0%) 100%);
+        }
+
+        &::after {
+            bottom: 0;
+            width: 32.26%;
+            background: linear-gradient(90deg, #EFEFEB 0%, rgb(239 239 235 / 0%) 100%);
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            width: min(700px, 90vw);
+        }
+
+        &-img {
+            position: absolute;
+            inset: 0;
+            opacity: 0.7;
+            mix-blend-mode: multiply;
+        }
+    }
+
+    // five half circles with the same centre (the top middle), 200 to 1400 wide, black at 5%
+    &-lines {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 1400px;
+        height: 700px;
+        margin-left: -700px;
+        overflow: hidden;
+        opacity: 0.05;
+        pointer-events: none;
+    }
+
+    &-line {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border: 1px solid #000;
+        border-radius: 50%;
+
+        // centred on the top middle by their margins (not by a transform, main.js scales them from their centre)
+        &:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            margin: -100px 0 0 -100px;
+        }
+
+        &:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            margin: -250px 0 0 -250px;
+        }
+
+        &:nth-child(3) {
+            width: 800px;
+            height: 800px;
+            margin: -400px 0 0 -400px;
+        }
+
+        &:nth-child(4) {
+            width: 1100px;
+            height: 1100px;
+            margin: -550px 0 0 -550px;
+        }
+
+        &:nth-child(5) {
+            width: 1400px;
+            height: 1400px;
+            margin: -700px 0 0 -700px;
+        }
+    }
+
+    &-container {
+        position: relative;
+        z-index: 2;
+    }
+
+    // under 1200px everything is stacked: the text, the photo, the cards. From 1200px it is a grid of the design: the photo column and two
+    // card columns (736 + 332 + 332 = 1400), the first row is the room over the first card, the cards are 332 high (a row grows if its card needs more)
+    &-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 72px;
+
+        @media #{$sm,$xs} {
+            gap: 64px;
+        }
+
+        @media (min-width: 1200px) {
+            --ax-about-1-photo: 736px;
+            --ax-about-1-card: 332px;
+            --ax-about-1-gap: 47px;
+            display: grid;
+            grid-template-columns: var(--ax-about-1-photo) var(--ax-about-1-card) var(--ax-about-1-card);
+            grid-template-rows: var(--ax-about-1-gap) repeat(3, minmax(var(--ax-about-1-card), auto));
+            gap: 0;
+        }
+
+        // the container is 1296, 1116 wide: the columns shrink with it, the first row grows so the photo stays under the button
+        @media #{$xxl} {
+            --ax-about-1-photo: 696px;
+            --ax-about-1-card: 300px;
+            --ax-about-1-gap: 90px;
+        }
+
+        @media #{$xl} {
+            --ax-about-1-photo: 616px;
+            --ax-about-1-card: 250px;
+            --ax-about-1-gap: 140px;
+        }
+    }
+
+    // the title is wider than the photo column (852 of 736), it runs over into the next column where nothing is at that height. The text takes
+    // only the first row (the fixed one) and runs down over the next ones: if it spanned two rows its height would stretch the row of the first card
+    &-content {
+        @media (min-width: 1200px) {
+            grid-column: 1;
+            grid-row: 1;
+            align-self: start;
+        }
+    }
+
+    &-title {
+        margin-top: 20px;
+        max-width: 852px;
+
+        @media (min-width: 1200px) {
+            width: 852px;
+            max-width: none;
+        }
+
+        @media #{$xxl} {
+            width: 790px;
+        }
+
+        @media #{$xl} {
+            width: 700px;
+        }
+    }
+
+    &-text {
+        max-width: 562px;
+        margin-top: 32px;
+        color: var(--ax-clr-p-3);
+
+        @media #{$xxl} {
+            max-width: 540px;
+        }
+
+        @media #{$xl} {
+            max-width: 470px;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    &-btn {
+        margin-top: 32px;
+    }
+
+    // the photo is 736 x 531: the top right corner is cut by 168 x 199 and the bottom left one by 61 x 52
+    &-photo {
+        position: relative;
+
+        @media (min-width: 1200px) {
+            grid-column: 1;
+            grid-row: 3 / 5;
+            align-self: end;
+        }
+
+        @media #{$lg,$md,$sm,$xs} {
+            width: min(736px, 100%);
+        }
+    }
+
+    // the shape is a mask (an inline svg of 736 x 531, stretched over the box that keeps that ratio): the four cut corners are rounded by 20px
+    // and the other two by 16px, it scales with the photo
+    &-slider {
+        aspect-ratio: 736 / 531;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 736 531' preserveAspectRatio='none'%3E%3Cpath d='M0 16A16 16 0 0 1 16 0L558.71 0A20 20 0 0 1 573.99 7.1L731.28 193.41A20 20 0 0 1 736 206.31L736 515A16 16 0 0 1 720 531L68.37 531A20 20 0 0 1 55.39 526.22L7.03 484.99A20 20 0 0 1 0 469.77Z'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 736 531' preserveAspectRatio='none'%3E%3Cpath d='M0 16A16 16 0 0 1 16 0L558.71 0A20 20 0 0 1 573.99 7.1L731.28 193.41A20 20 0 0 1 736 206.31L736 515A16 16 0 0 1 720 531L68.37 531A20 20 0 0 1 55.39 526.22L7.03 484.99A20 20 0 0 1 0 469.77Z'/%3E%3C/svg%3E");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+    }
+
+    &-slide {
+        height: 100%;
+    }
+
+    // the round badge on the cut corner: a ring, the words round it and the 30 in a black disc (it sits 65px over the photo, 458px from its left)
+    &-sticker {
+        position: absolute;
+        top: -65px;
+        left: 62.23%;
+        z-index: 2;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: var(--ax-clr-bg-5);
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        // it is smaller than the photo can carry on a phone
+        @media #{$xs} {
+            top: -52px;
+            left: 52%;
+            transform: scale(0.75);
+            transform-origin: 0 0;
+        }
+
+        // the words round the badge turn all the time, once round in 16 seconds
+        &-text {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: 112px;
+            height: 112px;
+            animation: ax-about-1-spin 16s linear infinite;
+
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+            }
+        }
+
+        &-years {
+            position: absolute;
+            top: 46px;
+            left: 46px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: #000;
+            font-family: var(--ax-font-3);
+            color: var(--ax-clr-bg-5);
+        }
+
+        // a line of the height of its capitals: the line height 0.66 puts the baseline at the foot of the box (Lato)
+        &-num {
+            height: 0.72em;
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 0.66;
+        }
+
+        &-label {
+            height: 0.72em;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 0.66;
+        }
+    }
+
+    &-arrows {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2;
+        display: flex;
+        gap: 8px;
+
+        @media #{$xs} {
+            right: 12px;
+            bottom: 12px;
+        }
+    }
+
+    &-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        color: #1E2F22;
+        transition: var(--ax-cube-1);
+
+        &:hover {
+            background: #060606;
+            color: #fff;
+        }
+    }
+
+    // the three cards: under 1200px a row of three (one column on a phone), from 1200px they step down the right side (the wrapper
+    // gives its place to the cards, so they are cells of the grid of the wrap)
+    &-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        @media #{$sm,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        @media (min-width: 1200px) {
+            display: contents;
+        }
+    }
+
+    // white at 64% over a blur of 24px, the number sits between its title and its words
+    &-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+        padding: 32px 30px;
+        background: rgb(255 255 255 / 64%);
+        -webkit-backdrop-filter: blur(24px);
+        backdrop-filter: blur(24px);
+
+        @media #{$md} {
+            gap: 30px;
+            padding: 28px 22px;
+        }
+
+        @media #{$xs} {
+            gap: 30px;
+            padding: 28px 24px;
+        }
+
+        @media (min-width: 1200px) {
+            gap: 57px;
+            padding: 36px 33px 35px 34px;
+
+            &:nth-child(1) {
+                grid-column: 3;
+                grid-row: 2;
+            }
+
+            &:nth-child(2) {
+                grid-column: 2;
+                grid-row: 3;
+            }
+
+            &:nth-child(3) {
+                grid-column: 3;
+                grid-row: 4;
+            }
+        }
+
+        @media #{$xxl} {
+            gap: 46px;
+            padding: 30px 28px 28px 30px;
+        }
+
+        @media #{$xl} {
+            gap: 26px;
+            padding: 26px 20px 24px 22px;
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 28px;
+            color: #000;
+
+            @media #{$xxl} {
+                font-size: 20px;
+                line-height: 26px;
+            }
+
+            @media #{$xl,$md} {
+                font-size: 18px;
+                line-height: 24px;
+            }
+        }
+
+        // the number is 88px high letters, the sign (52px, gold) stands on the same baseline: the box is the height of the capitals,
+        // line height 0.66 puts the baseline of Lato at its foot
+        &-count {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 4px;
+            height: 0.72em;
+            font-family: var(--ax-font-3);
+            font-size: 72px;
+            font-weight: 400;
+            line-height: 0.66;
+            letter-spacing: -2px;
+            color: #000;
+
+            @media (min-width: 1200px) {
+                font-size: 88px;
+            }
+
+            @media #{$xxl} {
+                font-size: 78px;
+            }
+
+            @media #{$xl} {
+                font-size: 62px;
+            }
+
+            @media #{$md} {
+                font-size: 60px;
+            }
+
+            @media #{$xs} {
+                font-size: 64px;
+            }
+        }
+
+        &-unit {
+            font-family: var(--ax-font-4);
+            font-size: 0.59em;
+            font-weight: 500;
+            line-height: 1;
+            color: var(--ax-clr-ac-1);
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            text-align: right;
+            color: var(--ax-clr-p-3);
+
+            @media (min-width: 1200px) {
+                font-size: 18px;
+                line-height: 28px;
+            }
+
+            @media #{$xxl} {
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            @media #{$xl,$md} {
+                font-size: 15px;
+                line-height: 22px;
+            }
+
+            // the third card has its words a little smaller and darker in the design
+            &:is(.is-sm) {
+                color: #363636;
+
+                @media (min-width: 1600px) {
+                    font-size: 17px;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}
+/*
+    ax-about-1-end
+*/

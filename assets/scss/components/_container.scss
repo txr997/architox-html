@@ -1,0 +1,26 @@
+/* 
+    custom-container-start
+*/
+
+@media (min-width: 1600px) {
+    .container{
+        &.ax-container-1 {
+            max-width: 1424px;
+        }
+
+    }
+}
+
+// the header 2 runs almost edge to edge: 20px of the page on each side (1920 design), centred once the page is wider
+.container-fluid {
+    &.ax-container-2 {
+        max-width: 1920px;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+}
+
+
+/* 
+    custom-container-end
+*/

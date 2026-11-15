@@ -1,0 +1,225 @@
+$flaticon_architox-font: "flaticon_architox";
+
+@font-face {
+    font-family: $flaticon_architox-font;
+    src: url("./flaticon_architox.woff2?a769d6a471782cfeec192f66a12fdb8c") format("woff2"),
+url("./flaticon_architox.woff?a769d6a471782cfeec192f66a12fdb8c") format("woff"),
+url("./flaticon_architox.eot?a769d6a471782cfeec192f66a12fdb8c#iefix") format("embedded-opentype"),
+url("./flaticon_architox.ttf?a769d6a471782cfeec192f66a12fdb8c") format("truetype"),
+url("./flaticon_architox.svg?a769d6a471782cfeec192f66a12fdb8c#flaticon_architox") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_architox !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon_architox-map: (
+    "star": "\f101",
+    "user": "\f102",
+    "best-customer-experience": "\f103",
+    "layers": "\f104",
+    "blueprint": "\f105",
+    "modern-house": "\f106",
+    "sofa": "\f107",
+    "floor": "\f108",
+    "layout": "\f109",
+    "3d-model": "\f10a",
+    "house": "\f10b",
+    "up-right-arrow": "\f10c",
+    "upward-trend": "\f10d",
+    "next": "\f10e",
+    "upper-right-arrow": "\f10f",
+    "left": "\f110",
+    "view": "\f111",
+    "facebook": "\f112",
+    "instagram": "\f113",
+    "linkedin": "\f114",
+    "twitter": "\f115",
+    "cross": "\f116",
+    "guaranteed": "\f117",
+    "play-button-arrowhead": "\f118",
+    "creative-idea": "\f119",
+    "client": "\f11a",
+    "people": "\f11b",
+    "material-arts": "\f11c",
+    "steel": "\f11d",
+    "drawing": "\f11e",
+    "email": "\f11f",
+    "right": "\f120",
+    "fast-forward-double-right-arrows-symbol": "\f121",
+    "armchair": "\f122",
+    "minimalist": "\f123",
+    "layer": "\f124",
+    "simplicity": "\f125",
+    "menu": "\f126",
+    "target": "\f127",
+    "vision": "\f128",
+    "goal": "\f129",
+    "modern-house-1": "\f12a",
+    "park": "\f12b",
+    "down": "\f12c",
+    "left-1": "\f12d",
+    "add": "\f12e",
+    "minus": "\f12f",
+    "search": "\f130",
+    "livingroom": "\f131",
+    "visualization": "\f132",
+);
+
+.flaticon-star:before {
+    content: map-get($flaticon_architox-map, "star");
+}
+.flaticon-user:before {
+    content: map-get($flaticon_architox-map, "user");
+}
+.flaticon-best-customer-experience:before {
+    content: map-get($flaticon_architox-map, "best-customer-experience");
+}
+.flaticon-layers:before {
+    content: map-get($flaticon_architox-map, "layers");
+}
+.flaticon-blueprint:before {
+    content: map-get($flaticon_architox-map, "blueprint");
+}
+.flaticon-modern-house:before {
+    content: map-get($flaticon_architox-map, "modern-house");
+}
+.flaticon-sofa:before {
+    content: map-get($flaticon_architox-map, "sofa");
+}
+.flaticon-floor:before {
+    content: map-get($flaticon_architox-map, "floor");
+}
+.flaticon-layout:before {
+    content: map-get($flaticon_architox-map, "layout");
+}
+.flaticon-3d-model:before {
+    content: map-get($flaticon_architox-map, "3d-model");
+}
+.flaticon-house:before {
+    content: map-get($flaticon_architox-map, "house");
+}
+.flaticon-up-right-arrow:before {
+    content: map-get($flaticon_architox-map, "up-right-arrow");
+}
+.flaticon-upward-trend:before {
+    content: map-get($flaticon_architox-map, "upward-trend");
+}
+.flaticon-next:before {
+    content: map-get($flaticon_architox-map, "next");
+}
+.flaticon-upper-right-arrow:before {
+    content: map-get($flaticon_architox-map, "upper-right-arrow");
+}
+.flaticon-left:before {
+    content: map-get($flaticon_architox-map, "left");
+}
+.flaticon-view:before {
+    content: map-get($flaticon_architox-map, "view");
+}
+.flaticon-facebook:before {
+    content: map-get($flaticon_architox-map, "facebook");
+}
+.flaticon-instagram:before {
+    content: map-get($flaticon_architox-map, "instagram");
+}
+.flaticon-linkedin:before {
+    content: map-get($flaticon_architox-map, "linkedin");
+}
+.flaticon-twitter:before {
+    content: map-get($flaticon_architox-map, "twitter");
+}
+.flaticon-cross:before {
+    content: map-get($flaticon_architox-map, "cross");
+}
+.flaticon-guaranteed:before {
+    content: map-get($flaticon_architox-map, "guaranteed");
+}
+.flaticon-play-button-arrowhead:before {
+    content: map-get($flaticon_architox-map, "play-button-arrowhead");
+}
+.flaticon-creative-idea:before {
+    content: map-get($flaticon_architox-map, "creative-idea");
+}
+.flaticon-client:before {
+    content: map-get($flaticon_architox-map, "client");
+}
+.flaticon-people:before {
+    content: map-get($flaticon_architox-map, "people");
+}
+.flaticon-material-arts:before {
+    content: map-get($flaticon_architox-map, "material-arts");
+}
+.flaticon-steel:before {
+    content: map-get($flaticon_architox-map, "steel");
+}
+.flaticon-drawing:before {
+    content: map-get($flaticon_architox-map, "drawing");
+}
+.flaticon-email:before {
+    content: map-get($flaticon_architox-map, "email");
+}
+.flaticon-right:before {
+    content: map-get($flaticon_architox-map, "right");
+}
+.flaticon-fast-forward-double-right-arrows-symbol:before {
+    content: map-get($flaticon_architox-map, "fast-forward-double-right-arrows-symbol");
+}
+.flaticon-armchair:before {
+    content: map-get($flaticon_architox-map, "armchair");
+}
+.flaticon-minimalist:before {
+    content: map-get($flaticon_architox-map, "minimalist");
+}
+.flaticon-layer:before {
+    content: map-get($flaticon_architox-map, "layer");
+}
+.flaticon-simplicity:before {
+    content: map-get($flaticon_architox-map, "simplicity");
+}
+.flaticon-menu:before {
+    content: map-get($flaticon_architox-map, "menu");
+}
+.flaticon-target:before {
+    content: map-get($flaticon_architox-map, "target");
+}
+.flaticon-vision:before {
+    content: map-get($flaticon_architox-map, "vision");
+}
+.flaticon-goal:before {
+    content: map-get($flaticon_architox-map, "goal");
+}
+.flaticon-modern-house-1:before {
+    content: map-get($flaticon_architox-map, "modern-house-1");
+}
+.flaticon-park:before {
+    content: map-get($flaticon_architox-map, "park");
+}
+.flaticon-down:before {
+    content: map-get($flaticon_architox-map, "down");
+}
+.flaticon-left-1:before {
+    content: map-get($flaticon_architox-map, "left-1");
+}
+.flaticon-add:before {
+    content: map-get($flaticon_architox-map, "add");
+}
+.flaticon-minus:before {
+    content: map-get($flaticon_architox-map, "minus");
+}
+.flaticon-search:before {
+    content: map-get($flaticon_architox-map, "search");
+}
+.flaticon-livingroom:before {
+    content: map-get($flaticon_architox-map, "livingroom");
+}
+.flaticon-visualization:before {
+    content: map-get($flaticon_architox-map, "visualization");
+}

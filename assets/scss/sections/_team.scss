@@ -1,0 +1,320 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-team-1-start
+*/
+.ax-team-1 {
+    // 1920 x 1376 in the design: the title in the middle, then a grid of four columns (cards of 340 x 434 with 12px between them): the first card
+    // stands in the first column, the second and the third ones in the last two (the middle of the row is empty, the drawing of the building
+    // shows there), the second row has three cards and, in the last column, the text with the button under it. The card of the first place is
+    // drawn in its hover state: a gold arrow and the social bar on the photo
+    &-area {
+        position: relative;
+        padding: 132px 0;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 575px) {
+            padding: 70px 0;
+        }
+
+        .container {
+            position: relative;
+        }
+    }
+
+    // the line drawing of the building (1920 x 1268, it starts 108px under the top of the section and runs to its foot)
+    &-bg {
+        position: absolute;
+        top: 7.85%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-repeat: no-repeat;
+        background-position: 50% 100%;
+        background-size: cover;
+        pointer-events: none;
+    }
+
+    &-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        max-width: 852px;
+        margin: 0 auto 52px;
+        text-align: center;
+
+        @media (max-width: 991px) {
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 575px) {
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 38px 12px;
+
+        @media (max-width: 1199px) {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px 12px;
+        }
+
+        @media (max-width: 767px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 575px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    // a member: a white card of 340 x 434, the photo (324 x 340) 8px inside it, the name and the work 16px under the photo
+    &-card {
+        position: relative;
+        padding: 8px;
+        border-radius: 12px;
+        background: #fff;
+        transition: box-shadow .5s ease;
+
+        // the second and the third card go to the right end of the first row
+        @media (min-width: 1200px) {
+            &:nth-child(2) {
+                grid-column: 3;
+            }
+
+            &:nth-child(3) {
+                grid-column: 4;
+            }
+        }
+
+        &:hover {
+            box-shadow: 0 20px 40px rgb(0 0 0 / 8%);
+        }
+
+        // the photo, the social bar and the arrow are drawn over the same box (the ratio of the photo), what slides in from the left is cut by it
+        &-media {
+            position: relative;
+            aspect-ratio: 324 / 340;
+            overflow: hidden;
+        }
+
+        // the shape (an inline svg of 324 x 340, stretched over the box that keeps that ratio): corners of 12px, the bottom right one is cut at
+        // 45 degrees (the arrow stands in the cut)
+        &-photo {
+            position: absolute;
+            inset: 0;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 324 340' preserveAspectRatio='none'%3E%3Cpath d='M0 12A12 12 0 0 1 12 0L312 0A12 12 0 0 1 324 12L324 243.72A20 20 0 0 1 318.14 257.86L241.86 334.14A20 20 0 0 1 227.72 340L12 340A12 12 0 0 1 0 328Z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 324 340' preserveAspectRatio='none'%3E%3Cpath d='M0 12A12 12 0 0 1 12 0L312 0A12 12 0 0 1 324 12L324 243.72A20 20 0 0 1 318.14 257.86L241.86 334.14A20 20 0 0 1 227.72 340L12 340A12 12 0 0 1 0 328Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        // the arrow: a plate of 71 x 71 (22% of the photo) with its top left cut at 45 degrees, in the bottom right corner of the photo. On hover it
+        // turns gold with a white arrow and grows a little from its corner
+        &-arrow {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            width: 21.91%;
+            aspect-ratio: 1;
+            padding: 0 5.5% 5.5% 0;
+            background: var(--ax-clr-bg-5);
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 71 71' preserveAspectRatio='none'%3E%3Cpath d='M42.3676 22.128L63.5873 1.16275C66.1141 -1.3337 70.3986 0.456191 70.3986 4.00819V66.4331C70.3986 68.6423 68.6078 70.4331 66.3986 70.4331H4.00801C0.451115 70.4331 -1.33659 66.1384 1.16972 63.6146L42.3676 22.128Z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 71 71' preserveAspectRatio='none'%3E%3Cpath d='M42.3676 22.128L63.5873 1.16275C66.1141 -1.3337 70.3986 0.456191 70.3986 4.00819V66.4331C70.3986 68.6423 68.6078 70.4331 66.3986 70.4331H4.00801C0.451115 70.4331 -1.33659 66.1384 1.16972 63.6146L42.3676 22.128Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            color: #414141;
+            transform-origin: 100% 100%;
+            transition: background-color .4s ease, color .4s ease, transform .4s ease;
+
+            i {
+                display: block;
+                font-size: 16px;
+                line-height: 1;
+            }
+        }
+
+        &:hover &-arrow {
+            background: var(--ax-clr-ac-1);
+            color: #fff;
+            transform: scale(1.03);
+        }
+
+        // the social bar: a white tab (45 x 296, 14% of the photo wide) on the left edge of the photo, 9px under its top. Its two ends are cut at
+        // 45 degrees and its right side is round. It slides in from the left on hover, the icons stand in a line with a thin line between them
+        &-social {
+            --ax-team-1-line: 16px;
+            --ax-team-1-gap: 8px;
+            position: absolute;
+            top: 2.65%;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--ax-team-1-gap);
+            width: 13.89%;
+            height: 87.06%;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 296' preserveAspectRatio='none'%3E%3Cpath d='M45 48.1618C45 38.597 40.4391 29.6055 32.7215 23.9554L0 0V296L32.5452 272.535C40.366 266.896 45 257.842 45 248.2V48.1618Z'/%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 45 296' preserveAspectRatio='none'%3E%3Cpath d='M45 48.1618C45 38.597 40.4391 29.6055 32.7215 23.9554L0 0V296L32.5452 272.535C40.366 266.896 45 257.842 45 248.2V48.1618Z'/%3E%3C/svg%3E");
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform .5s cubic-bezier(.18, .82, .41, 1), opacity .4s ease;
+
+            // the smaller cards have less room for the icons: shorter lines, smaller gaps
+            @media (max-width: 1399px) {
+                --ax-team-1-line: 8px;
+                --ax-team-1-gap: 4px;
+            }
+
+            // a line over the first icon, and one under each icon (so the last one has one under it too)
+            &::before,
+            li::after {
+                content: "";
+                flex: none;
+                width: 1px;
+                height: var(--ax-team-1-line);
+                background: rgb(65 65 65 / 16%);
+            }
+
+            li {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: var(--ax-team-1-gap);
+            }
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 25px;
+                height: 21px;
+                font-size: 18px;
+                line-height: 1;
+                color: #414141;
+                transition: var(--ax-cube-1);
+
+                &:hover {
+                    color: var(--ax-clr-ac-1);
+                }
+            }
+        }
+
+        &:hover &-social {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        &-content {
+            padding: 16px 16px 8px;
+        }
+
+        &-name {
+            margin: 0;
+            font-family: var(--ax-font-3);
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 28px;
+            color: #000;
+
+            a {
+                color: inherit;
+                transition: var(--ax-cube-1);
+
+                &:hover {
+                    color: var(--ax-clr-ac-1);
+                }
+            }
+        }
+
+        &-role {
+            margin: 2px 0 0;
+            font-family: var(--ax-font-1);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            color: #414141;
+        }
+    }
+
+    // the last column of the second row: the text on top and the button at the foot (under 1200px it is a row of its own under the cards)
+    &-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 32px;
+        padding: 32px 0 12px 36px;
+
+        @media (max-width: 1399px) {
+            padding-left: 24px;
+        }
+
+        @media (max-width: 1199px) {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            padding: 16px 0 0;
+        }
+
+        @media (max-width: 767px) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 8px 0 0;
+        }
+    }
+
+    &-text {
+        align-self: stretch;
+        margin: 0;
+        color: rgb(0 0 0 / 80%);
+
+        @media (max-width: 1199px) {
+            max-width: 560px;
+        }
+    }
+}
+/*
+    ax-team-1-end
+*/

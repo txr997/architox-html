@@ -1,0 +1,522 @@
+@use '../abstracts/variables' as *;
+
+
+// a length of the avatars of the row (design px, 1 from 768px up, smaller on the phones)
+@function s($n) {
+    @return calc(#{$n}px * var(--ax-testimonial-1-s));
+}
+
+// the seven places of the avatars in the row (544 x 180 in the design): left, top, size, ring, z-index. The one in the middle is the
+// one that is shown (data-pos 0), the others are the ones before it (-1 to -3) and after it (1 to 3)
+$ax-testimonial-1-slots: (
+    -3: (0, 48, 52, 4, 1),
+    -2: (32, 33, 84, 5, 2),
+    -1: (96, 16, 120, 6, 3),
+    0: (196, 0, 152, 8, 4),
+    1: (328, 16, 120, 6, 3),
+    2: (428, 33, 84, 5, 2),
+    3: (492, 48, 52, 4, 1)
+);
+
+/*
+    ax-testimonial-1-start
+*/
+.ax-testimonial-1 {
+    // 1784 x 892 in the design (68px of the page on each side): a black box with round corners. The page colour comes into its top right and its
+    // bottom left corner in a tab of 1172 x 48 (the top left and the bottom right corners are round). Inside it: the big words that run over the
+    // top, a column of round pictures that goes up all the time on the left (it fades out at the foot), the building in the corner and, in the
+    // middle of what is left, the avatars (the one in the middle is the one whose words are shown), the words, the dots and the name
+    &-area {
+        padding: 0 68px;
+
+        @media #{$xxl} {
+            padding: 0 40px;
+        }
+
+        @media #{$xl} {
+            padding: 0 32px;
+        }
+
+        @media (max-width: 1199px) {
+            padding: 0 20px;
+        }
+
+        @media (max-width: 575px) {
+            padding: 0 12px;
+        }
+    }
+
+    &-box {
+        --ax-testimonial-1-s: 1;
+        --ax-testimonial-1-pic: 464px;
+        position: relative;
+        height: 892px;
+        overflow: hidden;
+        isolation: isolate;
+        border-radius: 28px;
+        background: #000;
+        color: #fff;
+
+        @media #{$xxl} {
+            --ax-testimonial-1-pic: 400px;
+            height: 820px;
+        }
+
+        @media #{$xl} {
+            --ax-testimonial-1-pic: 340px;
+            height: 780px;
+        }
+
+        @media #{$lg} {
+            --ax-testimonial-1-pic: 280px;
+            height: 740px;
+        }
+
+        @media (max-width: 991px) {
+            height: auto;
+            min-height: 720px;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 767px) {
+            --ax-testimonial-1-s: 0.8;
+            min-height: 680px;
+        }
+
+        @media (max-width: 575px) {
+            --ax-testimonial-1-s: 0.56;
+            min-height: 640px;
+        }
+    }
+
+    // the grid of thin lines over the whole box (it is faint in its file)
+    &-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: cover;
+        pointer-events: none;
+    }
+
+    // the building in the bottom right corner (567 x 378, turned by 7.3 degrees, grey through the blend), the box cuts what goes out
+    &-building {
+        position: absolute;
+        top: 64%;
+        left: 72.85%;
+        z-index: 1;
+        width: 31.78%;
+        aspect-ratio: 567 / 378;
+        transform: rotate(-7.3deg);
+        mix-blend-mode: luminosity;
+        pointer-events: none;
+
+        @media (max-width: 767px) {
+            width: 46%;
+            left: 62%;
+        }
+    }
+
+    // the big words: one line that runs to the left (wa_marquee, main-common.js). The fill is the page colour at 10% with a lighter edge
+    // (2px, 3px) under it. The line is 140px high but the letters go below it (their foot is about 8px lower), so the window that cuts the line
+    // at its sides is a little higher than the line
+    &-heading {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: 170px;
+        overflow: hidden;
+        pointer-events: none;
+
+        @media #{$xxl} {
+            height: 142px;
+        }
+
+        @media #{$xl} {
+            height: 116px;
+        }
+
+        @media #{$lg} {
+            height: 92px;
+        }
+
+        @media #{$md} {
+            height: 70px;
+        }
+
+        @media (max-width: 767px) {
+            height: 54px;
+        }
+    }
+
+    &-heading-track {
+        display: flex;
+        height: 100%;
+        white-space: nowrap;
+    }
+
+    &-heading-text {
+        flex: none;
+        padding-right: 0.4em;
+        font-family: var(--ax-font-3);
+        font-size: 180px;
+        font-weight: 800;
+        line-height: 140px;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+        color: rgb(239 239 235 / 10%);
+        text-shadow: 2px 3px 0 rgb(255 255 255 / 27%);
+
+        @media #{$xxl} {
+            font-size: 150px;
+            line-height: 118px;
+        }
+
+        @media #{$xl} {
+            font-size: 120px;
+            line-height: 96px;
+        }
+
+        @media #{$lg} {
+            font-size: 96px;
+            line-height: 76px;
+        }
+
+        @media #{$md} {
+            font-size: 72px;
+            line-height: 58px;
+        }
+
+        @media (max-width: 767px) {
+            font-size: 56px;
+            line-height: 44px;
+        }
+    }
+
+    // the column of pictures on the left: it is as high as the box without its last 45px, the pictures (464px) go up and down with the slider
+    // (main.js moves the track) and it fades out at the top and at the foot (27% and 71% of its height). Not on the small screens
+    &-pics {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: calc(var(--ax-testimonial-1-pic) + 8px);
+        height: calc(100% - 45px);
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 27%, #000 71%, transparent 100%);
+        mask-image: linear-gradient(180deg, transparent 0%, #000 27%, #000 71%, transparent 100%);
+
+        @media (max-width: 991px) {
+            display: none;
+        }
+    }
+
+    // the three lists of pictures one over the other that main.js puts in it
+    &-pics-track {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        will-change: transform;
+    }
+
+    &-pics-list {
+        padding-left: 4px;
+    }
+
+    &-pic {
+        width: var(--ax-testimonial-1-pic);
+        height: var(--ax-testimonial-1-pic);
+        border-radius: 50%;
+    }
+
+    // the middle: what is left of the box next to the column. The testimonial (902px wide) stands a little left of its middle (154px)
+    &-main {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: calc(var(--ax-testimonial-1-pic) + 8px);
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 154px 48px 24px;
+
+        @media #{$xxl} {
+            padding-right: 100px;
+        }
+
+        @media #{$xl} {
+            padding-right: 48px;
+        }
+
+        @media #{$lg} {
+            padding-right: 24px;
+        }
+
+        @media (max-width: 991px) {
+            position: relative;
+            left: auto;
+            min-height: 720px;
+            padding: 100px 24px;
+        }
+
+        @media (max-width: 767px) {
+            min-height: 680px;
+            padding: 90px 16px;
+        }
+
+        @media (max-width: 575px) {
+            min-height: 640px;
+            padding: 80px 12px;
+        }
+    }
+
+    &-slider {
+        width: min(902px, 100%);
+    }
+
+    // the row of avatars: 544 x 180. They are put in their places by data-pos (main.js turns it when another one is picked) and move there
+    &-avatars {
+        position: relative;
+        width: s(544);
+        height: s(180);
+        margin: 0 auto 32px;
+    }
+
+    &-avatar {
+        position: absolute;
+        border: solid #000;
+        border-radius: 50%;
+        cursor: pointer;
+        filter: grayscale(1);
+        transition:
+            left .8s cubic-bezier(.18, .82, .41, 1),
+            top .8s cubic-bezier(.18, .82, .41, 1),
+            width .8s cubic-bezier(.18, .82, .41, 1),
+            height .8s cubic-bezier(.18, .82, .41, 1),
+            border-width .8s cubic-bezier(.18, .82, .41, 1),
+            border-color .5s ease,
+            filter .5s ease;
+
+        // an avatar that goes from one end of the row to the other one does not fly over the others
+        &:is(.is-jump) {
+            transition: none;
+        }
+
+        &:hover {
+            filter: grayscale(0.2);
+        }
+
+        @each $pos, $v in $ax-testimonial-1-slots {
+            &[data-pos="#{$pos}"] {
+                z-index: nth($v, 5);
+                top: s(nth($v, 2));
+                left: s(nth($v, 1));
+                width: s(nth($v, 3));
+                height: s(nth($v, 3));
+                border-width: s(nth($v, 4));
+            }
+        }
+
+        &[data-pos="0"] {
+            border-color: var(--ax-clr-ac-1);
+            cursor: default;
+            filter: none;
+        }
+    }
+
+    // the quote sign under the avatar in the middle: gold with a black edge that parts it from the picture
+    &-quote-icon {
+        position: absolute;
+        top: s(105);
+        left: 50%;
+        z-index: 6;
+        font-size: s(70);
+        line-height: 1;
+        color: var(--ax-clr-ac-1);
+        transform: translateX(-50%);
+        -webkit-text-stroke: 4px #000;
+        paint-order: stroke fill;
+        pointer-events: none;
+
+        i {
+            display: block;
+        }
+    }
+
+    // the words and the names: every testimonial lies on the same place (grid), the one that is shown comes up from under
+    &-quotes,
+    &-names {
+        display: grid;
+    }
+
+    &-quote,
+    &-name {
+        grid-area: 1 / 1;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(18px);
+        transition: opacity .3s ease, transform .4s cubic-bezier(.18, .82, .41, 1), visibility 0s .3s;
+
+        &:is(.is-active) {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition: opacity .6s ease .3s, transform .7s cubic-bezier(.18, .82, .41, 1) .3s, visibility 0s;
+        }
+    }
+
+    &-quote {
+        margin: 0;
+        font-family: var(--ax-font-3);
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 36px;
+        text-align: center;
+        color: #fff;
+
+        @media #{$xl} {
+            font-size: 26px;
+            line-height: 34px;
+        }
+
+        @media (max-width: 991px) {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        @media (max-width: 575px) {
+            font-size: 20px;
+            line-height: 28px;
+        }
+    }
+
+    // the dots: small (white at 32%), the one that is shown is a ring of 24px with a gold dot in it
+    &-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 28px 0;
+    }
+
+    &-dot {
+        position: relative;
+        flex: none;
+        width: 6px;
+        height: 6px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 32%);
+        transition: width .4s ease, height .4s ease, background-color .4s ease, border-color .4s ease;
+
+        // a bigger place to click
+        &::before {
+            content: "";
+            position: absolute;
+            inset: -9px;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 0 -3px;
+            border-radius: 50%;
+            background: var(--ax-clr-ac-1);
+            opacity: 0;
+            transition: opacity .4s ease;
+        }
+
+        &:hover {
+            background: rgb(255 255 255 / 64%);
+        }
+
+        &:is(.is-active) {
+            width: 24px;
+            height: 24px;
+            border-color: var(--ax-clr-ac-1);
+            background: transparent;
+
+            &::after {
+                opacity: 1;
+            }
+        }
+    }
+
+    &-name {
+        text-align: center;
+
+        h4 {
+            margin: 0 0 6px;
+            font-family: var(--ax-font-3);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 28px;
+            color: #fff;
+
+            @media (max-width: 575px) {
+                font-size: 20px;
+                line-height: 26px;
+            }
+        }
+
+        p {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            color: rgb(255 255 255 / 60%);
+
+            @media (max-width: 575px) {
+                font-size: 16px;
+                line-height: 22px;
+            }
+        }
+    }
+
+    // the tabs: the page colour comes into the top right corner (the left end is round) and into the bottom left one, the same shape turned
+    // round (1172 x 48, 66% of the box wide)
+    &-notch {
+        position: absolute;
+        z-index: 5;
+        width: 65.69%;
+        height: 48px;
+        background: var(--ax-clr-bg-5);
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1172 48' preserveAspectRatio='none'%3E%3Cpath d='M1172 0V47.96H60C60 47.96 41.25 48.67 31.34 44.08C18.43 38.11 21.42 11.13 10.71 3.88C6.29 0.88 0 0 0 0H1172Z'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1172 48' preserveAspectRatio='none'%3E%3Cpath d='M1172 0V47.96H60C60 47.96 41.25 48.67 31.34 44.08C18.43 38.11 21.42 11.13 10.71 3.88C6.29 0.88 0 0 0 0H1172Z'/%3E%3C/svg%3E");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        pointer-events: none;
+
+        &:is(.is-top) {
+            top: 0;
+            right: 0;
+        }
+
+        &:is(.is-bottom) {
+            bottom: 0;
+            left: 0;
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 767px) {
+            height: 28px;
+        }
+    }
+}
+/*
+    ax-testimonial-1-end
+*/

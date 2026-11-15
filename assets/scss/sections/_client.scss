@@ -1,0 +1,166 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-client-1-start
+*/
+.ax-client-1 {
+    // 1920 x 356 in the design: one row of logos (84 high, the width of the container) that runs by itself (wa_marquee, main-common.js), with a
+    // cross-hair mark (two fading lines) at the top left and the bottom right of the row, 136px of room over and under it
+    &-area {
+        padding: 136px 0;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 100px 0;
+        }
+
+        @media #{$lg} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 991px) {
+            padding: 60px 0;
+        }
+    }
+
+    &-row {
+        position: relative;
+    }
+
+    // the window of the marquee, the logos run through it and are cut at its edges (the plugin wraps what is inside in .js-marquee)
+    &-marquee {
+        height: 84px;
+        overflow: hidden;
+    }
+
+    // the logos stand in a line, each one has the room after it (160px), also the last one, so the seam of the two copies is the same as the rest
+    &-track {
+        display: flex;
+        align-items: center;
+        height: 84px;
+    }
+
+    // on hover a logo turns black (brightness 0 makes every drawn pixel black and keeps the transparent ones)
+    &-logo {
+        flex: none;
+        margin-right: 160px;
+        transition: filter .4s ease;
+
+        &:hover {
+            filter: brightness(0);
+        }
+
+        @media #{$xxl} {
+            margin-right: 140px;
+        }
+
+        @media #{$xl} {
+            margin-right: 120px;
+        }
+
+        @media #{$lg} {
+            margin-right: 100px;
+        }
+
+        @media #{$md} {
+            margin-right: 80px;
+        }
+
+        @media (max-width: 767px) {
+            margin-right: 56px;
+        }
+
+        // the sizes of the logos in the design (the plugin measures the row before the pictures are loaded, so the boxes have their size here)
+        &:nth-child(1) {
+            width: 185px;
+            height: 75px;
+        }
+
+        &:nth-child(2) {
+            width: 146px;
+            height: 69px;
+        }
+
+        &:nth-child(3) {
+            width: 205px;
+            height: 69px;
+        }
+
+        &:nth-child(4) {
+            width: 199px;
+            height: 82px;
+        }
+
+        &:nth-child(5) {
+            width: 100px;
+            height: 82px;
+        }
+
+        &:nth-child(6) {
+            width: 151px;
+            height: 80px;
+        }
+
+        &:nth-child(7) {
+            width: 185px;
+            height: 75px;
+        }
+    }
+
+    // the cross-hair: a box of 152 x 152, the lines cross 20px from its top left corner (the short arms are 20px, the long ones 132px) and
+    // fade out along the long arms. The right one is the left one turned round. They stand 48px outside the row, only on the wide screens.
+    // The two lines are elements of their own, main.js draws them when the row scrolls into view (from the end of the long arm back to the cross)
+    &-shape {
+        position: absolute;
+        width: 152px;
+        height: 152px;
+        pointer-events: none;
+
+        &:is(.is-left) {
+            top: -36px;
+            left: -68px;
+        }
+
+        &:is(.is-right) {
+            right: -68px;
+            bottom: -36px;
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 1399px) {
+            display: none;
+        }
+    }
+
+    &-line {
+        position: absolute;
+
+        // across: it is drawn from the right (the faded end) towards the cross: the scale grows it to the left
+        &:is(.is-h) {
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, #000 0%, rgb(102 102 102 / 0%) 100%);
+            transform-origin: 100% 50%;
+        }
+
+        // down: it is drawn from the bottom (the faded end) towards the cross: the scale grows it upwards
+        &:is(.is-v) {
+            top: 0;
+            left: 20px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, #000 0%, rgb(102 102 102 / 0%) 100%);
+            transform-origin: 50% 100%;
+        }
+    }
+}
+/*
+    ax-client-1-end
+*/

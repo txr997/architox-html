@@ -1,0 +1,415 @@
+@use '../abstracts/variables' as *;
+
+
+// a length of the 1920 design: N px of the design at 1920px, scaled down with the width of the screen (--ax-process-1-k is 1px at 1920px and
+// over, 0.73px at 1400px). It is the way the circle, the arc and the four steps keep their places between 1400px and 1920px
+@function k($n) {
+    @return calc(#{$n} * var(--ax-process-1-k));
+}
+
+/*
+    ax-process-1-start
+*/
+.ax-process-1 {
+    // 1920 x 944 in the design: black, the photo on the left (1068 wide, a half circle of 380px is cut out of its right edge and another half
+    // circle of the photo stands out of it) with the small title, the text and the button on it, and on the right a circle of 676px whose arc
+    // holds the four steps. The page colour comes into the top and the bottom edge in a tab. From 1400px up all of it is drawn in the
+    // numbers of the design and scales with the screen (the stage), under 1400px the photo stands over the four steps
+    &-area {
+        --ax-process-1-k: min(1px, calc(100vw / 1920));
+        position: relative;
+        height: k(944);
+        overflow: hidden;
+        background: #000;
+        color: #fff;
+
+        @media (max-width: 1399px) {
+            height: auto;
+        }
+    }
+
+    &-stage {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: k(1920);
+        height: k(944);
+        transform: translateX(-50%);
+
+        @media (max-width: 1399px) {
+            position: relative;
+            left: auto;
+            display: flex;
+            flex-direction: column;
+            width: auto;
+            height: auto;
+            transform: none;
+        }
+    }
+
+    // the drawing of the building (the part of it that the design shows: 409 x 295 in the bottom right corner, it is faint in its file)
+    &-bgline {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: k(409);
+        height: k(295);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        pointer-events: none;
+
+        @media (max-width: 1399px) {
+            width: min(409px, 60%);
+            height: auto;
+            aspect-ratio: 409 / 295;
+        }
+    }
+
+    // the circle: a thin one (white at 20%) and the same one over it that shows only the first piece of its arc, from the top (12 o'clock) to
+    // the first step (33.5 degrees)
+    &-ring {
+        position: absolute;
+        top: k(134);
+        left: k(540);
+        width: k(676);
+        height: k(676);
+        border: 1px solid rgb(255 255 255 / 20%);
+        border-radius: 50%;
+        pointer-events: none;
+
+        &:is(.is-active) {
+            border-color: #fff;
+            // how far the arc goes (main.js grows it with the steps), 33.5 degrees is the first step
+            -webkit-mask-image: conic-gradient(#000 0deg var(--ax-process-1-arc, 33.5deg), transparent var(--ax-process-1-arc, 33.5deg));
+            mask-image: conic-gradient(#000 0deg var(--ax-process-1-arc, 33.5deg), transparent var(--ax-process-1-arc, 33.5deg));
+        }
+
+        @media (max-width: 1399px) {
+            display: none;
+        }
+    }
+
+    // the photo and what stands on it. Over the circle (the cut half circle must hide the left half of it), the box does not catch the mouse
+    // (it lies over the first step with its empty part)
+    &-media {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: k(1068);
+        height: k(944);
+        pointer-events: none;
+
+        // under 1400px it comes first, the steps follow it
+        @media (max-width: 1399px) {
+            position: relative;
+            order: -1;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    // the shape (an inline svg of 1068 x 944 over the box that keeps that ratio): the photo is 878 wide, a half circle (r 190, in the middle of
+    // its right edge) is cut out of it and the other half circle is added to the right of the edge
+    &-img {
+        position: absolute;
+        inset: 0;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1068 944' preserveAspectRatio='none'%3E%3Cpath d='M0 0H878V282A190 190 0 0 0 878 662V944H0ZM878 282A190 190 0 0 1 878 662Z'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1068 944' preserveAspectRatio='none'%3E%3Cpath d='M0 0H878V282A190 190 0 0 0 878 662V944H0ZM878 282A190 190 0 0 1 878 662Z'/%3E%3C/svg%3E");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+
+        // under 1400px the photo is the plain background of its box (a little dark so the white words are read)
+        @media (max-width: 1399px) {
+            -webkit-mask-image: none;
+            mask-image: none;
+
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(180deg, rgb(0 0 0 / 24%) 0%, rgb(0 0 0 / 8%) 45%, rgb(0 0 0 / 42%) 100%);
+            }
+        }
+    }
+
+    // the words on the photo: the small title and the title at the top, the text and the button at the foot, 80px from the edges
+    &-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: k(80);
+
+        @media (max-width: 1399px) {
+            position: relative;
+            gap: 140px;
+            min-height: 640px;
+            padding: 80px 48px 64px;
+        }
+
+        @media (max-width: 767px) {
+            gap: 100px;
+            min-height: 560px;
+            padding: 64px 12px 48px;
+        }
+    }
+
+    &-head {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        max-width: k(536);
+
+        @media (max-width: 1399px) {
+            max-width: 536px;
+        }
+    }
+
+    &-title {
+        @media (min-width: 1400px) {
+            font-size: max(34px, k(52));
+            line-height: max(38px, k(56));
+        }
+    }
+
+    // (the media box does not catch the mouse, the text and the button do)
+    &-foot {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: k(32);
+        max-width: k(509);
+        pointer-events: auto;
+
+        @media (max-width: 1399px) {
+            gap: 32px;
+            max-width: 509px;
+        }
+    }
+
+    &-text {
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #fff;
+
+        @media (min-width: 1400px) {
+            font-size: max(15px, k(18));
+            line-height: max(24px, k(28));
+        }
+
+        @media (max-width: 575px) {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    // the steps: they stand on the arc of the circle (the places are the ones of the design), a number in a round plate and the title with a
+    // dashed line under it and the text
+    &-steps {
+        @media (max-width: 1399px) {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 24px 100px;
+        }
+
+        @media (max-width: 767px) {
+            gap: 40px;
+            padding: 64px 12px 80px;
+        }
+    }
+
+    &-step {
+        position: absolute;
+        z-index: 3;
+        display: flex;
+        gap: k(40);
+        width: k(544);
+
+        @media (min-width: 1400px) {
+            &:is(.is-1) {
+                top: k(150);
+                left: k(1038);
+            }
+
+            &:is(.is-2) {
+                top: k(326);
+                left: k(1174);
+            }
+
+            &:is(.is-3) {
+                top: k(502);
+                left: k(1174);
+            }
+
+            &:is(.is-4) {
+                top: k(678);
+                left: k(1080);
+            }
+        }
+
+        @media (max-width: 1399px) {
+            position: relative;
+            gap: 24px;
+            width: auto;
+
+            // a thin line from a number to the next one
+            &:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                top: 68px;
+                bottom: -44px;
+                left: 32px;
+                width: 1px;
+                background: rgb(255 255 255 / 20%);
+            }
+        }
+
+        @media (max-width: 575px) {
+            gap: 16px;
+        }
+
+        &-node {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+            width: k(64);
+            height: k(64);
+            border: 1px solid var(--ax-clr-ac-1);
+            border-radius: 50%;
+            // the plate of the design: white at 10% over a blur of 44px (the line of the circle behind it is not seen), cut by its round shape
+            overflow: hidden;
+            background: rgb(255 255 255 / 10%);
+            -webkit-backdrop-filter: blur(44px);
+            backdrop-filter: blur(44px);
+            font-family: var(--ax-font-3);
+            font-size: max(18px, k(24));
+            font-weight: 500;
+            line-height: 1;
+            color: #fff;
+
+            // the gold glow at the foot of the plate: an ellipse of 63 x 44 (98% x 69% of it) that starts 37px (58%) down, blurred by 29px.
+            // Behind the number, cut by the round shape
+            &::before {
+                content: "";
+                position: absolute;
+                top: 57.8%;
+                left: 1.6%;
+                z-index: -1;
+                width: 98.4%;
+                height: 68.8%;
+                border-radius: 50%;
+                background: var(--ax-clr-ac-1);
+                filter: blur(#{k(15)});
+            }
+
+            @media (max-width: 1399px) {
+                width: 64px;
+                height: 64px;
+                font-size: 24px;
+
+                &::before {
+                    filter: blur(29px);
+                }
+            }
+
+            @media (max-width: 575px) {
+                width: 52px;
+                height: 52px;
+                font-size: 20px;
+            }
+        }
+
+        &-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        &-title {
+            margin: 0 0 k(15);
+            padding-bottom: k(16);
+            border-bottom: 1px dashed rgb(255 255 255 / 32%);
+            font-family: var(--ax-font-3);
+            font-size: max(19px, k(24));
+            font-weight: 600;
+            line-height: max(24px, k(28));
+            color: #fff;
+
+            @media (max-width: 1399px) {
+                margin-bottom: 15px;
+                padding-bottom: 16px;
+                font-size: 24px;
+                line-height: 28px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 20px;
+                line-height: 26px;
+            }
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: max(15px, k(18));
+            font-weight: 400;
+            line-height: max(24px, k(28));
+            color: rgb(255 255 255 / 80%);
+
+            @media (max-width: 1399px) {
+                font-size: 18px;
+                line-height: 28px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+    }
+
+    // the tabs: the page colour comes into the middle of the top edge and of the bottom edge (1624 x 28, the ends are round)
+    &-tab {
+        position: absolute;
+        left: 50%;
+        z-index: 5;
+        width: k(1624);
+        height: k(28);
+        background: var(--ax-clr-bg-5);
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1624 28' preserveAspectRatio='none'%3E%3Cpath d='M1624 0C1624 0 1612.25 0.515315 1604 2.2627C1584.01 6.49369 1589.6 22.2306 1565.5 25.7139C1547 28.3881 1512 27.9766 1512 27.9766H112C112 27.9766 77 28.3881 58.5 25.7139C34.4036 22.2306 39.9858 6.49369 20 2.2627C11.7459 0.515315 0 0 0 0H1624Z'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1624 28' preserveAspectRatio='none'%3E%3Cpath d='M1624 0C1624 0 1612.25 0.515315 1604 2.2627C1584.01 6.49369 1589.6 22.2306 1565.5 25.7139C1547 28.3881 1512 27.9766 1512 27.9766H112C112 27.9766 77 28.3881 58.5 25.7139C34.4036 22.2306 39.9858 6.49369 20 2.2627C11.7459 0.515315 0 0 0 0H1624Z'/%3E%3C/svg%3E");
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        pointer-events: none;
+
+        &:is(.is-top) {
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        &:is(.is-bottom) {
+            bottom: -1px;
+            transform: translateX(-50%) scaleY(-1);
+        }
+    }
+}
+/*
+    ax-process-1-end
+*/
