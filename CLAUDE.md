@@ -30,7 +30,19 @@ no restating what the user already saw.
 - **Don't run the sass compiler.** A watcher already compiles
   `assets/scss/main.scss` → `assets/css/main.css` automatically on save; running
   `sass` manually is unnecessary work.
-- Match the surrounding comment density and indentation (tabs where the file uses tabs).
+- Match the surrounding indentation (tabs where the file uses tabs).
+
+## Comments: keep them short
+
+Applies to HTML, SCSS and JS.
+
+- One line is the default; two at most. No paragraphs, no multi-line essays.
+- Say **why** or what is non-obvious (a magic number, a workaround, a design measurement) —
+  not what the next line plainly does.
+- A section / function header is a single line (`about-1 — the photo slider, autoplay 4s`).
+- Don't narrate the history or the process ("changed to…", "was before…", "as the design says…").
+- Existing long comments in older code are not to be copied as a style; shorten them only when
+  asked.
 
 ## Images: never reference them from CSS / SCSS / JS
 

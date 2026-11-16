@@ -2,8 +2,8 @@
 
 /*
     ax-preloader-1-start
-    a navy sheet with the name in big letters: every letter rises out of its own mask, a gold line and the tag follow. When the
-    page is ready the letters leave upwards and the sheet fades out. main.js runs it
+    a black sheet with the gold house of the logo in the middle: its lines draw themselves (the stroke of the path, main.js moves it), then
+    the gold fills them and the name comes in under it. When the page is ready the logo goes and the sheet fades out. main.js runs it
 */
 
 .ax-preloader-1 {
@@ -13,77 +13,60 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #02263B;
+    background: #000;
     color: #fff;
     will-change: opacity;
 
     &-content {
         position: relative;
+        z-index: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 26px;
+        gap: 28px;
         padding: 0 20px;
     }
 
-    &-word {
-        display: flex;
-        justify-content: center;
-        font-family: var(--ax-font-2);
-        font-size: clamp(52px, 10.5vw, 168px);
-        font-weight: 600;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-        text-transform: uppercase;
-    }
-
-    // the mask of a letter: it cuts the letter off while it is below its line
-    &-letter {
+    // 94 x 80 in the design, a little bigger here
+    &-logo {
         display: block;
-        overflow: hidden;
-        padding: 0 0.02em;
+        width: clamp(88px, 9vw, 132px);
+        aspect-ratio: 94 / 80;
+        overflow: visible;
     }
 
-    &-char {
-        display: block;
-        transform: translateY(110%);
-        will-change: transform;
+    // the gold of the whole shape (it fades in at the end) and, over it, the lines: each part is 1 long (pathLength="1"), the dash is as long
+    // as the part and starts after it, main.js moves it to 0 (the part is drawn) and then fades the lines out
+    // it is there faintly from the first moment (the sheet is never empty), main.js brings it up to full gold at the end
+    &-logo-fill {
+        fill: #C2A76E;
+        fill-opacity: 0.14;
     }
 
-    &-sub {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-    }
+    &-logo-lines {
+        fill: none;
+        stroke: #C2A76E;
+        stroke-width: 0.7;
+        stroke-linejoin: round;
 
-    // the gold line, main.js grows it from the left
-    &-line {
-        flex: none;
-        display: block;
-        width: 56px;
-        height: 1px;
-        background: var(--ax-clr-ac-1);
-        transform: scaleX(0);
-        transform-origin: left center;
-
-        @media #{$xs} {
-            width: 32px;
+        path {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
         }
     }
 
     &-tag {
-        font-family: var(--ax-font-2);
-        font-size: 13px;
+        font-family: var(--ax-font-3);
+        font-size: 14px;
         font-weight: 500;
         line-height: 20px;
-        letter-spacing: 0.24em;
+        letter-spacing: 0.4em;
         text-transform: uppercase;
         color: rgb(255 255 255 / 70%);
-        opacity: 0;
 
         @media #{$xs} {
-            font-size: 11px;
-            letter-spacing: 0.16em;
+            font-size: 12px;
+            letter-spacing: 0.32em;
         }
     }
 }

@@ -1,0 +1,382 @@
+@use '../abstracts/variables' as *;
+
+
+// the shapes of the pictures of the cards (inline svg, black = what is shown). A shape is three pieces so the notches keep their size when the
+// card gets wider or narrower: the left piece and the right piece have a fixed size, a plain rectangle fills the room between them
+// big card (664 x 460): the notch of the date at the top left, corners of 16px
+$ax-blog-1-big-l: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='122' height='460' viewBox='0 0 122 460'%3E%3Cpath d='M122 460H16C7.16343 460 0 452.837 0 444V99.7316C0 94.8474 2.23091 90.2307 6.05768 87.1956L111.632 3.46403C114.461 1.2208 117.965 0 121.575 0H122Z'/%3E%3C/svg%3E");
+$ax-blog-1-big-r: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='460' viewBox='0 0 16 460'%3E%3Cpath d='M0 0C8.837 0 16 7.163 16 16V444C16 452.837 8.837 460 0 460Z'/%3E%3C/svg%3E");
+// small card (348 x 316): the notch of the date at the top left and the one of the tags at the bottom left (slanted at its right end), corners of 12px
+$ax-blog-1-sm-l: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='265' height='316' viewBox='0 0 265 316'%3E%3Cpath d='M265 316H264.263C260.339 316 256.663 314.081 254.419 310.862L238.581 288.138C236.337 284.919 232.661 283 228.737 283H12C5.37258 283 0 277.627 0 271V60.9821C0 56.6661 2.31779 52.6825 6.07 50.5497L92.2422 1.56759C94.0497 0.540176 96.0931 0 98.1722 0H265Z'/%3E%3C/svg%3E");
+$ax-blog-1-sm-r: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='83' height='316' viewBox='0 0 83 316'%3E%3Cpath d='M0 0H71C77.627 0 83 5.37258 83 12V304C83 310.627 77.627 316 71 316H0Z'/%3E%3C/svg%3E");
+
+@mixin ax-blog-1-shape($left, $right, $lw, $rw, $h) {
+    -webkit-mask-image: $left, linear-gradient(#000, #000), $right;
+    mask-image: $left, linear-gradient(#000, #000), $right;
+    -webkit-mask-size: #{$lw}px #{$h}px, calc(100% - #{$lw + $rw}px) 100%, #{$rw}px #{$h}px;
+    mask-size: #{$lw}px #{$h}px, calc(100% - #{$lw + $rw}px) 100%, #{$rw}px #{$h}px;
+    -webkit-mask-position: 0 0, #{$lw}px 0, 100% 0;
+    mask-position: 0 0, #{$lw}px 0, 100% 0;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+/*
+    ax-blog-1-start
+*/
+.ax-blog-1 {
+    // 1920 x 930 in the design: the title with the button on the right, then a row of three cards (1400 wide, 20px between them): a big one
+    // (664 x 460) with its words on the picture and two small ones (348 x 460) with the picture on top and the words under it. The building
+    // behind them melts into the page at the foot of the section
+    &-area {
+        position: relative;
+        padding: 132px 0;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 575px) {
+            padding: 70px 0;
+        }
+
+        .container {
+            position: relative;
+        }
+    }
+
+    // the building (1920 x 930), the foot of it goes into the colour of the page (168px in the design)
+    &-bg {
+        position: absolute;
+        inset: 0;
+        background-repeat: no-repeat;
+        background-position: 50% 100%;
+        background-size: cover;
+        pointer-events: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 168px;
+            background: linear-gradient(0deg, #EFEFEB 0%, rgb(239 239 235 / 0%) 100%);
+
+            @media #{$xs} {
+                height: 100px;
+            }
+        }
+    }
+
+    &-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 28px 40px;
+
+        @media (max-width: 991px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    // 603 wide in the design (two lines of the title), a little more room here because the browser font is a bit wider than the one of the design
+    &-head-content {
+        max-width: 700px;
+    }
+
+    &-title {
+        margin-top: 20px;
+    }
+
+    // the big card takes what is left of the row, the small ones are 348 wide (their notch of the tags has that size). Under 1200px the big
+    // card has a row of its own and the small ones share the next one
+    &-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 348px 348px;
+        gap: 20px;
+        margin-top: 52px;
+
+        @media (max-width: 1199px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (max-width: 767px) {
+            grid-template-columns: minmax(0, 1fr);
+            margin-top: 40px;
+        }
+    }
+
+    &-card {
+        position: relative;
+
+        @media (max-width: 1199px) {
+            &:is(.is-big) {
+                grid-column: 1 / -1;
+            }
+        }
+
+        // the picture: 316 high (460 for the big card), the notches are cut by the shape. The picture grows a little on hover, the shape cuts it
+        &-media {
+            position: relative;
+            height: 316px;
+            overflow: hidden;
+            @include ax-blog-1-shape($ax-blog-1-sm-l, $ax-blog-1-sm-r, 265, 83, 316);
+        }
+
+        &:is(.is-big) &-media {
+            height: 460px;
+            @include ax-blog-1-shape($ax-blog-1-big-l, $ax-blog-1-big-r, 122, 16, 460);
+
+            // the dark foot of the picture, under the words (204px of 460)
+            &::after {
+                content: "";
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                height: 44.35%;
+                background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 88%) 100%);
+                pointer-events: none;
+            }
+        }
+
+        &-img {
+            position: absolute;
+            inset: 0;
+            transition: transform .8s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        &:hover &-img {
+            transform: scale(1.05);
+        }
+
+        // the date: a white plate (74 x 84) with its top right corner cut, the number on it and the month in a black bar at its foot
+        &-date {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 74px;
+            height: 84px;
+            padding: 6px 2px 2px;
+            background: #fff;
+            clip-path: polygon(0 0, 69.05% 0, 100% 23.91%, 100% 100%, 0 100%);
+            font-family: var(--ax-font-3);
+            color: #000;
+        }
+
+        &-day {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 36px;
+        }
+
+        &-month {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 34px;
+            margin-top: auto;
+            background: #000;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+            color: #fff;
+        }
+
+        // the date of the big card: 88 x 96
+        &:is(.is-big) &-date {
+            top: 24px;
+            left: 24px;
+            width: 88px;
+            height: 96px;
+            padding: 10px 2px 2px;
+            clip-path: polygon(0 0, 65.91% 0, 100% 22.92%, 100% 100%, 0 100%);
+        }
+
+        &:is(.is-big) &-month {
+            height: 38px;
+            font-size: 18px;
+            line-height: 28px;
+        }
+
+        // the words of a small card: the tags stand in the notch of the picture (27px of it), the title and the link are under them. 24px are free
+        // on the right side
+        &-content {
+            position: relative;
+            z-index: 1;
+            margin-top: -27px;
+            padding-right: 24px;
+        }
+
+        // the words of the big card sit on the foot of the picture
+        &:is(.is-big) &-content {
+            position: absolute;
+            right: 40px;
+            bottom: 40px;
+            left: 40px;
+            max-width: 513px;
+            margin: 0;
+            padding: 0;
+
+            @media (max-width: 575px) {
+                right: 20px;
+                bottom: 24px;
+                left: 20px;
+            }
+        }
+
+        &-tags {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            @media (max-width: 575px) {
+                gap: 6px;
+            }
+        }
+
+        &-tag {
+            display: inline-flex;
+            align-items: center;
+            height: 27px;
+            padding: 0 10px;
+            border-radius: 4px;
+            background: #F8EBD6;
+            font-family: var(--ax-font-3);
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 27px;
+            white-space: nowrap;
+            color: #A37733;
+
+            &:is(.is-author) {
+                background: #E5E5E5;
+                color: #414141;
+            }
+
+            @media (max-width: 575px) {
+                padding: 0 8px;
+                font-size: 14px;
+            }
+        }
+
+        &:is(.is-big) &-tag:is(.is-author) {
+            color: #000;
+        }
+
+        &-title {
+            min-height: 56px;
+            margin: 16px 0 0;
+            font-family: var(--ax-font-3);
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 28px;
+            color: #000;
+
+            a {
+                color: inherit;
+                transition: var(--ax-cube-1);
+
+                &:hover {
+                    color: var(--ax-clr-ac-1);
+                }
+            }
+        }
+
+        &:is(.is-big) &-title {
+            min-height: 0;
+            font-size: 28px;
+            line-height: 32px;
+            color: #fff;
+
+            @media (max-width: 1399px) {
+                font-size: 26px;
+                line-height: 30px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 24px;
+                line-height: 28px;
+            }
+        }
+
+        // the three dots at the end of a title are gold
+        &-dots {
+            color: var(--ax-clr-ac-1);
+        }
+
+        // the link: the words on the left, a round button with the arrow on the right (it turns gold on hover)
+        &-more {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        &-more-text {
+            font-family: var(--ax-font-1);
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+            color: #414141;
+            transition: var(--ax-cube-1);
+        }
+
+        &-more-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: none;
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgb(0 0 0 / 12%);
+            border-radius: 50%;
+            background: var(--ax-clr-bg-5);
+            font-size: 14px;
+            color: #414141;
+            transition: var(--ax-cube-1);
+
+            i {
+                display: block;
+                line-height: 1;
+            }
+        }
+
+        &-more:hover &-more-icon {
+            border-color: var(--ax-clr-ac-1);
+            background: var(--ax-clr-ac-1);
+            color: #fff;
+        }
+
+        &-more:hover &-more-text {
+            color: #000;
+        }
+    }
+}
+/*
+    ax-blog-1-end
+*/
