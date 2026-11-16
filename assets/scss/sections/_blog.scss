@@ -355,14 +355,13 @@ $ax-blog-1-sm-r: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
             height: 48px;
             border: 1px solid rgb(0 0 0 / 12%);
             border-radius: 50%;
-            background: var(--ax-clr-bg-5);
-            font-size: 14px;
+            background: #EFEFEB;
+            font-size: 18px;
             color: #414141;
             transition: var(--ax-cube-1);
 
             i {
                 display: block;
-                line-height: 1;
             }
         }
 

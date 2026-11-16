@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use '../abstracts/variables' as *;
 
 
@@ -314,12 +315,12 @@ $ax-testimonial-1-slots: (
 
         @each $pos, $v in $ax-testimonial-1-slots {
             &[data-pos="#{$pos}"] {
-                z-index: nth($v, 5);
-                top: s(nth($v, 2));
-                left: s(nth($v, 1));
-                width: s(nth($v, 3));
-                height: s(nth($v, 3));
-                border-width: s(nth($v, 4));
+                z-index: list.nth($v, 5);
+                top: s(list.nth($v, 2));
+                left: s(list.nth($v, 1));
+                width: s(list.nth($v, 3));
+                height: s(list.nth($v, 3));
+                border-width: s(list.nth($v, 4));
             }
         }
 

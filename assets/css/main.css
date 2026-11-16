@@ -4330,6 +4330,13 @@ input:focus::placeholder, textarea:focus::placeholder {
   width: 227px;
   height: 108px;
   padding-left: 24px;
+  filter: drop-shadow(-6px -8px 34px rgba(0, 0, 0, 0.25));
+}
+.ax-hero-1-stat::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: #fff;
   clip-path: path("M227 92C227 100.837 219.837 108 211 108H16C7.16344 108 0 100.837 0 92V44C0 38.9639 2.37111 34.2217 6.4 31.2L43.7333 3.2C46.5029 1.12285 49.8714 0 53.3333 0H211C219.837 0 227 7.16344 227 16V92Z");
 }
@@ -4450,7 +4457,6 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .ax-about-1-area {
   position: relative;
-  isolation: isolate;
   padding: 132px 0;
   overflow: hidden;
 }
@@ -4799,8 +4805,8 @@ input:focus::placeholder, textarea:focus::placeholder {
   gap: 36px;
   padding: 32px 30px;
   background: rgba(255, 255, 255, 0.64);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .ax-about-1-stat {
@@ -5144,8 +5150,8 @@ input:focus::placeholder, textarea:focus::placeholder {
   padding: 28px 38px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.4);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   text-align: center;
   opacity: 0;
   transform: translateY(32px);
@@ -5203,6 +5209,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   font-weight: 400;
   line-height: 28px;
   color: rgba(255, 255, 255, 0.8);
+  max-width: 280px;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px), (max-width: 767px) {
   .ax-service-1-card-hover-text {
@@ -6575,7 +6582,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  max-width: 852px;
+  max-width: 875px;
   margin: 0 auto 52px;
   text-align: center;
 }
@@ -6627,7 +6634,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   }
 }
 .ax-team-1-card:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  filter: drop-shadow(10px 10px 24px rgba(0, 0, 0, 0.16));
 }
 .ax-team-1-card-media {
   position: relative;
@@ -6666,9 +6673,8 @@ input:focus::placeholder, textarea:focus::placeholder {
   transition: background-color 0.4s ease, color 0.4s ease, transform 0.4s ease;
 }
 .ax-team-1-card-arrow i {
-  display: block;
-  font-size: 16px;
-  line-height: 1;
+  font-size: 22px;
+  transform: translate(5px, 5px);
 }
 .ax-team-1-card:hover .ax-team-1-card-arrow {
   background: var(--ax-clr-ac-1);
@@ -6899,6 +6905,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 .ax-process-1-img {
   position: absolute;
   inset: 0;
+  opacity: 0.7;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1068 944' preserveAspectRatio='none'%3E%3Cpath d='M0 0H878V282A190 190 0 0 0 878 662V944H0ZM878 282A190 190 0 0 1 878 662Z'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1068 944' preserveAspectRatio='none'%3E%3Cpath d='M0 0H878V282A190 190 0 0 0 878 662V944H0ZM878 282A190 190 0 0 1 878 662Z'/%3E%3C/svg%3E");
   -webkit-mask-size: 100% 100%;
@@ -8323,14 +8330,13 @@ input:focus::placeholder, textarea:focus::placeholder {
   height: 48px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 50%;
-  background: var(--ax-clr-bg-5);
-  font-size: 14px;
+  background: #EFEFEB;
+  font-size: 18px;
   color: #414141;
   transition: var(--ax-cube-1);
 }
 .ax-blog-1-card-more-icon i {
   display: block;
-  line-height: 1;
 }
 .ax-blog-1-card-more:hover .ax-blog-1-card-more-icon {
   border-color: var(--ax-clr-ac-1);

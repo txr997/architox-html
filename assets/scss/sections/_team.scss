@@ -61,7 +61,7 @@
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        max-width: 852px;
+        max-width: 875px;
         margin: 0 auto 52px;
         text-align: center;
 
@@ -102,6 +102,7 @@
         background: #fff;
         transition: box-shadow .5s ease;
 
+
         // the second and the third card go to the right end of the first row
         @media (min-width: 1200px) {
             &:nth-child(2) {
@@ -114,7 +115,7 @@
         }
 
         &:hover {
-            box-shadow: 0 20px 40px rgb(0 0 0 / 8%);
+            filter: drop-shadow(10px 10px 24px rgba(0, 0, 0, 0.16));
         }
 
         // the photo, the social bar and the arrow are drawn over the same box (the ratio of the photo), what slides in from the left is cut by it
@@ -161,9 +162,8 @@
             transition: background-color .4s ease, color .4s ease, transform .4s ease;
 
             i {
-                display: block;
-                font-size: 16px;
-                line-height: 1;
+                font-size: 22px;
+                transform: translate(5px, 5px);
             }
         }
 

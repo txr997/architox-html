@@ -14,8 +14,8 @@
     // 1920 x 1307 in the design: the sketch of the building at the bottom right, five faint half circles from the top middle, the text and
     // the photo on the left, the three number cards stepped on the right (the container of 1400, 132px of room over and under)
     &-area {
+        // no isolation here: with it the backdrop blur of the cards cannot see the multiplied sketch
         position: relative;
-        isolation: isolate;
         padding: 132px 0;
         overflow: hidden;
 
@@ -393,8 +393,8 @@
         gap: 36px;
         padding: 32px 30px;
         background: rgb(255 255 255 / 64%);
-        -webkit-backdrop-filter: blur(24px);
-        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
 
         @media #{$md} {
             gap: 30px;
