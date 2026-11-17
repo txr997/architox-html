@@ -161,6 +161,166 @@
     }
 }
 
+// home 2 buttons (header light, hero gold, hero outlined), the width never changes: on hover a square arrow slides in from the left,
+// the plate shrinks to the right, the text moves to the middle of it and the right arrow shrinks out
+.ax-header-2-button,
+.ax-pr-btn-2,
+.ax-sd-btn-2 {
+    --btn-h: 56px;
+    // what the text keeps on each side of it on hover
+    --btn-px: 13px;
+    --btn-gap: 6px;
+    // the square + a 7px gap
+    --btn-s: calc(var(--btn-h) + 7px);
+    // the side padding at rest: wider than the design by the room the square takes
+    --btn-q: calc(var(--btn-px) + (var(--btn-s) - 20px - var(--btn-gap)) / 2);
+    --btn-bg: transparent;
+    --btn-bd: transparent;
+    // 0.5s, the ease of the reference button
+    --btn-ease: .5s cubic-bezier(.25, 0, .05, 1);
+
+    position: relative;
+    display: inline-block;
+    flex: none;
+    height: var(--btn-h);
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: var(--ax-font-5);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    color: #000;
+
+    .icon,
+    .label::before {
+        border: 1px solid var(--btn-bd);
+        border-radius: 6px;
+        background: var(--btn-bg);
+    }
+
+    .icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--btn-h);
+        height: 100%;
+        transform: translateX(calc(var(--btn-s) * -1));
+        transition: transform var(--btn-ease);
+
+        // grows from the right edge of the square to its middle
+        svg {
+            transform: translateX(calc(var(--btn-h) / 2)) scale(0);
+            transition: transform var(--btn-ease);
+        }
+    }
+
+    .label {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: var(--btn-gap);
+        height: 100%;
+        padding: 0 var(--btn-q);
+
+        // the plate: its left edge moves right on hover
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transition: left var(--btn-ease);
+        }
+
+        > * {
+            position: relative;
+            flex: none;
+            transition: transform var(--btn-ease);
+        }
+    }
+
+    &:hover {
+        .icon {
+            transform: none;
+
+            svg {
+                transform: none;
+            }
+        }
+
+        .label::before {
+            left: var(--btn-s);
+        }
+
+        // to the middle of the plate that is left
+        .text {
+            transform: translateX(calc((var(--btn-s) + 20px + var(--btn-gap)) / 2));
+        }
+
+        .label svg {
+            transform: translateX(calc(var(--btn-q) + 16px)) scale(.3);
+        }
+    }
+}
+
+.ax-header-2-button {
+    --btn-h: 48px;
+    --btn-px: 13px;
+    --btn-gap: 4px;
+    --btn-bg: var(--ax-clr-bg-5);
+
+    @media (max-width: 575px) {
+        display: none;
+    }
+}
+
+.ax-pr-btn-2 {
+    --btn-bg: var(--ax-clr-ac-1);
+}
+
+// the black one of the light sections
+.ax-pr-btn-2:is(.is-dark) {
+    --btn-bg: #000;
+    color: #fff;
+}
+
+.ax-sd-btn-2 {
+    --btn-bd: rgb(255 255 255 / 40%);
+    color: #fff;
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+// the menu button of the header 2: always there, it opens the side menu
+.ax-offcanvas-btn-2 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: 6px;
+    background: transparent;
+    color: #fff;
+    transition: var(--ax-cube-1);
+
+    &:hover {
+        border-color: var(--ax-clr-ac-1);
+        background: var(--ax-clr-ac-1);
+        color: #000;
+    }
+}
+
 // search of the header 2, on the white bar
 .ax-search-btn-2 {
     display: inline-flex;

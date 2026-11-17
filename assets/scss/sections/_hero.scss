@@ -594,3 +594,587 @@
 /*
     ax-hero-1-end
 */
+
+
+/*
+    ax-hero-2-start
+*/
+.ax-hero-2 {
+    // 1920 x 960 in the design: the video, the black fade at the bottom, the client card on the top left, the text at the bottom left
+    &-area {
+        position: relative;
+        display: flex;
+        min-height: 960px;
+        overflow: hidden;
+        background: #000;
+
+        @media #{$xxxl} {
+            min-height: 900px;
+        }
+
+        @media #{$xxl} {
+            min-height: 860px;
+        }
+
+        @media #{$xl} {
+            min-height: 800px;
+        }
+
+        @media #{$lg} {
+            min-height: 760px;
+        }
+
+        @media #{$md} {
+            min-height: 720px;
+        }
+
+        @media #{$xs} {
+            min-height: 680px;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        inset: 0;
+
+        video {
+            object-position: 50% 90%;
+        }
+    }
+
+    // 423px of the 960 (44%), clear at the top to solid black at the bottom
+    &-shade {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 44%;
+        background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, #000 100%);
+        pointer-events: none;
+
+        @media #{$md,$xs} {
+            height: 62%;
+        }
+    }
+
+    // the card sits 202px from the top and the buttons end 60px from the bottom
+    &-container {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 48px;
+        padding-top: 202px;
+        padding-bottom: 60px;
+
+        @media #{$xxxl} {
+            padding-top: 190px;
+        }
+
+        @media #{$xxl} {
+            padding-top: 170px;
+        }
+
+        @media #{$xl} {
+            padding-top: 150px;
+            padding-bottom: 48px;
+        }
+
+        @media #{$lg} {
+            padding-top: 130px;
+            padding-bottom: 48px;
+        }
+
+        @media #{$md} {
+            padding-top: 120px;
+            padding-bottom: 48px;
+        }
+
+        @media #{$xs} {
+            padding-top: 100px;
+            padding-bottom: 40px;
+        }
+    }
+
+    // 362 x 120: the tab with the house, the line of text and the faces, all one white shape
+    &-card {
+        position: relative;
+        flex: none;
+        width: 362px;
+        height: 120px;
+
+        // scaled down on a phone so it keeps its shape
+        @media #{$xs} {
+            transform: scale(.85);
+            transform-origin: left top;
+        }
+
+        &-tab {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 64px;
+            height: 85px;
+            border-radius: 12px 12px 0 0;
+            background: #fff;
+        }
+
+        &-icon {
+            position: absolute;
+            top: 13px;
+            left: 7px;
+            width: 50px;
+            height: 43px;
+        }
+
+        // the outline of the design (text row 64px in from the left, face row under it, 14px curves), a background and not a clip-path
+        // because the clip-path went missing after load
+        &-body {
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 362px;
+            height: 96px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 362 96'%3E%3Cpath d='M194 82C194 89.732 187.732 96 180 96H14C6.26801 96 0 89.732 0 82V62C0 54.268 6.26801 48 14 48H50C57.732 48 64 41.732 64 34V14C64 6.26801 70.268 0 78 0H348C355.732 0 362 6.26801 362 14V34C362 41.732 355.732 48 348 48H208C200.268 48 194 54.268 194 62V82Z' fill='%23fff'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+        }
+
+        &-text {
+            position: absolute;
+            top: 0;
+            left: 77px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 48px;
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            white-space: nowrap;
+            color: rgb(0 0 0 / 72%);
+
+            span {
+                font-weight: 600;
+                color: #000;
+            }
+        }
+
+        // hover: the faces fan out a little (a transform, nothing else moves) and jump up one after the other
+        &-avatars {
+            position: absolute;
+            top: 48px;
+            left: 10px;
+            display: flex;
+
+            &:hover .ax-hero-2-card-avatar {
+                transform: translateY(-5px);
+
+                &:nth-child(2) {
+                    transform: translate(2px, -5px);
+                }
+
+                &:nth-child(3) {
+                    transform: translate(4px, -5px);
+                }
+
+                &:nth-child(4) {
+                    transform: translate(6px, -5px);
+                }
+
+                &:nth-child(5) {
+                    transform: translate(8px, -5px);
+                }
+            }
+        }
+
+        // 40px, 7px of each one is covered by the next, the white ring parts them
+        &-avatar {
+            flex: none;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transition: transform .5s cubic-bezier(.34, 1.56, .64, 1);
+
+            &:not(:first-child) {
+                margin-left: -7px;
+            }
+
+            &:nth-child(2) {
+                transition-delay: .05s;
+            }
+
+            &:nth-child(3) {
+                transition-delay: .1s;
+            }
+
+            &:nth-child(4) {
+                transition-delay: .15s;
+            }
+
+            &:nth-child(5) {
+                transition-delay: .2s;
+            }
+        }
+    }
+
+    &-heading {
+        position: relative;
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    // beside the last line of the title: 339px from the left, 481px wide, on the baseline of the title
+    &-text {
+        position: absolute;
+        bottom: 0;
+        left: 339px;
+        width: 481px;
+
+        @media #{$xxxl} {
+            left: 306px;
+            width: 440px;
+        }
+
+        @media #{$xxl} {
+            left: 272px;
+            width: 400px;
+        }
+
+        // under the title below 1400: the last line is too short for three lines of text
+        @media #{$xl,$lg,$md,$xs} {
+            position: static;
+            width: auto;
+            max-width: 520px;
+            margin-top: 20px;
+        }
+    }
+
+    &-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 32px;
+
+        @media #{$xs} {
+            margin-top: 28px;
+        }
+    }
+
+    // the text on the left, the slider on the right, both end at the bottom
+    &-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 48px;
+
+        // the slider goes under the buttons
+        @media #{$lg,$md,$xs} {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 40px;
+        }
+    }
+
+    // starts 372px from the right edge of the container (x 1288 in the design) and runs to the edge of the screen,
+    // --vis is the room from its left edge to the edge of the screen, --gap-r what the counter leaves free there
+    &-slider {
+        --vis: calc(50vw - 328px);
+        --gap-r: 60px;
+        flex: none;
+        width: 372px;
+
+        @media #{$over} {
+            --gap-r: 99px;
+        }
+
+        @media #{$xxl} {
+            --vis: calc(50vw - 276px);
+        }
+
+        @media #{$xl} {
+            --vis: calc(50vw - 186px);
+        }
+
+        @media #{$lg} {
+            --vis: calc(50vw + 468px);
+        }
+
+        @media #{$md} {
+            --vis: calc(50vw + 348px);
+        }
+
+        @media #{$xs} {
+            --vis: calc(50vw + 258px);
+        }
+
+        @media (max-width: 575px) {
+            --vis: calc(100vw - 12px);
+        }
+
+        @media #{$lg,$md,$xs} {
+            width: 100%;
+        }
+    }
+
+    // 01 ---- 04: the line is the track, the bar is the share of the active card
+    &-counter {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: calc(var(--vis) - var(--gap-r));
+        max-width: 533px;
+        margin-bottom: 24px;
+        font-family: var(--ax-font-5);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 1px;
+        color: #fff;
+
+        @media #{$lg,$md,$xs} {
+            width: 100%;
+        }
+
+        &-total {
+            opacity: .6;
+        }
+
+        &-line {
+            position: relative;
+            flex: 1;
+            height: 1px;
+            background: rgb(255 255 255 / 32%);
+        }
+
+        &-bar {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 25%;
+            height: 2px;
+            background: #fff;
+            transition: width .9s cubic-bezier(.18, .82, .41, 1);
+        }
+    }
+
+    // the cards go on past the edge of the screen: no gap on the right, the left edge clips the cards that have passed
+    &-swiper {
+        width: var(--vis);
+        margin: 0;
+        overflow: hidden;
+    }
+
+    // 448 x 220 glass card: the photo with its icon tab, the text and the link at the bottom right
+    &-feature {
+        position: relative;
+        display: flex;
+        gap: 20px;
+        width: 448px;
+        height: 220px;
+        padding: 12px 20px 12px 12px;
+        border-radius: 12px;
+        background: rgb(255 255 255 / 20%);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+
+        // 1px edge, white only at the top left and bottom right corners, clear between (118deg), cut out of a layer with the size of the card
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(118deg, #fff 0%, rgb(255 255 255 / 0%) 17.6%, rgb(255 255 255 / 0%) 82.4%, #fff 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        @media #{$xxl} {
+            gap: 18px;
+            width: 400px;
+            height: 208px;
+            padding-right: 16px;
+        }
+
+        @media #{$xl} {
+            gap: 16px;
+            width: 380px;
+            height: 196px;
+            padding-right: 14px;
+        }
+
+        @media (max-width: 575px) {
+            gap: 12px;
+            width: 300px;
+            height: 196px;
+            padding: 10px 12px 10px 10px;
+        }
+
+        &-media {
+            position: relative;
+            flex: none;
+            width: 152px;
+
+            @media #{$xxl} {
+                width: 140px;
+            }
+
+            @media #{$xl} {
+                width: 124px;
+            }
+
+            @media (max-width: 575px) {
+                width: 100px;
+            }
+        }
+
+        &-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        // the black tab 12px inside the corner of the photo, rounded only at its bottom right
+        &-icon {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 0 0 20px;
+            background: #000;
+            font-size: 24px;
+            line-height: 1;
+            color: #fff;
+
+            @media #{$xl} {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            @media (max-width: 575px) {
+                top: 8px;
+                left: 8px;
+                width: 36px;
+                height: 36px;
+                border-radius: 0 0 14px;
+                font-size: 18px;
+            }
+        }
+
+        &-body {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-between;
+            min-width: 0;
+            padding: 20px 0;
+
+            @media #{$xl,$xxl} {
+                padding: 16px 0;
+            }
+
+            @media (max-width: 575px) {
+                padding: 10px 0;
+            }
+        }
+
+        &-info {
+            align-self: stretch;
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-5);
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 28px;
+            letter-spacing: 1px;
+            color: #fff;
+
+            @media #{$xl,$xxl} {
+                font-size: 20px;
+                line-height: 26px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 18px;
+                line-height: 24px;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        &-text {
+            margin: 12px 0 0;
+            font-family: var(--ax-font-1);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            color: rgb(255 255 255 / 72%);
+
+            @media #{$xl,$xxl} {
+                margin-top: 10px;
+                font-size: 15px;
+                line-height: 22px;
+            }
+
+            @media (max-width: 575px) {
+                margin-top: 6px;
+                font-size: 14px;
+                line-height: 20px;
+            }
+        }
+
+        // "Learn more" underlined, with the round arrow after it
+        &-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--ax-font-5);
+            font-size: 14px;
+            line-height: 20px;
+            color: rgb(255 255 255 / 60%);
+            transition: var(--ax-cube-1);
+
+            .text {
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: rgb(255 255 255 / 20%);
+                color: #fff;
+                transition: var(--ax-cube-1);
+            }
+
+            &:hover {
+                color: #fff;
+
+                .icon {
+                    background: #fff;
+                    color: #000;
+                }
+            }
+        }
+    }
+}
+/*
+    ax-hero-2-end
+*/

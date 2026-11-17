@@ -11,6 +11,7 @@
 @use './components/search';
 @use './components/preloader';
 @use './components/wow-plus';
+@use './components/glass-reveal';
 @use './components/elements';
 @use './components/back-to-top';
 /*
@@ -20,6 +21,8 @@
 @use './sections/hero';
 @use './sections/about';
 @use './sections/service';
+@use './sections/price';
+@use './sections/experience';
 @use './sections/client';
 @use './sections/project';
 @use './sections/contact';

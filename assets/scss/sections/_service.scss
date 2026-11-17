@@ -722,3 +722,409 @@
 /*
     ax-service-1-end
 */
+
+/*
+    ax-service-2-start
+*/
+.ax-service-2 {
+    // 1920 x 1198 in the design: black with a fine grid at the bottom, the title in the middle, the strip of pictures on the left,
+    // the accordion of the services on the right (598px high, 604 + 748 wide), the text and the button under them
+    &-area {
+        position: relative;
+        padding: 132px 0;
+        overflow: hidden;
+        background-color: #000;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        color: #fff;
+
+        @media #{$xxl} {
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 575px) {
+            padding: 70px 0;
+        }
+
+        // the grid keeps its height on a narrow screen
+        @media #{$lg,$md,$xs} {
+            background-size: auto 285px;
+        }
+    }
+
+    &-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 48px;
+        text-align: center;
+
+        @media #{$xl,$lg,$md} {
+            margin-bottom: 40px;
+        }
+
+        @media #{$xs} {
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+    }
+
+    &-title {
+        max-width: 898px;
+    }
+
+    &-grid {
+        display: grid;
+        grid-template-columns: 604fr 748fr;
+        gap: 48px;
+
+        @media #{$xl} {
+            gap: 40px;
+        }
+
+        // the strip goes over the cards
+        @media #{$lg,$md,$xs} {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+    }
+
+    // the strip of pictures: the one of the open card is wide and in colour, the others are narrow and grey (68px, 4px between)
+    &-images {
+        --w: 68px;
+        display: flex;
+        gap: 4px;
+        min-height: 598px;
+
+        @media #{$xl} {
+            --w: 60px;
+            min-height: 560px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            --w: 56px;
+            min-height: 0;
+            height: 440px;
+        }
+
+        @media #{$md} {
+            height: 380px;
+        }
+
+        @media #{$xs} {
+            height: 320px;
+        }
+
+        @media (max-width: 575px) {
+            --w: 40px;
+            height: 260px;
+        }
+    }
+
+    &-img {
+        flex: none;
+        width: var(--w);
+        border-radius: 8px;
+        filter: grayscale(1);
+        opacity: .68;
+        transition: width .7s cubic-bezier(.18, .82, .41, 1), filter .7s ease, opacity .7s ease;
+
+        &:is(.is-active) {
+            width: calc(100% - 3 * (var(--w) + 4px));
+            filter: none;
+            opacity: 1;
+        }
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    // closed: 96px high, black; open: the text and the tags unfold, the card turns dark grey
+    &-card {
+        // 1px less on each side, the border is inside the 96px of the design
+        padding: 27px 31px;
+        border: 1px solid rgb(255 255 255 / 16%);
+        border-radius: 12px;
+        background: #000;
+        cursor: pointer;
+        transition: background .5s ease;
+
+        @media #{$xl,$lg,$md} {
+            padding: 23px 27px;
+        }
+
+        @media (max-width: 575px) {
+            padding: 17px 15px;
+        }
+
+        &:is(.is-active) {
+            background: #202020;
+        }
+
+        &-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 40px;
+        }
+
+        &-main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            min-width: 0;
+
+            @media (max-width: 575px) {
+                gap: 14px;
+            }
+        }
+
+        &-icon {
+            display: flex;
+            flex: none;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 40px;
+            font-size: 40px;
+            line-height: 1;
+            color: #fff;
+            transition: font-size .5s ease, color .5s ease, height .5s ease;
+
+            @media (max-width: 575px) {
+                width: 36px;
+                height: 32px;
+                font-size: 30px;
+            }
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-5);
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 28px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: rgb(255 255 255 / 32%);
+            transition: color .5s ease;
+
+            @media #{$xl,$lg,$md} {
+                font-size: 22px;
+                line-height: 26px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 16px;
+                line-height: 22px;
+            }
+        }
+
+        // the box with the arrow: dark square and grey lines, gold and white when open
+        &-arrow {
+            display: block;
+            flex: none;
+            width: 32px;
+            height: 32px;
+
+            svg {
+                display: block;
+                width: 100%;
+                height: 100%;
+                opacity: .72;
+                transition: transform .4s ease, opacity .5s ease;
+            }
+
+            .sq {
+                fill: #242424;
+                transition: fill .5s ease;
+            }
+
+            .ln {
+                fill: #c0c0c0;
+                transition: fill .5s ease;
+            }
+
+            &:hover svg {
+                transform: translate(2px, -2px);
+            }
+
+            @media (max-width: 575px) {
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        // 0fr to 1fr opens it to the height of its content
+        &-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .6s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        &-in {
+            min-height: 0;
+            overflow: hidden;
+            // in line with the title: the icon + the gap
+            padding-left: 68px;
+
+            @media (max-width: 575px) {
+                padding-left: 0;
+            }
+        }
+
+        &-text {
+            max-width: 608px;
+            margin: 16px 0 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: rgb(255 255 255 / 72%);
+
+            @media #{$xl,$lg,$md,$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        &-tags {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            justify-content: start;
+            column-gap: 40px;
+            row-gap: 8px;
+            margin: 24px 0 0;
+            padding: 0;
+            list-style: none;
+
+            @media #{$xl} {
+                column-gap: 24px;
+            }
+
+            @media (max-width: 575px) {
+                grid-template-columns: 1fr;
+                margin-top: 18px;
+            }
+        }
+
+        &-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            line-height: 28px;
+            color: #fff;
+
+            @media #{$xl,$lg,$md,$xs} {
+                font-size: 16px;
+            }
+
+            &::before {
+                content: "";
+                flex: none;
+                width: 16px;
+                height: 16px;
+                background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M7 0h2v6H7zM7 10h2v6H7zM0 7h6v2H0zM10 7h6v2h-6z' fill='%23fff'/%3E%3C/svg%3E") center / contain no-repeat;
+                opacity: .48;
+            }
+        }
+
+        &:is(.is-active) {
+            .ax-service-2-card-icon {
+                height: 48px;
+                font-size: 48px;
+                color: var(--ax-clr-ac-1);
+
+                @media (max-width: 575px) {
+                    height: 36px;
+                    font-size: 34px;
+                }
+            }
+
+            .ax-service-2-card-title {
+                font-weight: 500;
+                color: #fff;
+            }
+
+            .ax-service-2-card-arrow {
+                svg {
+                    opacity: 1;
+                }
+
+                .sq {
+                    fill: var(--ax-clr-ac-1);
+                }
+
+                .ln {
+                    fill: #fff;
+                }
+            }
+
+            .ax-service-2-card-body {
+                grid-template-rows: 1fr;
+            }
+        }
+    }
+
+    // the text on the left, the gold button on the right
+    &-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+        margin-top: 52px;
+
+        @media #{$xl,$lg,$md} {
+            margin-top: 44px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
+            margin-top: 36px;
+        }
+    }
+
+    &-text {
+        max-width: 714px;
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: rgb(255 255 255 / 80%);
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+}
+/*
+    ax-service-2-end
+*/

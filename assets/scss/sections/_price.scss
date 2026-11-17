@@ -1,0 +1,419 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-price-2-start
+*/
+.ax-price-2 {
+    // 1920 x 1037 in the design: light grey, the photo on the left with a notch (the plate under the cards cuts into it), the title and the three
+    // cards on the right, fine lines at the right edge. --cr is the way from the middle of the page to the right edge of the container,
+    // --cw the three cards with their gaps: the photo ends 258px in from the left edge of the cards, so it follows them
+    &-area {
+        --cr: 700px;
+        --cw: 1068px;
+        --card: 340px;
+        position: relative;
+        padding: 132px 0 92px;
+        overflow: hidden;
+        background: #f5f5f5;
+
+        @media #{$xxl} {
+            --cr: 648px;
+            --cw: 948px;
+            --card: 300px;
+            padding: 120px 0 80px;
+        }
+
+        // below 1400 the photo goes over the title and the cards in a column
+        @media #{$xl} {
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            padding: 90px 0;
+        }
+
+        @media #{$sm} {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 575px) {
+            padding: 70px 0;
+        }
+    }
+
+    &-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 227px;
+        background-position: right top;
+        background-repeat: no-repeat;
+        background-size: 227px 1037px;
+        pointer-events: none;
+
+        @media #{$xl,$lg,$md,$xs} {
+            display: none;
+        }
+    }
+
+    &-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: calc(50% + var(--cr) - var(--cw) + 258px);
+        height: 100%;
+
+        @media #{$xl,$lg,$md,$xs} {
+            position: relative;
+            width: calc(100% - 24px);
+            max-width: 1116px;
+            height: 520px;
+            margin: 0 auto 48px;
+            border-radius: 16px;
+        }
+
+        @media #{$lg} {
+            max-width: 936px;
+            height: 460px;
+        }
+
+        @media #{$md} {
+            max-width: 696px;
+            height: 380px;
+        }
+
+        @media #{$xs} {
+            max-width: 516px;
+            height: 300px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 575px) {
+            max-width: none;
+            height: 240px;
+        }
+    }
+
+    &-container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // 715px wide, on the right edge of the container (600 from 1400, the photo is wider there)
+    &-head {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        width: 715px;
+        margin-left: auto;
+
+        @media #{$xxl} {
+            width: 600px;
+        }
+
+        @media #{$xl,$lg,$md,$xs} {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        @media #{$xs} {
+            gap: 16px;
+        }
+    }
+
+    &-title {
+        --dim: #939393;
+    }
+
+    &-text {
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #414141;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    // the plate under the cards: the colour of the page, 40px round the cards, its left corners rounded; where the photo ends it takes
+    // the corners of the photo with it (the two quarters in the colour of the page)
+    &-plate {
+        position: relative;
+        width: calc(var(--cw) + 40px);
+        margin: 8px 0 0 auto;
+        padding: 40px 0 40px 40px;
+        border-radius: 40px 0 0 40px;
+        background: #f5f5f5;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 258px;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+        }
+
+        &::before {
+            top: -40px;
+            background: radial-gradient(circle at 0 0, transparent 39.5px, #f5f5f5 40px);
+        }
+
+        &::after {
+            bottom: -40px;
+            background: radial-gradient(circle at 0 100%, transparent 39.5px, #f5f5f5 40px);
+        }
+
+        @media #{$xl,$lg,$md,$xs} {
+            width: 100%;
+            margin-top: 40px;
+            padding: 0;
+            border-radius: 0;
+
+            &::before,
+            &::after {
+                display: none;
+            }
+        }
+    }
+
+    &-cards {
+        display: flex;
+        gap: 24px;
+
+        @media #{$xl,$lg,$md,$xs} {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        }
+    }
+
+    // the white tray, 340 x 469: the card (389) and the button (52) in it, 10px round them and 8px between
+    &-card {
+        position: relative;
+        flex: none;
+        width: var(--card);
+        padding: 10px;
+        border-radius: 16px;
+        background: rgb(255 255 255 / 30%);
+
+        @media #{$xl,$lg,$md,$xs} {
+            width: auto;
+        }
+
+        &-in {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            height: 100%;
+        }
+
+        &-top {
+            flex: 1;
+            padding: 28px;
+            border-radius: 14px;
+            background-color: #f5f5f5;
+            box-shadow: 5px 5px 12px rgb(0 0 0 / 28%);
+
+            @media #{$xxl} {
+                padding: 24px;
+            }
+
+            @media (max-width: 575px) {
+                padding: 22px;
+            }
+        }
+
+        &-plan {
+            display: block;
+            font-family: var(--ax-font-5);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgb(0 0 0 / 40%);
+        }
+
+        // 56 / 40 the amount, 16px the words after it; the line under it is 32px below
+        &-price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            // 40 + 32 + the line: the baseline of the two sizes would make the row taller
+            height: 73px;
+            margin-top: 28px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+        &-num {
+            font-family: var(--ax-font-5);
+            font-size: 56px;
+            font-weight: 500;
+            line-height: 40px;
+            color: #000;
+
+            @media #{$xxl} {
+                font-size: 48px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 44px;
+            }
+        }
+
+        &-per {
+            font-family: var(--ax-font-1);
+            font-size: 16px;
+            line-height: 24px;
+            color: #666;
+        }
+
+        &-list {
+            display: grid;
+            row-gap: 12px;
+            margin: 24px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        &-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: #000;
+
+            @media #{$xxl,$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+
+            // the four pointed star, drawn with the colour --glyph
+            &::before {
+                content: "";
+                flex: none;
+                width: 16px;
+                height: 16px;
+                margin-top: 6px;
+                background: var(--glyph, rgb(65 65 65 / 68%));
+                -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16 7.93336L9.23948 7.48355L11.7718 4.22824L8.51645 6.76052L8.06664 0H7.93336L7.48355 6.76052L4.22824 4.22824L6.76052 7.48355L0 7.93336V8.06664L6.76052 8.51645L4.22824 11.7718L7.48355 9.23948L7.93336 16H8.06664L8.51645 9.23948L11.7718 11.7718L9.23948 8.51645L16 8.06664V7.93336Z'/%3E%3C/svg%3E") center / contain no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M16 7.93336L9.23948 7.48355L11.7718 4.22824L8.51645 6.76052L8.06664 0H7.93336L7.48355 6.76052L4.22824 4.22824L6.76052 7.48355L0 7.93336V8.06664L6.76052 8.51645L4.22824 11.7718L7.48355 9.23948L7.93336 16H8.06664L8.51645 9.23948L11.7718 11.7718L9.23948 8.51645L16 8.06664V7.93336Z'/%3E%3C/svg%3E") center / contain no-repeat;
+            }
+        }
+
+        &-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 52px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            box-shadow: 5px 5px 12px rgb(0 0 0 / 28%);
+            font-family: var(--ax-font-5);
+            font-size: 16px;
+            line-height: 28px;
+            letter-spacing: 0.02em;
+            color: #000;
+            transition: var(--ax-cube-1);
+
+            svg {
+                flex: none;
+                transition: transform .4s ease;
+            }
+
+            // hover: the button turns black
+            &:hover {
+                background: #000;
+                color: #fff;
+
+                svg {
+                    transform: translateX(3px);
+                }
+            }
+        }
+
+        // the black card: the noise of the design is a fine grain, its button is black as well
+        &:is(.is-dark) {
+            --glyph: rgb(255 255 255 / 68%);
+
+            .ax-price-2-card-top {
+                background-color: #000;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
+                box-shadow: 5px 5px 12px rgb(0 0 0 / 56%);
+            }
+
+            .ax-price-2-card-plan {
+                color: rgb(255 255 255 / 40%);
+            }
+
+            .ax-price-2-card-price {
+                border-bottom-color: rgb(255 255 255 / 24%);
+            }
+
+            .ax-price-2-card-num,
+            .ax-price-2-card-item {
+                color: #fff;
+            }
+
+            .ax-price-2-card-per {
+                color: #8a8a8a;
+            }
+
+            .ax-price-2-card-btn {
+                background: #000;
+                box-shadow: 5px 5px 12px rgb(0 0 0 / 56%);
+                color: #fff;
+            }
+        }
+    }
+
+    // the gold tag turned up at the top right corner of the black card
+    &-tag {
+        position: absolute;
+        top: 28px;
+        right: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 26px;
+        padding: 0 12px 0 8px;
+        border-radius: 27px;
+        background: var(--ax-clr-ac-1);
+        box-shadow: 2px 6px 15px var(--ax-clr-ac-1);
+        font-family: var(--ax-font-1);
+        font-size: 14px;
+        line-height: 1;
+        color: #fff;
+        transform: rotate(25.87deg);
+
+        &::before {
+            content: "";
+            flex: none;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #000;
+        }
+    }
+}
+/*
+    ax-price-2-end
+*/

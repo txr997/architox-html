@@ -1,0 +1,224 @@
+@use '../abstracts/variables' as *;
+
+
+/*
+    ax-experience-2-start
+*/
+// the photos' places on the ring, clockwise from the top (the angle of each one in the design)
+$ax-experience-2-angles: 7, 332, 295, 259, 223, 186, 150, 113, 77, 41;
+
+.ax-experience-2 {
+    // --u is one pixel of the 1920 design, shrunk so the 900 x 904 ring fits the screen: every size below is drawn in it, so no breakpoint is needed
+    &-area {
+        --u: min(1px, calc(100vh / 960), calc(100vw / 1000));
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        background: #fff;
+
+        // below 1200 nothing moves (main.js): the three numbers in a row, the photos in a grid under them
+        @media #{$lg,$md,$xs} {
+            --w: 936px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 56px 24px;
+            height: auto;
+            padding: 100px max(24px, calc((100% - var(--w)) / 2));
+        }
+
+        @media #{$md} {
+            --w: 696px;
+            padding-block: 90px;
+        }
+
+        @media #{$xs} {
+            --w: 516px;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding-block: 70px;
+        }
+    }
+
+    // 496 circle, the sand colour fades into the white at its edge
+    &-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: calc(496 * var(--u));
+        height: calc(496 * var(--u));
+        margin: calc(-248 * var(--u)) 0 0 calc(-248 * var(--u));
+        border-radius: 50%;
+        background: radial-gradient(circle closest-side, #e3cfb0, #fff);
+        pointer-events: none;
+
+        @media #{$lg,$md,$xs} {
+            display: none;
+        }
+    }
+
+    // --spin (set by the scroll, main.js) turns the whole ring clockwise
+    &-ring {
+        --spin: 0;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+
+        // the grid goes under the numbers (order), over the whole width
+        @media #{$lg,$md,$xs} {
+            position: static;
+            order: 1;
+            display: grid;
+            grid-column: 1 / -1;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 575px) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+    }
+
+    // 180 x 200 on a ring of 342: --a its place
+    &-card {
+        --a: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: calc(180 * var(--u));
+        height: calc(200 * var(--u));
+        margin: calc(-100 * var(--u)) 0 0 calc(-90 * var(--u));
+        border-radius: calc(20 * var(--u));
+        // turned to its place, then pushed out along its own top, so every photo faces away from the middle
+        transform: rotate(calc((var(--a) + var(--spin)) * 1deg)) translateY(calc(-342 * var(--u)));
+
+        // a tile of the grid, 180 : 200 as in the design
+        @media #{$lg,$md,$xs} {
+            position: static;
+            width: auto;
+            height: auto;
+            margin: 0;
+            aspect-ratio: 9 / 10;
+            border-radius: 16px;
+            transform: none;
+        }
+
+        @each $angle in $ax-experience-2-angles {
+            &:nth-child(#{index($ax-experience-2-angles, $angle)}) {
+                --a: #{$angle};
+            }
+        }
+    }
+
+    // the three numbers sit on top of each other (centred without a transform, so the script can move it on y); without the script only the first shows
+    &-info {
+        position: absolute;
+        inset: 0;
+        height: fit-content;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: calc(24 * var(--u));
+        width: calc(353 * var(--u));
+
+        & + & {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        // below 1200 all three show, in a column of the row; --u is the size of the numbers there
+        @media #{$lg,$md,$xs} {
+            &,
+            & + & {
+                --u: 0.8px;
+                position: static;
+                width: auto;
+                height: auto;
+                margin: 0;
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+
+        @media #{$md} {
+            &,
+            & + & {
+                --u: 0.6px;
+            }
+        }
+
+        @media #{$xs} {
+            &,
+            & + & {
+                --u: 0.7px;
+            }
+        }
+    }
+
+    // 144 high with 24 of room above: the box cuts the digits at the bottom, as in the design
+    &-num {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: calc(144 * var(--u));
+        padding-top: calc(24 * var(--u));
+        overflow: hidden;
+        font-family: var(--ax-font-5);
+        font-size: calc(200 * var(--u));
+        font-weight: 400;
+        line-height: calc(143 * var(--u));
+        letter-spacing: calc(-4 * var(--u));
+        color: #000;
+    }
+
+    // the plus is drawn: Nohemi sets it small and high, the stand-in font does not
+    &-plus {
+        position: relative;
+        flex: none;
+        width: calc(55 * var(--u));
+        height: calc(55 * var(--u));
+        margin: calc(3.5 * var(--u)) 0 0 calc(8 * var(--u));
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            background: currentColor;
+        }
+
+        &::before {
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: calc(13 * var(--u));
+            margin-top: calc(-6.5 * var(--u));
+        }
+
+        &::after {
+            top: 0;
+            left: 50%;
+            width: calc(13 * var(--u));
+            height: 100%;
+            margin-left: calc(-6.5 * var(--u));
+        }
+    }
+
+    // 26 / 30 in the design; the floor keeps it readable on a phone
+    &-label {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: max(12px, calc(26 * var(--u)));
+        font-weight: 400;
+        line-height: max(16px, calc(30 * var(--u)));
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: rgb(65 65 65 / 72%);
+    }
+}
+/*
+    ax-experience-2-end
+*/

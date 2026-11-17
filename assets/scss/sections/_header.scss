@@ -221,6 +221,135 @@
 */
 
 
+/*
+    ax-header-2-start
+*/
+.ax-header-2 {
+    // laid over the hero: a 68px glass bar, 12px from the top and 14px from the sides (1920 design), the dark card closes it on the right
+    &-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 4;
+        width: 100%;
+        padding: 12px 14px 0;
+
+        @media #{$xs} {
+            padding: 10px 12px 0;
+        }
+    }
+
+    &-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+        border-radius: 8px;
+        background: rgb(0 0 0 / 10%);
+        -webkit-backdrop-filter: blur(28px);
+        backdrop-filter: blur(28px);
+
+        @media #{$xs} {
+            height: 60px;
+        }
+    }
+
+    &-left {
+        display: flex;
+        align-items: center;
+        padding-left: 18px;
+
+        @media #{$xs} {
+            padding-left: 12px;
+        }
+    }
+
+    &-logo-elm {
+        display: block;
+    }
+
+    &-logo-img {
+        width: 168px;
+        height: 36px;
+
+        @media #{$xs} {
+            width: 140px;
+            height: 30px;
+        }
+    }
+
+    // 92px between the logo and the first link; the gold chevrons stay gold on hover
+    &-menu {
+        margin-left: 92px;
+
+        @media #{$xxl} {
+            margin-left: 48px;
+        }
+
+        @media #{$xl} {
+            margin-left: 48px;
+        }
+
+        .menu-arrow {
+            color: var(--ax-clr-ac-1);
+        }
+    }
+
+    // the dark card on the right, 451 x 68: button, search, menu button
+    &-action-link {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        align-self: stretch;
+        padding: 0 12px 0 14px;
+        border-radius: 0 8px 8px 0;
+        background: #000F19;
+
+        @media (max-width: 1399px) {
+            gap: 24px;
+        }
+
+        @media (max-width: 575px) {
+            gap: 0;
+        }
+    }
+
+    &-search {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0;
+        background: none;
+        font-family: var(--ax-font-1);
+        font-size: 16px;
+        line-height: 20px;
+        white-space: nowrap;
+        color: #fff;
+
+        .text {
+            color: rgb(255 255 255 / 40%);
+            transition: var(--ax-cube-1);
+
+            // icon only below 1400
+            @media (max-width: 1399px) {
+                display: none;
+            }
+        }
+
+        &:hover .text {
+            color: #fff;
+        }
+
+        @media (max-width: 575px) {
+            display: none;
+        }
+    }
+}
+/*
+    ax-header-2-end
+*/
+
+
 
 .wa_sticky_header {
     position: fixed;

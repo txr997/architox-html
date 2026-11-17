@@ -107,6 +107,8 @@ var agPreloader = agPreloaderInit();
 
 // the hero intro, played by afterPreloader
 var agHero1First = null;
+var agHero2First = null;
+var agHero2Swiper = null;
 
 
 /*
@@ -141,6 +143,364 @@ function agHero1Intro() {
 			tl.play();
 		}
 	};
+}
+
+
+/*
+	hero-2 — after the preloader: the card drops in, then the text, the buttons and the slider follow the title (wa_blinds_text); the slider plays once it is in
+*/
+function agHero2Intro() {
+
+	var area = document.querySelector(".ax-hero-2-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var card = area.querySelector(".ax-hero-2-card");
+	var text = area.querySelector(".ax-hero-2-text");
+	var btns = area.querySelectorAll(".ax-pr-btn-2, .ax-sd-btn-2");
+	var slider = area.querySelector(".ax-hero-2-slider");
+
+	// from-tweens park the parts behind the preloader, afterPreloader plays the timeline
+	var tl = gsap.timeline({
+		paused: true,
+		defaults: { ease: "power3.out" },
+		onComplete: function () {
+			if (agHero2Swiper) agHero2Swiper.autoplay.start();
+		}
+	});
+
+	// the title opens from 0.9s
+	tl.from(card, { y: -40, opacity: 0, duration: 1, clearProps: "transform,opacity" }, .3)
+		.from(text, { y: 28, opacity: 0, duration: .9, clearProps: "transform,opacity" }, 1.5)
+		.from(btns, { y: 28, opacity: 0, duration: .9, stagger: .12, clearProps: "transform,opacity" }, 1.75)
+		.from(slider, { x: 160, opacity: 0, duration: 1.2, clearProps: "transform,opacity" }, 2);
+
+	agHero2First = {
+		play: function () {
+			tl.play();
+		}
+	};
+}
+
+
+/*
+	hero-2 — the feature cards slider, looping, autoplay every 4s; the counter and its line follow the active card
+*/
+function agHero2Slider() {
+
+	var box = document.querySelector(".ax-hero-2-slider");
+	if (!box) return;
+
+	var now = box.querySelector(".ax-hero-2-counter-now");
+	var total = box.querySelector(".ax-hero-2-counter-total");
+	var bar = box.querySelector(".ax-hero-2-counter-bar");
+	// counted before the loop adds its copies
+	var count = box.querySelectorAll(".ax-hero-2-swiper .swiper-slide").length;
+
+	function update(swiper) {
+		var n = swiper.realIndex + 1;
+		now.textContent = (n < 10 ? "0" : "") + n;
+		total.textContent = (count < 10 ? "0" : "") + count;
+		bar.style.width = (n / count * 100) + "%";
+	}
+
+	agHero2Swiper = new Swiper(".ax-hero-2-swiper", {
+		slidesPerView: "auto",
+		spaceBetween: 16,
+		speed: 900,
+		loop: true,
+		grabCursor: true,
+		autoplay: prefersReducedMotion() ? false : { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true },
+		on: {
+			init: update,
+			slideChange: update
+		}
+	});
+
+	// it starts when the intro is done
+	if (agHero2Swiper.autoplay.running) agHero2Swiper.autoplay.stop();
+}
+
+
+/*
+	service-2 — the services accordion: the card under the mouse (or touched) opens, its picture opens on the left
+*/
+function agService2Accordion() {
+
+	var area = document.querySelector(".ax-service-2-area");
+	if (!area) return;
+
+	var cards = area.querySelectorAll(".ax-service-2-card");
+	var imgs = area.querySelectorAll(".ax-service-2-img");
+
+	function open(i) {
+		cards.forEach(function (card, n) {
+			card.classList.toggle("is-active", n === i);
+		});
+		imgs.forEach(function (img, n) {
+			img.classList.toggle("is-active", n === i);
+		});
+	}
+
+	cards.forEach(function (card, i) {
+		card.addEventListener("mouseenter", function () { open(i); });
+		card.addEventListener("focusin", function () { open(i); });
+		card.addEventListener("click", function () { open(i); });
+	});
+}
+
+
+/*
+	about-2 — the mission / vision / goal buttons. From 1200px up the section stays on the screen while the page is scrolled and the buttons
+	change one after the other (half a screen of scroll for each), then the page goes on; below that, and by a click, they change by hand
+*/
+function agAbout2Tabs() {
+
+	var area = document.querySelector(".ax-about-2-area");
+	if (!area) return;
+
+	var grid = area.querySelector(".ax-about-2-grid");
+	var tabs = area.querySelectorAll(".ax-about-2-tab");
+	var panels = area.querySelectorAll(".ax-about-2-panel");
+	var lines = area.querySelectorAll(".ax-about-2-tabs-line");
+	var pin = null;
+
+	function open(i) {
+		tabs.forEach(function (tab, n) {
+			tab.classList.toggle("is-active", n === i);
+			tab.setAttribute("aria-selected", n === i ? "true" : "false");
+		});
+		panels.forEach(function (panel, n) {
+			panel.classList.toggle("is-active", n === i);
+		});
+		// the line after the open button is dark (the last button has none: the one before it)
+		lines.forEach(function (line, n) {
+			line.classList.toggle("is-on", n === Math.min(i, lines.length - 1));
+		});
+	}
+
+	// while it is pinned a click scrolls to the place of its button, the scroll then opens it
+	tabs.forEach(function (tab, i) {
+		tab.addEventListener("click", function () {
+			if (pin && pin.isActive) {
+				window.scrollTo({ top: pin.start + (pin.end - pin.start) * (i + .5) / tabs.length, behavior: "smooth" });
+			} else {
+				open(i);
+			}
+		});
+	});
+
+	if (prefersReducedMotion()) return;
+
+	gsap.matchMedia().add("(min-width: 1200px)", function () {
+
+		pin = ScrollTrigger.create({
+			trigger: area,
+			// a section taller than the screen is held with its grid in the middle of the screen, 20px higher (the title goes out at the top)
+			start: function () {
+				if (area.offsetHeight <= window.innerHeight) return "center center";
+				var gap = grid.getBoundingClientRect().top - area.getBoundingClientRect().top;
+				return "top+=" + gap + " top+=" + Math.max(24, (window.innerHeight - grid.offsetHeight) / 2 - 20);
+			},
+			end: function () {
+				return "+=" + window.innerHeight * tabs.length * .5;
+			},
+			pin: true,
+			anticipatePin: 1,
+			invalidateOnRefresh: true,
+			// measured first, so what is below counts the space of the pin
+			refreshPriority: 1,
+			onUpdate: function (self) {
+				open(Math.min(tabs.length - 1, Math.floor(self.progress * tabs.length)));
+			}
+		});
+
+		return function () {
+			pin = null;
+		};
+	});
+}
+
+
+/*
+	experience-2 — from 1200px up: the photos fade in one by one (by time) as the section comes into view; held on the screen, the scroll then turns the ring and swaps the number. Below that it stays still
+*/
+function agExperience2Ring() {
+
+	var area = document.querySelector(".ax-experience-2-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var ring = area.querySelector(".ax-experience-2-ring");
+	var infos = area.querySelectorAll(".ax-experience-2-info");
+	var glow = area.querySelector(".ax-experience-2-glow");
+	var steps = infos.length;
+
+	gsap.matchMedia().add("(min-width: 1200px)", function () {
+
+		// the order of the markup runs anti-clockwise; the photos come in clockwise from the top
+		var cards = Array.prototype.slice.call(area.querySelectorAll(".ax-experience-2-card")).reverse();
+		cards.unshift(cards.pop());
+
+		// by time: plays when the section is 40% in view, goes back when it is scrolled out upwards
+		var intro = gsap.timeline({
+			defaults: { ease: "power2.out" },
+			scrollTrigger: { trigger: area, start: "top 60%", toggleActions: "play none none reverse" }
+		});
+
+		// the first number is there from the start
+		intro.fromTo(glow, { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, 0)
+			.fromTo(cards, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, stagger: .12 }, .1);
+
+		// by scroll: 1 time unit = one screen, one for every number; 180° is a multiple of 36°, the photos end on the places of the design
+		var tl = gsap.timeline({
+			defaults: { ease: "none" },
+			scrollTrigger: {
+				trigger: area,
+				start: "top top",
+				end: function () {
+					return "+=" + window.innerHeight * steps;
+				},
+				pin: true,
+				scrub: 1,
+				anticipatePin: 1,
+				invalidateOnRefresh: true
+			}
+		});
+
+		tl.fromTo(ring, { "--spin": 0 }, { "--spin": 180, duration: steps }, 0);
+
+		// the number just changes, at every full screen
+		for (var i = 1; i < steps; i++) {
+			tl.set(infos[i - 1], { autoAlpha: 0 }, i)
+				.set(infos[i], { autoAlpha: 1 }, i);
+		}
+	});
+}
+
+
+/*
+	wa-glass-reveal — fluted glass bars slide across the photo as it scrolls in, the photo glitches in behind them (once)
+*/
+function agGlassReveal() {
+
+	var photos = gsap.utils.toArray(".wa-glass-reveal");
+	if (!photos.length || prefersReducedMotion()) return;
+
+	// the bars as parts of the pane (which is 90% of the photo): width and how each one bends its slice (minus mirrors it)
+	var bars = [[.16, 1.7], [.24, -1.25], [.12, 2.1], [.30, 1.45], [.18, -1.6]];
+	var bandCount = 7;
+
+	photos.forEach(function (photo) {
+
+		var img = photo.querySelector("img");
+		if (!img) return;
+
+		var make = function (cls, parent) {
+			var el = document.createElement("div");
+			el.className = cls;
+			parent.appendChild(el);
+			return el;
+		};
+		var copyIn = function (parent) {
+			var pic = make("wa-glass-pic wa-img-cover", parent);
+			var copy = img.cloneNode();
+			copy.alt = "";
+			copy.removeAttribute("loading");
+			pic.appendChild(copy);
+			return pic;
+		};
+
+		var glass = make("wa-glass", photo);
+		glass.setAttribute("aria-hidden", "true");
+
+		var glitch = make("wa-glass-glitch", glass);
+		var bands = [];
+		for (var i = 0; i < bandCount; i++) {
+			var band = make("wa-glass-band", glitch);
+			band.style.top = (i * 100 / bandCount) + "%";
+			band.style.height = (100 / bandCount + .3) + "%";
+			bands.push({ el: band, pic: copyIn(band), off: 0 });
+		}
+
+		var cover = make("wa-glass-cover", glass);
+		var coverPic = copyIn(cover);
+
+		var ribs = bars.map(function (b) {
+			var bar = make("wa-glass-bar", glass);
+			return { el: bar, pic: copyIn(bar), w: b[0], s: b[1] };
+		});
+
+		var W = 0, H = 0;
+		var size = function () {
+			W = photo.offsetWidth;
+			H = photo.offsetHeight;
+			glass.style.setProperty("--w", W + "px");
+			glass.style.setProperty("--ph", H + "px");
+			bands.forEach(function (b, i) {
+				b.pic.style.top = (-i * H / bandCount) + "px";
+			});
+		};
+		size();
+		window.addEventListener("resize", size);
+
+		// new random slice offsets every few frames, so the glitch flickers
+		var tick = 0;
+		var shuffle = function () {
+			bands.forEach(function (b) {
+				b.off = (Math.random() * 2 - 1) * (Math.random() < .35 ? 70 : 26);
+			});
+		};
+		shuffle();
+
+		var fx = { p: 0 };
+		var draw = function () {
+			var Wp = W * .9;
+			var lead = -Wp + fx.p * (W + Wp * 1.1);
+			var x = lead;
+
+			ribs.forEach(function (r) {
+				var bw = r.w * Wp;
+				var drift = Math.sin(fx.p * 6 + bw) * 10;
+				r.el.style.left = x + "px";
+				r.el.style.width = (bw + 1) + "px";
+				r.pic.style.left = -x + "px";
+				r.pic.style.transformOrigin = (x + bw / 2) + "px 50%";
+				r.pic.style.transform = "translateX(" + drift + "px) scaleX(" + r.s + ")";
+				x += bw;
+			});
+
+			// clean photo left of the pane, cover from its leading edge on, glitch just behind it
+			var edge = Math.max(0, Math.min(W, lead));
+			var cl = Math.max(0, x);
+			cover.style.left = cl + "px";
+			coverPic.style.left = -cl + "px";
+			coverPic.style.transformOrigin = (W / 2) + "px 50%";
+			var gl = Math.max(0, edge - W * .32);
+			glitch.style.clipPath = "inset(0 " + Math.max(0, W - x) + "px 0 " + gl + "px)";
+
+			if (++tick % 4 === 0) shuffle();
+			var k = Math.sin(Math.min(1, fx.p * 1.15) * Math.PI);
+			bands.forEach(function (b) {
+				b.pic.style.transform = "translateX(" + (b.off * k) + "px)";
+			});
+		};
+		draw();
+
+		gsap.to(fx, {
+			p: 1,
+			duration: 1.9,
+			ease: "power1.inOut",
+			onUpdate: draw,
+			onComplete: function () {
+				glass.remove();
+				window.removeEventListener("resize", size);
+			},
+			scrollTrigger: {
+				trigger: photo,
+				start: "top 80%",
+				toggleActions: "play none none none"
+			}
+		});
+	});
 }
 
 
@@ -803,6 +1163,7 @@ function axFooter1Touch() {
 */
 function afterPreloader() {
 	if (agHero1First) agHero1First.play();
+	if (agHero2First) agHero2First.play();
 
 	// titles that waited behind the preloader (main-common.js) come in
 	(window.waTextEffectWaiting || []).forEach(function (tl) {
@@ -839,6 +1200,12 @@ window.addEventListener("load", function () {
 ScrollTrigger.refresh();
 
 agHero1Intro();
+agHero2Slider();
+agHero2Intro();
+agService2Accordion();
+agAbout2Tabs();
+agExperience2Ring();
+agGlassReveal();
 agAbout1Slider();
 agAbout1Stats();
 agAbout1Lines();

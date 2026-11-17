@@ -423,3 +423,515 @@
 /*
     ax-project-1-end
 */
+
+
+
+/*
+    ax-project-2-start
+*/
+.ax-project-2 {
+    // 1920 design: 174 above the head, 132 under the last row; from 1200 down the rows fold into 2 columns, from 767 into one
+    &-area {
+        padding: 174px 0 132px;
+        background: #fff;
+        overflow: hidden;
+
+        @media #{$xxl} {
+            padding: 150px 0 120px;
+        }
+
+        @media #{$xl} {
+            padding: 130px 0 110px;
+        }
+
+        @media #{$lg} {
+            padding: 110px 0 100px;
+        }
+
+        @media #{$md} {
+            padding: 100px 0 90px;
+        }
+
+        @media #{$xs} {
+            padding: 80px 0 70px;
+        }
+    }
+
+    // the label and the title, 20 apart; the big word sits behind them
+    &-head {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        max-width: 832px;
+        margin: 0 auto 68px;
+        text-align: center;
+
+        @media #{$xxl} {
+            margin-bottom: 60px;
+        }
+
+        @media #{$xl} {
+            margin-bottom: 52px;
+        }
+
+        @media #{$lg,$md} {
+            margin-bottom: 48px;
+        }
+
+        @media #{$xs} {
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+    }
+
+    // 180 / 129: the capitals fill the line, 42 above the label; the colour fades out downwards; 9.375vw is 180px on the 1920 page
+    &-bg-text {
+        position: absolute;
+        top: -0.2333em;
+        left: 50%;
+        font-family: var(--ax-font-5);
+        font-size: clamp(56px, 9.375vw, 180px);
+        font-weight: 600;
+        line-height: 0.7167;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: transparent;
+        background: linear-gradient(180deg, #efefeb 0%, #efefeb 45%, rgb(239 239 235 / 0%) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        transform: translateX(-50%);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &-title {
+        --dim: #939393;
+        position: relative;
+    }
+
+    &-list {
+        display: grid;
+        row-gap: 60px;
+
+        @media #{$xxl} {
+            row-gap: 56px;
+        }
+
+        @media #{$xl} {
+            row-gap: 48px;
+        }
+
+        @media #{$lg} {
+            row-gap: 44px;
+        }
+
+        @media #{$md,$xs} {
+            row-gap: 40px;
+        }
+    }
+
+    // --h the height of the photos in the row: 600 / 640 (A, C / B, D), smaller with the container
+    &-row {
+        --h: 600px;
+        display: grid;
+        align-items: start;
+        column-gap: 40px;
+
+        &:is(.is-b),
+        &:is(.is-d) {
+            --h: 640px;
+        }
+
+        // 560 + 800
+        &:is(.is-a) {
+            grid-template-columns: 7fr 10fr;
+        }
+
+        &:is(.is-b) {
+            grid-template-columns: 1fr;
+        }
+
+        // the card of the offer (428) and two photos (446)
+        &:is(.is-c) {
+            grid-template-columns: 428fr 446fr 446fr;
+        }
+
+        // 932 + 416, 52 between
+        &:is(.is-d) {
+            grid-template-columns: 932fr 416fr;
+            column-gap: 52px;
+        }
+
+        @media #{$xxl} {
+            --h: 556px;
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 593px;
+            }
+
+            &:is(.is-d) {
+                column-gap: 40px;
+            }
+        }
+
+        @media #{$xl} {
+            --h: 478px;
+            column-gap: 32px;
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 510px;
+            }
+
+            &:is(.is-d) {
+                column-gap: 32px;
+            }
+        }
+
+        // folded: A and C in two columns (the offer takes the whole row under the two photos), B and D in one
+        @media #{$lg,$md,$xs} {
+            --h: 400px;
+            gap: 40px 24px;
+
+            &:is(.is-a),
+            &:is(.is-c) {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 440px;
+                grid-template-columns: 1fr;
+                row-gap: 40px;
+            }
+        }
+
+        @media #{$md} {
+            --h: 340px;
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 380px;
+            }
+        }
+
+        @media #{$xs} {
+            --h: 340px;
+
+            &:is(.is-a),
+            &:is(.is-c) {
+                grid-template-columns: 1fr;
+                row-gap: 40px;
+            }
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 340px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            --h: 260px;
+
+            &:is(.is-b),
+            &:is(.is-d) {
+                --h: 260px;
+            }
+        }
+    }
+
+    &-card {
+        min-width: 0;
+    }
+
+    &-img {
+        position: relative;
+        width: 100%;
+        height: var(--h);
+    }
+
+    // the label sits 12px over the photo, flush with its left edge
+    &-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-top: -12px;
+
+        // the text of the wide card is 1170 of its 1400
+        .ax-project-2-row:is(.is-b) & {
+            max-width: 83.57%;
+        }
+
+        @media #{$xs} {
+            gap: 16px;
+        }
+    }
+
+    &-tag {
+        display: inline-flex;
+        align-items: center;
+        height: 32px;
+        padding: 0 12px;
+        background: #efefeb;
+        font-family: var(--ax-font-5);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: var(--ax-clr-ac-1);
+    }
+
+    &-info {
+        display: grid;
+        gap: 10px;
+    }
+
+    &-name {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: 28px;
+        font-weight: 400;
+        line-height: 32px;
+        letter-spacing: 0.02em;
+        color: #000;
+
+        a {
+            color: inherit;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+
+        @media #{$xl,$lg,$md} {
+            font-size: 26px;
+            line-height: 30px;
+        }
+
+        @media #{$xs} {
+            font-size: 22px;
+            line-height: 28px;
+        }
+    }
+
+    &-text {
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #414141;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    // the offer: 428 x 600, the sketch at the bottom, the black button over it 20px from the edges
+    &-cta {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: var(--h);
+        background: #efefeb;
+        overflow: hidden;
+        isolation: isolate;
+
+        @media #{$lg,$md,$xs} {
+            grid-column: 1 / -1;
+            order: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "content img"
+                "btn img";
+            align-items: end;
+            min-height: 0;
+        }
+
+        @media #{$xs} {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "content"
+                "img"
+                "btn";
+        }
+
+        &-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 16px;
+            // the sketch starts a little under the text, as in the design
+            margin-bottom: -16px;
+            padding: 42px 48px 0;
+
+            @media #{$xxl} {
+                padding: 36px 40px 0;
+            }
+
+            @media #{$xl} {
+                padding: 32px 28px 0;
+            }
+
+            @media #{$lg,$md,$xs} {
+                grid-area: content;
+                align-self: start;
+                margin-bottom: 0;
+                padding: 40px 40px 24px;
+            }
+
+            @media #{$xs} {
+                padding: 32px 24px 16px;
+            }
+        }
+
+        &-title {
+            margin: 0;
+            font-family: var(--ax-font-5);
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 36px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: #000;
+
+            @media #{$xxl} {
+                font-size: 30px;
+                line-height: 34px;
+            }
+
+            @media #{$xl} {
+                font-size: 26px;
+                line-height: 30px;
+            }
+
+            @media #{$xs} {
+                font-size: 26px;
+                line-height: 30px;
+            }
+        }
+
+        &-text {
+            margin: 0;
+            font-family: var(--ax-font-1);
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+            color: rgb(0 0 0 / 72%);
+
+            @media #{$xl,$xs} {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        // the sketch is a white PNG, "darken" in the design: it keeps its 427 : 372, sits on the bottom edge and lets the grey of the card through
+        &-img {
+            width: 100%;
+            margin-top: auto;
+            aspect-ratio: 427 / 372;
+            mix-blend-mode: darken;
+
+            @media #{$lg,$md,$xs} {
+                grid-area: img;
+                align-self: end;
+                margin-top: 0;
+            }
+        }
+
+        &-btn {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 52px;
+            background: #000;
+            font-family: var(--ax-font-5);
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 26px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            color: var(--ax-clr-ac-1);
+            transition: var(--ax-cube-1);
+
+            svg {
+                flex: none;
+                transition: transform .4s ease;
+            }
+
+            // hover: the gold takes the plate, the text turns black
+            &:hover {
+                background: var(--ax-clr-ac-1);
+                color: #000;
+
+                svg {
+                    transform: translateX(3px);
+                }
+            }
+
+            @media #{$lg,$md,$xs} {
+                position: relative;
+                inset: auto;
+                grid-area: btn;
+                align-self: end;
+                margin: 0 40px 40px;
+            }
+
+            @media #{$xs} {
+                margin: 0 24px 24px;
+            }
+        }
+    }
+
+    // the words next to the last photo, their bottom on the bottom of the photo (the text of the card under it is 138 high)
+    &-aside {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 48px;
+        align-self: end;
+        margin-bottom: 138px;
+
+        @media #{$xl} {
+            gap: 32px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            align-self: start;
+            gap: 32px;
+            margin-bottom: 0;
+        }
+    }
+
+    &-aside-text {
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #000;
+
+        @media #{$xl,$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+}
+/*
+    ax-project-2-end
+*/
