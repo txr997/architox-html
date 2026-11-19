@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use '../abstracts/variables' as *;
 
 
@@ -104,7 +105,7 @@ $ax-experience-2-angles: 7, 332, 295, 259, 223, 186, 150, 113, 77, 41;
         }
 
         @each $angle in $ax-experience-2-angles {
-            &:nth-child(#{index($ax-experience-2-angles, $angle)}) {
+            &:nth-child(#{list.index($ax-experience-2-angles, $angle)}) {
                 --a: #{$angle};
             }
         }

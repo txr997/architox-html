@@ -1,0 +1,205 @@
+@use 'sass:list';
+@use '../abstracts/variables' as *;
+
+
+// where each letter of the button stands at rest: the lift and the turn of the 18 places of "Start Your Project" (the spaces are 6 and 11), from the design
+$ax-cta-2-lift: -29.5px, 26.5px, -21.5px, 21.5px, -29.5px, 0, 29.5px, -26.5px, 29.5px, -21.5px, 0, 25.5px, -31.5px, 25.5px, -27.5px, 31.5px, -26.5px, 20.5px;
+$ax-cta-2-rot: -17deg, 10deg, 15deg, -10deg, -15deg, 0deg, 15deg, 15deg, -15deg, 15deg, 0deg, 30deg, -30deg, -30deg, 15deg, 15deg, -30deg, -30deg;
+
+/*
+    ax-cta-2-start
+*/
+.ax-cta-2 {
+    // 1920 x 314: the photo and a light panel of 954 each, 12px apart. The words stand 80px from the left of the panel, the sketch on its right foot.
+    // --sk is the sketch, --ml the left room of the words. Under 1200px the photo goes over the panel
+    &-area {
+        --sk: 219px;
+        --ml: 80px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        min-height: 314px;
+        background: #fff;
+
+        @media #{$xxl} {
+            --sk: 190px;
+            --ml: 56px;
+        }
+
+        @media #{$xl} {
+            --sk: 160px;
+            --ml: 40px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        @media #{$md} {
+            --sk: 190px;
+            --ml: 48px;
+        }
+
+        @media #{$xs} {
+            --sk: 140px;
+            --ml: 24px;
+        }
+    }
+
+    // the photo is cut from its top (954 x 489 file)
+    &-img {
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        background-size: cover;
+
+        @media #{$lg} {
+            height: 300px;
+        }
+
+        @media #{$md} {
+            height: 260px;
+        }
+
+        @media #{$xs} {
+            height: 220px;
+        }
+    }
+
+    &-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px calc(var(--sk) + 24px) 60px var(--ml);
+        overflow: hidden;
+        background: var(--ax-clr-bg-5);
+
+        @media #{$md,$xs} {
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+
+        @media (max-width: 575px) {
+            padding-right: 24px;
+        }
+    }
+
+    // 219 x 298 on the right foot of the panel, it melts into the grey (multiply)
+    &-bg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: var(--sk);
+        aspect-ratio: 219 / 298;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 100% 100%;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+
+        @media (max-width: 575px) {
+            display: none;
+        }
+    }
+
+    &-content {
+        position: relative;
+        max-width: 614px;
+    }
+
+    &-title {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 36px;
+        letter-spacing: 0.02em;
+        color: #000;
+
+        @media #{$xxl,$lg} {
+            font-size: 30px;
+            line-height: 34px;
+        }
+
+        @media #{$xl,$md} {
+            font-size: 28px;
+            line-height: 32px;
+        }
+
+        @media #{$xs} {
+            font-size: 24px;
+            line-height: 30px;
+        }
+    }
+
+    &-text {
+        margin: 16px 0 0;
+        font-family: var(--ax-font-1);
+        font-size: 18px;
+        line-height: 28px;
+        color: #414141;
+
+        @media #{$xl} {
+            font-size: 17px;
+            line-height: 26px;
+        }
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    // 243 x 56, a gold line round it. The letters stand scattered above and under it (as in the design); on hover they come to the middle one after the other
+    &-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 243px;
+        height: 56px;
+        margin-top: 30px;
+        border: 1px solid var(--ax-clr-ac-1);
+        border-radius: 6px;
+        background: var(--ax-clr-bg-5);
+        font-family: var(--ax-font-5);
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: #000;
+
+        &:hover {
+            color: #000;
+        }
+
+        .char {
+            display: inline-block;
+            white-space: pre;
+            transition: transform .7s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        @for $i from 1 through list.length($ax-cta-2-rot) {
+            .char:nth-child(#{$i}) {
+                transform: translateY(#{list.nth($ax-cta-2-lift, $i)}) rotate(#{list.nth($ax-cta-2-rot, $i)});
+                transition-delay: #{($i - 1) * 0.02}s;
+            }
+        }
+
+        // no hover on touch screens, so the words stand in place there
+        &:hover .char,
+        &:focus-visible .char {
+            transform: none;
+        }
+
+        @media (hover: none), (prefers-reduced-motion: reduce) {
+            .char:nth-child(n) {
+                transform: none;
+                transition: none;
+            }
+        }
+    }
+}
+/*
+    ax-cta-2-end
+*/

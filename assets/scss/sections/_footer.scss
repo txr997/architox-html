@@ -648,3 +648,364 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
 /*
     ax-footer-1-end
 */
+
+
+/*
+    ax-footer-2-start
+*/
+
+.ax-footer-2 {
+    // 1920 x 869: the house fades in at the top, a band with two lines (over and under it) holds the logo with the words and the three columns,
+    // under it the bar of the copyright and the links, and at the foot the big word that shows a photo. --pad is the room round the words of a column
+    &-area {
+        --pad: 54px;
+        --ln: rgb(255 255 255 / 24%);
+        position: relative;
+        padding-top: 132px;
+        overflow: hidden;
+        background: #000;
+        font-family: var(--ax-font-1);
+        color: #fff;
+        margin-top: 12px;
+
+        @media #{$xl} {
+            --pad: 32px;
+            padding-top: 110px;
+        }
+
+        @media #{$lg} {
+            --pad: 32px;
+            padding-top: 90px;
+        }
+
+        @media #{$md,$xs} {
+            --pad: 24px;
+            padding-top: 70px;
+        }
+    }
+
+    // the house, 1920 x 283 and faint
+    &-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 283px;
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        background-size: cover;
+        pointer-events: none;
+    }
+
+    &-main {
+        position: relative;
+        border-top: 1px solid rgb(255 255 255 / 16%);
+        border-bottom: 1px solid rgb(255 255 255 / 16%);
+    }
+
+    // the logo with the words, then the three columns (each one has a line on its left); the room of the first three is what their words need
+    &-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto 353px;
+        min-height: 412px;
+
+        @media #{$xl} {
+            grid-template-columns: minmax(0, 1fr) auto auto 300px;
+        }
+
+        @media #{$lg} {
+            grid-template-columns: auto auto minmax(0, 1fr);
+        }
+
+        @media #{$md} {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media #{$xs} {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    // 80px under the line in the design
+    &-about {
+        padding: 80px 40px 0 0;
+
+        @media #{$lg,$md,$xs} {
+            grid-column: 1 / -1;
+            padding: 56px 0 48px;
+        }
+
+        @media #{$xs} {
+            padding: 44px 0 36px;
+        }
+    }
+
+    &-logo {
+        display: block;
+        width: 224px;
+        height: 48px;
+
+        @media #{$xs} {
+            width: 190px;
+            height: 41px;
+        }
+    }
+
+    &-about-text {
+        max-width: 453px;
+        margin: 32px 0 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: #fff;
+
+        @media #{$xs} {
+            margin-top: 24px;
+            font-size: 17px;
+            line-height: 26px;
+        }
+    }
+
+    // 48 square, a line of 2px; the one under the mouse is gold (the second one at rest)
+    &-social {
+        display: flex;
+        gap: 4px;
+        margin-top: 32px;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--ln);
+            border-radius: 10px;
+            background: #000;
+            font-size: 18px;
+            color: rgb(255 255 255 / 80%);
+            transition: var(--ax-cube-1);
+        }
+
+        a:hover,
+        a:focus-visible {
+            border-color: var(--ax-clr-ac-1);
+            background: var(--ax-clr-ac-1);
+            box-shadow: 4px 5px 14px rgb(183 155 111 / 40%);
+            color: #fff;
+        }
+    }
+
+    &-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 var(--pad) 0 calc(var(--pad) - 1px);
+        border-left: 1px solid var(--ln);
+
+        // the last column ends at the container
+        &:is(.is-contact) {
+            padding-right: 0;
+        }
+
+        @media #{$lg,$md,$xs} {
+            justify-content: flex-start;
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+
+        @media #{$lg} {
+            &:is(.is-contact) {
+                padding-right: var(--pad);
+            }
+        }
+
+        // two columns side by side, the contact one under them
+        @media #{$md} {
+            &:is(.is-contact) {
+                grid-column: 1 / -1;
+                border-top: 1px solid var(--ln);
+                border-left: 0;
+                padding-left: 0;
+            }
+        }
+
+        @media #{$xs} {
+            padding-right: 0;
+            padding-left: 0;
+            border-left: 0;
+            border-top: 1px solid var(--ln);
+        }
+    }
+
+    &-title {
+        margin: 0 0 28px;
+        font-family: var(--ax-font-5);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ax-clr-ac-1);
+    }
+
+    &-list {
+        li + li {
+            margin-top: 16px;
+        }
+
+        a {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 28px;
+            color: #fff;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+
+            @media #{$xs} {
+                font-size: 17px;
+                line-height: 26px;
+            }
+        }
+    }
+
+    &-contact {
+        li {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 18px;
+            line-height: 28px;
+            color: rgb(255 255 255 / 80%);
+
+            @media #{$xs} {
+                font-size: 17px;
+                line-height: 26px;
+            }
+        }
+
+        li + li {
+            margin-top: 16px;
+        }
+
+        // the address is on two lines, its icon stays on the first one
+        li:first-child {
+            align-items: flex-start;
+            line-height: 24px;
+
+            svg {
+                margin-top: 4px;
+            }
+        }
+
+        a {
+            color: inherit;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+    }
+
+    &-contact-icon {
+        flex: none;
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: var(--ax-clr-ac-1);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    // the bar: 65px under the band, 24 high
+    &-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        margin-top: 65px;
+
+        @media #{$lg,$md,$xs} {
+            margin-top: 40px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 32px;
+        }
+    }
+
+    &-copy {
+        margin: 0;
+        font-size: 16px;
+        line-height: 24px;
+        color: rgb(255 255 255 / 60%);
+
+        strong {
+            font-weight: 500;
+            color: #fff;
+        }
+    }
+
+    &-legal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 16px;
+        font-size: 16px;
+        line-height: 24px;
+        opacity: .72;
+
+        a {
+            color: #fff;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+    }
+
+    // the big word (1396 x 205): the photo is cut by the letters, the foot of it melts into the black. 15px above and under it
+    &-text {
+        position: relative;
+        margin-top: 15px;
+        padding-bottom: 14px;
+    }
+
+    &-word {
+        aspect-ratio: 1396 / 205;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: cover;
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: 50% 50%;
+        mask-position: 50% 50%;
+    }
+
+    // 121 high in the design, from the lower third of the letters to past the foot
+    &-fade {
+        position: absolute;
+        right: 0;
+        bottom: -20px;
+        left: 0;
+        height: 55%;
+        background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 92%) 100%);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+        mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+        pointer-events: none;
+    }
+}
+/*
+    ax-footer-2-end
+*/

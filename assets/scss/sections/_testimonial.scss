@@ -521,3 +521,438 @@ $ax-testimonial-1-slots: (
 /*
     ax-testimonial-1-end
 */
+
+
+@keyframes ax-testimonial-2-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*
+    ax-testimonial-2-start
+*/
+.ax-testimonial-2 {
+    // 1920 x 914 in the design: white; the head (a line, the round video with the turning words, a line) 244px high and 132px from the top, 72px under
+    // it the box of 1190 x 334: an arrow panel at each side (round at the outer corners, its 1px line fades toward the words), the slider between
+    // them and the big pale word behind it all. --bs the badge, --wf the font of the word, --pw the panel, --gap the space next to it, --hg the
+    // space under the head, --sh the height of a slide. Under 768 the two arrows go under the slider
+    &-area {
+        --bs: 244px;
+        --wf: 200px;
+        --pw: 71px;
+        --gap: 80px;
+        --hg: 72px;
+        --sh: 334px;
+        --fs-title: 32px;
+        --lh-title: 36px;
+        --fs-text: 24px;
+        --lh-text: 36px;
+        --fs-name: 22px;
+        --fs-role: 18px;
+        position: relative;
+        padding: 132px 0;
+        overflow: hidden;
+        background: #fff;
+
+        @media #{$xxl} {
+            --bs: 220px;
+            --wf: 180px;
+            --pw: 64px;
+            --gap: 64px;
+            --hg: 64px;
+            --sh: 320px;
+            --fs-title: 30px;
+            --lh-title: 34px;
+            --fs-text: 22px;
+            --lh-text: 34px;
+            --fs-name: 20px;
+            --fs-role: 17px;
+            padding: 120px 0;
+        }
+
+        @media #{$xl} {
+            --bs: 200px;
+            --wf: 150px;
+            --pw: 56px;
+            --gap: 40px;
+            --hg: 56px;
+            --sh: 310px;
+            --fs-title: 28px;
+            --lh-title: 32px;
+            --fs-text: 21px;
+            --lh-text: 32px;
+            --fs-name: 20px;
+            --fs-role: 16px;
+            padding: 110px 0;
+        }
+
+        @media #{$lg} {
+            --bs: 180px;
+            --wf: 120px;
+            --pw: 52px;
+            --gap: 32px;
+            --hg: 52px;
+            --sh: 290px;
+            --fs-title: 28px;
+            --lh-title: 32px;
+            --fs-text: 20px;
+            --lh-text: 30px;
+            --fs-name: 19px;
+            --fs-role: 16px;
+            padding: 100px 0;
+        }
+
+        @media #{$md} {
+            --bs: 170px;
+            --wf: 90px;
+            --pw: 48px;
+            --gap: 24px;
+            --hg: 48px;
+            --sh: 270px;
+            --fs-title: 26px;
+            --lh-title: 30px;
+            --fs-text: 18px;
+            --lh-text: 28px;
+            --fs-name: 18px;
+            --fs-role: 15px;
+            padding: 90px 0;
+        }
+
+        @media #{$xs} {
+            --bs: 150px;
+            --wf: 56px;
+            --hg: 40px;
+            --sh: auto;
+            --fs-title: 22px;
+            --lh-title: 28px;
+            --fs-text: 16px;
+            --lh-text: 26px;
+            --fs-name: 18px;
+            --fs-role: 15px;
+            padding: 70px 0;
+        }
+    }
+
+    &-head {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+
+        @media #{$xs} {
+            gap: 16px;
+        }
+    }
+
+    // black .48, clear at the outer end and half black at the badge (0 to 50% in the design)
+    &-line {
+        flex: 1;
+        min-width: 0;
+        height: 1px;
+        opacity: .48;
+
+        &:is(.is-left) {
+            background: linear-gradient(90deg, rgb(0 0 0 / 0%), rgb(0 0 0 / 50%));
+        }
+
+        &:is(.is-right) {
+            background: linear-gradient(270deg, rgb(0 0 0 / 0%), rgb(0 0 0 / 50%));
+        }
+    }
+
+    &-badge {
+        position: relative;
+        flex: none;
+        width: var(--bs);
+        height: var(--bs);
+    }
+
+    &-ring {
+        position: absolute;
+        inset: 0;
+        animation: ax-testimonial-2-spin 24s linear infinite;
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
+    }
+
+    // 188 of 244, the black .2 on the video is in the design
+    &-circle {
+        position: absolute;
+        inset: 11.5%;
+        border-radius: 50%;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgb(0 0 0 / 20%);
+        }
+    }
+
+    // 80 of 244, in the middle of the video
+    &-quote {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        width: calc(var(--bs) * .328);
+        height: calc(var(--bs) * .328);
+        color: #fff;
+        transform: translate(-50%, -50%);
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-box {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        gap: var(--gap);
+        width: 100%;
+        max-width: 1190px;
+        margin: var(--hg) auto 0;
+
+        @media #{$xs} {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 28px 16px;
+        }
+    }
+
+    // 200px with the box of the glyphs 143px high, 85px over the box. The pale colour fades out to the foot of the glyphs
+    &-word {
+        position: absolute;
+        top: calc(var(--wf) * -.425);
+        left: 50%;
+        z-index: 0;
+        display: block;
+        font-family: var(--ax-font-5);
+        font-size: var(--wf);
+        font-weight: 400;
+        line-height: calc(var(--wf) * .715);
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        color: transparent;
+        background: linear-gradient(180deg, #efefeb 0%, rgb(239 239 235 / 0%) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        transform: translateX(-50%);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &-arrow {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: var(--pw);
+        padding: 0;
+        border: 0;
+        background: transparent;
+        appearance: none;
+        cursor: pointer;
+        color: #000;
+
+        // the 1px line is a gradient (#cdcdcd outside, #f5f5f5 inside), cut out of a filled box
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            pointer-events: none;
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+        }
+
+        &:is(.is-prev)::before {
+            border-radius: 20px 0 0 20px;
+            background: linear-gradient(90deg, #cdcdcd, #f5f5f5);
+        }
+
+        &:is(.is-next)::before {
+            border-radius: 0 20px 20px 0;
+            background: linear-gradient(270deg, #cdcdcd, #f5f5f5);
+        }
+
+        svg {
+            width: 28px;
+            height: 28px;
+            opacity: .6;
+            transition: opacity .3s, transform .3s;
+        }
+
+        &:hover svg {
+            opacity: 1;
+        }
+
+        &:is(.is-prev):hover svg {
+            transform: translateX(-3px);
+        }
+
+        &:is(.is-next):hover svg {
+            transform: translateX(3px);
+        }
+
+        @media #{$xs} {
+            order: 1;
+            width: 52px;
+            height: 52px;
+
+            &:is(.is-prev)::before,
+            &:is(.is-next)::before {
+                border-radius: 14px;
+            }
+        }
+    }
+
+    &-slider {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+
+        @media #{$xs} {
+            flex: 0 0 100%;
+        }
+    }
+
+    &-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        min-height: var(--sh);
+        text-align: center;
+
+        @media #{$xs} {
+            gap: 24px;
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        @media #{$xs} {
+            gap: 14px;
+        }
+    }
+
+    &-title {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: var(--fs-title);
+        font-weight: 400;
+        line-height: var(--lh-title);
+        letter-spacing: 0.02em;
+        color: #000;
+    }
+
+    &-text {
+        margin: 0;
+        font-family: var(--ax-font-1);
+        font-size: var(--fs-text);
+        font-weight: 400;
+        line-height: var(--lh-text);
+        color: #414141;
+    }
+
+    &-author {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    // 64 with the 4px line inside
+    &-avatar {
+        width: 64px;
+        height: 64px;
+        border: 4px solid #efefeb;
+        border-radius: 50%;
+    }
+
+    &-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    &-name {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: var(--fs-name);
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 0.02em;
+        color: #000;
+    }
+
+    &-role {
+        font-family: var(--ax-font-1);
+        font-size: var(--fs-role);
+        font-weight: 400;
+        line-height: 24px;
+        color: rgb(0 0 0 / 60%);
+    }
+
+    // a photo (186 x 193) that follows the mouse over the slider (main.js moves it, the one of the slide under the mouse shows). Not on touch, not under 768
+    &-follow {
+        --fw: 186px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        width: var(--fw);
+        height: calc(var(--fw) * 193 / 186);
+        margin: calc(var(--fw) * -.519) 0 0 calc(var(--fw) * -.5);
+        pointer-events: none;
+
+        &-img {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: 0 16px 40px rgb(0 0 0 / 14%);
+            opacity: 0;
+            transform: scale(.6) rotate(-6deg);
+            transition: opacity .4s, transform .5s cubic-bezier(.25, 0, .05, 1);
+        }
+
+        &:is(.is-on) .ax-testimonial-2-follow-img:is(.is-active) {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media #{$lg} {
+            --fw: 160px;
+        }
+
+        @media #{$md} {
+            --fw: 140px;
+        }
+
+        @media #{$xs}, (hover: none) {
+            display: none;
+        }
+    }
+}
+/*
+    ax-testimonial-2-end
+*/

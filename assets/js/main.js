@@ -350,14 +350,14 @@ function agExperience2Ring() {
 		intro.fromTo(glow, { autoAlpha: 0 }, { autoAlpha: 1, duration: .8 }, 0)
 			.fromTo(cards, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, stagger: .12 }, .1);
 
-		// by scroll: 1 time unit = one screen, one for every number; 180° is a multiple of 36°, the photos end on the places of the design
+		// by scroll: 1 time unit = 60% of a screen, one for every number; 180° is a multiple of 36°, the photos end on the places of the design
 		var tl = gsap.timeline({
 			defaults: { ease: "none" },
 			scrollTrigger: {
 				trigger: area,
 				start: "top top",
 				end: function () {
-					return "+=" + window.innerHeight * steps;
+					return "+=" + window.innerHeight * steps * .6;
 				},
 				pin: true,
 				scrub: 1,
@@ -368,7 +368,7 @@ function agExperience2Ring() {
 
 		tl.fromTo(ring, { "--spin": 0 }, { "--spin": 180, duration: steps }, 0);
 
-		// the number just changes, at every full screen
+		// the number just changes, at every step
 		for (var i = 1; i < steps; i++) {
 			tl.set(infos[i - 1], { autoAlpha: 0 }, i)
 				.set(infos[i], { autoAlpha: 1 }, i);
@@ -1196,6 +1196,140 @@ window.addEventListener("load", function () {
 	afterPageLoad();
 });
 
+/*
+	contact-2 — the select of the form becomes a nice-select
+*/
+function axContact2Select() {
+	if ($.fn.niceSelect) $(".ax-contact-2-select").niceSelect();
+}
+
+/*
+	award-2 — the awards list: the row under the mouse (or touched) opens, its cup stands up
+*/
+function agAward2List() {
+
+	var area = document.querySelector(".ax-award-2-area");
+	if (!area) return;
+
+	var items = area.querySelectorAll(".ax-award-2-item");
+
+	function open(i) {
+		items.forEach(function (item, n) {
+			item.classList.toggle("is-active", n === i);
+		});
+	}
+
+	items.forEach(function (item, i) {
+		item.addEventListener("mouseenter", function () { open(i); });
+		item.addEventListener("focusin", function () { open(i); });
+		item.addEventListener("click", function () { open(i); });
+	});
+}
+
+/*
+	testimonial-2 — the words slide, the two arrow panels go back and forward, it plays on its own and stops under the mouse
+*/
+function agTestimonial2Slider() {
+
+	var el = document.querySelector(".ax-testimonial-2-slider");
+	if (!el || typeof Swiper === "undefined") return;
+
+	new Swiper(el, {
+		loop: true,
+		speed: 700,
+		autoplay: prefersReducedMotion() ? false : { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true },
+		navigation: {
+			prevEl: ".ax-testimonial-2-arrow.is-prev",
+			nextEl: ".ax-testimonial-2-arrow.is-next"
+		}
+	});
+}
+
+/*
+	testimonial-2 — over the slider a photo follows the mouse (smoothed), the one of the slide under it; not on touch screens
+*/
+function agTestimonial2Follow() {
+
+	var box = document.querySelector(".ax-testimonial-2-box");
+	if (!box || prefersReducedMotion() || !window.matchMedia("(hover: hover)").matches) return;
+
+	var slider = box.querySelector(".ax-testimonial-2-slider");
+	var follow = box.querySelector(".ax-testimonial-2-follow");
+	if (!slider || !follow) return;
+
+	var imgs = follow.querySelectorAll(".ax-testimonial-2-follow-img");
+	var xTo = gsap.quickTo(follow, "x", { duration: .6, ease: "power3" });
+	var yTo = gsap.quickTo(follow, "y", { duration: .6, ease: "power3" });
+	var current = 0;
+
+	// the position in the box; the first one jumps, the rest glide
+	function place(e, jump) {
+		var r = box.getBoundingClientRect();
+		var x = e.clientX - r.left;
+		var y = e.clientY - r.top;
+		if (jump) gsap.set(follow, { x: x, y: y });
+		else { xTo(x); yTo(y); }
+	}
+
+	slider.addEventListener("mouseenter", function (e) {
+		place(e, true);
+		follow.classList.add("is-on");
+	});
+
+	// the slides are cloned by the loop, so the slide under the mouse is found from the target
+	slider.addEventListener("mousemove", function (e) {
+		var slide = e.target.closest(".ax-testimonial-2-slide");
+		var i = slide ? parseInt(slide.getAttribute("data-follow"), 10) : current;
+		if (i !== current && imgs[i]) {
+			imgs[current].classList.remove("is-active");
+			imgs[i].classList.add("is-active");
+			current = i;
+		}
+		place(e, false);
+	});
+
+	slider.addEventListener("mouseleave", function () {
+		follow.classList.remove("is-on");
+	});
+}
+
+// faq-2 — the questions, one open at a time (CSS grid rows do the height)
+function agFaq2Accordion() {
+	var list = document.querySelector(".ax-faq-2-list");
+	if (!list) return;
+
+	function set(item, open) {
+		item.classList.toggle("is-open", open);
+		item.querySelector(".ax-faq-2-btn").setAttribute("aria-expanded", open);
+	}
+
+	list.addEventListener("click", function (e) {
+		var btn = e.target.closest(".ax-faq-2-btn");
+		if (!btn) return;
+		var item = btn.closest(".ax-faq-2-item");
+		var open = !item.classList.contains("is-open");
+		list.querySelectorAll(".ax-faq-2-item.is-open").forEach(function (it) { set(it, false); });
+		set(item, open);
+	});
+}
+
+// faq-2 — the "Still Have Questions?" card grows from its bottom right corner when the picture scrolls into view
+function agFaq2Cta() {
+	var media = document.querySelector(".ax-faq-2-media");
+	var cta = document.querySelector(".ax-faq-2-cta");
+	if (!media || !cta || prefersReducedMotion()) return;
+
+	// the trigger is the picture, the card itself shrinks while it is hidden
+	gsap.from(cta, {
+		scale: 0,
+		transformOrigin: "100% 100%",
+		duration: 1.2,
+		ease: "power3.out",
+		clearProps: "transform",
+		scrollTrigger: { trigger: media, start: "top 45%", once: true }
+	});
+}
+
 // measure first, so a later trigger does not kill the passed ones (pin error)
 ScrollTrigger.refresh();
 
@@ -1215,6 +1349,12 @@ agClient1Lines();
 agProject1Slider();
 agProject1In();
 agContact1In();
+axContact2Select();
+agAward2List();
+agTestimonial2Slider();
+agTestimonial2Follow();
+agFaq2Accordion();
+agFaq2Cta();
 agTeam1In();
 agProcess1Steps();
 agChoose1In();
