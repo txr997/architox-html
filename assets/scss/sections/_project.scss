@@ -489,12 +489,12 @@
     // 180 / 129: the capitals fill the line, 42 above the label; the colour fades out downwards; 9.375vw is 180px on the 1920 page
     &-bg-text {
         position: absolute;
-        top: -0.2333em;
+        top: -0.3333em;
         left: 50%;
         font-family: var(--ax-font-5);
         font-size: clamp(56px, 9.375vw, 180px);
         font-weight: 600;
-        line-height: 0.7167;
+        line-height: 1;
         letter-spacing: 0.02em;
         text-transform: uppercase;
         white-space: nowrap;

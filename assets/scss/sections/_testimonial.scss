@@ -729,14 +729,14 @@ $ax-testimonial-1-slots: (
     // 200px with the box of the glyphs 143px high, 85px over the box. The pale colour fades out to the foot of the glyphs
     &-word {
         position: absolute;
-        top: calc(var(--wf) * -.425);
+        top: calc(var(--wf) * -0.525);
         left: 50%;
         z-index: 0;
         display: block;
         font-family: var(--ax-font-5);
         font-size: var(--wf);
         font-weight: 400;
-        line-height: calc(var(--wf) * .715);
+        line-height: 1;
         letter-spacing: 0.02em;
         white-space: nowrap;
         color: transparent;

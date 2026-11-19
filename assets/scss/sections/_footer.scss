@@ -713,8 +713,9 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
             grid-template-columns: minmax(0, 1fr) auto auto 300px;
         }
 
+        // the contact one is first here (order), so it takes the free room
         @media #{$lg} {
-            grid-template-columns: auto auto minmax(0, 1fr);
+            grid-template-columns: minmax(0, 1fr) auto auto;
         }
 
         @media #{$md} {
@@ -732,6 +733,7 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
 
         @media #{$lg,$md,$xs} {
             grid-column: 1 / -1;
+            order: -2;
             padding: 56px 0 48px;
         }
 
@@ -797,8 +799,9 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
     &-col {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: 0 var(--pad) 0 calc(var(--pad) - 1px);
+        // every title starts 80px under the line, the short contact list too
+        justify-content: flex-start;
+        padding: 80px var(--pad) 0 calc(var(--pad) - 1px);
         border-left: 1px solid var(--ln);
 
         // the last column ends at the container
@@ -807,9 +810,13 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
         }
 
         @media #{$lg,$md,$xs} {
-            justify-content: flex-start;
             padding-top: 48px;
             padding-bottom: 48px;
+
+            // the contact one comes right after the logo block, over the link lists
+            &:is(.is-contact) {
+                order: -1;
+            }
         }
 
         @media #{$lg} {
@@ -818,11 +825,12 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
             }
         }
 
-        // two columns side by side, the contact one under them
+        // the contact one takes the whole row, the two lists side by side under it
         @media #{$md} {
             &:is(.is-contact) {
                 grid-column: 1 / -1;
                 border-top: 1px solid var(--ln);
+                border-bottom: 1px solid var(--ln);
                 border-left: 0;
                 padding-left: 0;
             }

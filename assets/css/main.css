@@ -1921,7 +1921,8 @@ input:focus::placeholder, textarea:focus::placeholder {
   --btn-h: 56px;
   --btn-px: 13px;
   --btn-gap: 6px;
-  --btn-s: calc(var(--btn-h) + 7px);
+  --btn-sg: 4px;
+  --btn-s: calc(var(--btn-h) + var(--btn-sg));
   --btn-q: calc(var(--btn-px) + (var(--btn-s) - 20px - var(--btn-gap)) / 2);
   --btn-bg: transparent;
   --btn-bd: transparent;
@@ -2039,6 +2040,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 
 .ax-pr-btn-2 {
   --btn-bg: var(--ax-clr-ac-1);
+  --btn-sg: 4px;
 }
 
 .ax-pr-btn-2:is(.is-dark) {
@@ -4241,9 +4243,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   justify-content: space-between;
   height: 68px;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(28px);
-  backdrop-filter: blur(28px);
+  background: #fff;
 }
 @media (max-width: 767px) {
   .ax-header-2-wrap {
@@ -5448,6 +5448,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   line-height: 20px;
   color: rgba(255, 255, 255, 0.6);
   transition: var(--ax-cube-1);
+  letter-spacing: 1px;
 }
 .ax-hero-2-feature-link .text {
   text-decoration: underline;
@@ -8614,12 +8615,12 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .ax-project-2-bg-text {
   position: absolute;
-  top: -0.2333em;
+  top: -0.3333em;
   left: 50%;
   font-family: var(--ax-font-5);
   font-size: clamp(56px, 9.375vw, 180px);
   font-weight: 600;
-  line-height: 0.7167;
+  line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -11592,14 +11593,14 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 .ax-testimonial-2-word {
   position: absolute;
-  top: calc(var(--wf) * -0.425);
+  top: calc(var(--wf) * -0.525);
   left: 50%;
   z-index: 0;
   display: block;
   font-family: var(--ax-font-5);
   font-size: var(--wf);
   font-weight: 400;
-  line-height: calc(var(--wf) * 0.715);
+  line-height: 1;
   letter-spacing: 0.02em;
   white-space: nowrap;
   color: transparent;
@@ -13766,7 +13767,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .ax-footer-2-row {
-    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -13785,6 +13786,7 @@ input:focus::placeholder, textarea:focus::placeholder {
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .ax-footer-2-about {
     grid-column: 1/-1;
+    order: -2;
     padding: 56px 0 48px;
   }
 }
@@ -13846,8 +13848,8 @@ input:focus::placeholder, textarea:focus::placeholder {
 .ax-footer-2-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 var(--pad) 0 calc(var(--pad) - 1px);
+  justify-content: flex-start;
+  padding: 80px var(--pad) 0 calc(var(--pad) - 1px);
   border-left: 1px solid var(--ln);
 }
 .ax-footer-2-col:is(.is-contact) {
@@ -13855,9 +13857,11 @@ input:focus::placeholder, textarea:focus::placeholder {
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .ax-footer-2-col {
-    justify-content: flex-start;
     padding-top: 48px;
     padding-bottom: 48px;
+  }
+  .ax-footer-2-col:is(.is-contact) {
+    order: -1;
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -13869,6 +13873,7 @@ input:focus::placeholder, textarea:focus::placeholder {
   .ax-footer-2-col:is(.is-contact) {
     grid-column: 1/-1;
     border-top: 1px solid var(--ln);
+    border-bottom: 1px solid var(--ln);
     border-left: 0;
     padding-left: 0;
   }

@@ -170,8 +170,9 @@
     // what the text keeps on each side of it on hover
     --btn-px: 13px;
     --btn-gap: 6px;
-    // the square + a 7px gap
-    --btn-s: calc(var(--btn-h) + 7px);
+    // the room between the square and the plate
+    --btn-sg: 4px;
+    --btn-s: calc(var(--btn-h) + var(--btn-sg));
     // the side padding at rest: wider than the design by the room the square takes
     --btn-q: calc(var(--btn-px) + (var(--btn-s) - 20px - var(--btn-gap)) / 2);
     --btn-bg: transparent;
@@ -283,6 +284,7 @@
 
 .ax-pr-btn-2 {
     --btn-bg: var(--ax-clr-ac-1);
+    --btn-sg: 4px;
 }
 
 // the black one of the light sections
