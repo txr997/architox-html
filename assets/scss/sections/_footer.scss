@@ -1017,3 +1017,432 @@ $ax-footer-1-touch-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
 /*
     ax-footer-2-end
 */
+
+
+/*
+    ax-footer-3-start
+*/
+.ax-footer-3 {
+    // 1920 x 848 in the design: the gold house on the black, a glass (white 6%, blur 60) from the social bar down, the faint photo on its foot;
+    // --top is the room over the glass, --mark the width of the house
+    &-area {
+        --top: 132px;
+        --mark: 252px;
+        --ln: rgb(255 255 255 / 20%);
+        position: relative;
+        overflow: hidden;
+        background: #000;
+        font-family: var(--ax-font-1);
+        color: #fff;
+
+        @media #{$xl} {
+            --top: 110px;
+            --mark: 210px;
+        }
+
+        @media #{$lg} {
+            --top: 96px;
+            --mark: 180px;
+        }
+
+        @media #{$md} {
+            --top: 84px;
+            --mark: 150px;
+        }
+
+        @media #{$xs} {
+            --top: 72px;
+            --mark: 120px;
+        }
+
+        @media (max-width: 575px) {
+            --top: 64px;
+            --mark: 100px;
+        }
+    }
+
+    // its lower part is seen blurred through the glass
+    &-mark {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        width: var(--mark);
+        aspect-ratio: 252 / 214;
+        margin-left: calc(var(--mark) / -2);
+    }
+
+    &-glass {
+        position: relative;
+        z-index: 1;
+        margin-top: var(--top);
+        background: rgb(255 255 255 / 6%);
+        -webkit-backdrop-filter: blur(60px);
+        backdrop-filter: blur(60px);
+    }
+
+    // 1920 x 484 at the foot of the glass
+    &-bg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 25.2vw;
+        min-height: 260px;
+        max-height: 484px;
+        background: 50% 100% / cover no-repeat;
+        pointer-events: none;
+    }
+
+    // five cells of 280 x 78 between two lines; the gold one of the design stays until another one is hovered
+    &-social {
+        position: relative;
+        border-top: 1px solid var(--ln);
+        border-bottom: 1px solid var(--ln);
+
+        &-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            border-right: 1px solid var(--ln);
+
+            li {
+                border-left: 1px solid var(--ln);
+            }
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                height: 78px;
+                font-size: 16px;
+                line-height: 20px;
+                color: rgb(255 255 255 / 72%);
+                transition: var(--ax-cube-1);
+
+                i {
+                    width: 20px;
+                    text-align: center;
+                    font-size: 16px;
+                }
+
+                &:hover,
+                &:focus-visible,
+                &:is(.is-active) {
+                    background: var(--ax-clr-ac-1);
+                    color: #000;
+                }
+
+                @media (max-width: 767px) {
+                    height: 64px;
+
+                    // the icons stay, the names are for screen readers
+                    span {
+                        position: absolute;
+                        width: 1px;
+                        height: 1px;
+                        overflow: hidden;
+                        clip: rect(0 0 0 0);
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            &:has(a:hover) a:is(.is-active):not(:hover) {
+                background: transparent;
+                color: rgb(255 255 255 / 72%);
+            }
+        }
+    }
+
+    // newsletter on the left (549), the two lists on the right
+    &-main {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        gap: 48px 60px;
+        padding-top: 80px;
+
+        @media #{$lg} {
+            padding-top: 64px;
+        }
+
+        @media #{$md} {
+            flex-direction: column;
+            padding-top: 56px;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            padding-top: 48px;
+        }
+    }
+
+    &-news {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 549px;
+
+        @media #{$md,$xs} {
+            flex: none;
+            width: 100%;
+        }
+    }
+
+    &-news-title {
+        margin: 0;
+        font-family: var(--ax-font-5);
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 36px;
+        letter-spacing: 0.02em;
+        color: #fff;
+
+        @media #{$xs} {
+            font-size: 28px;
+            line-height: 32px;
+        }
+    }
+
+    &-news-text {
+        max-width: 503px;
+        margin: 24px 0 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: rgb(255 255 255 / 80%);
+    }
+
+    // 56 high, the button sits 6px inside the right end
+    &-form {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 56px;
+        margin-top: 28px;
+        padding: 0 6px 0 24px;
+        border: 1px solid rgb(255 255 255 / 30%);
+        border-radius: 12px;
+        transition: var(--ax-cube-1);
+
+        &:focus-within {
+            border-color: var(--ax-clr-ac-1);
+        }
+    }
+
+    &-input {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font-family: var(--ax-font-1);
+        font-size: 16px;
+        line-height: 24px;
+        color: #fff;
+
+        &::placeholder {
+            color: rgb(255 255 255 / 40%);
+            opacity: 1;
+        }
+    }
+
+    &-submit {
+        flex: none;
+        width: 127px;
+        height: 44px;
+        border: 0;
+        border-radius: 8px;
+        background: #414141;
+        font-family: var(--ax-font-5);
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        color: var(--ax-clr-ac-1);
+        transition: var(--ax-cube-1);
+
+        &:hover,
+        &:focus-visible {
+            background: var(--ax-clr-ac-1);
+            color: #000;
+        }
+
+        @media (max-width: 575px) {
+            width: 108px;
+            font-size: 15px;
+        }
+    }
+
+    &-links {
+        display: flex;
+        flex: none;
+        gap: 200px;
+
+        @media #{$xxl} {
+            gap: 140px;
+        }
+
+        @media #{$xl} {
+            gap: 100px;
+        }
+
+        @media #{$lg} {
+            gap: 72px;
+        }
+
+        @media #{$md} {
+            gap: 120px;
+        }
+
+        @media #{$xs} {
+            flex-wrap: wrap;
+            gap: 32px 48px;
+        }
+    }
+
+    // the small gold words over a list and over the address
+    &-title {
+        margin: 0 0 28px;
+        font-family: var(--ax-font-5);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ax-clr-ac-1);
+    }
+
+    &-list {
+        li + li {
+            margin-top: 16px;
+        }
+
+        a {
+            display: inline-block;
+            font-size: 18px;
+            line-height: 28px;
+            color: #fff;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+    }
+
+    // the address on the left, the big word on the right, both on the same middle line
+    &-big {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px 40px;
+        margin-top: 80px;
+
+        @media #{$lg} {
+            margin-top: 64px;
+        }
+
+        @media #{$md} {
+            margin-top: 56px;
+        }
+
+        @media #{$xs} {
+            margin-top: 48px;
+        }
+
+        @media #{$lg,$md,$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    &-address &-title {
+        margin-bottom: 12px;
+    }
+
+    &-address-text {
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        color: #fff;
+    }
+
+    // 172 high letters in the design (the line is as high as the capitals); the trailing letter space is taken back so the X ends at the container
+    &-word {
+        flex: none;
+        margin-right: -0.02em;
+        font-family: var(--ax-font-5);
+        font-size: min(172px, 8.96vw);
+        font-weight: 400;
+        line-height: 0.72;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: var(--ax-clr-ac-1);
+
+        @media #{$lg,$md,$xs} {
+            font-size: clamp(40px, 13.5vw, 172px);
+        }
+    }
+
+    // the line 24px under the word, the copyright and the links 24px under it
+    &-bar {
+        position: relative;
+        margin-top: 24px;
+        border-top: 1px solid var(--ln);
+    }
+
+    &-bar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        padding: 24px 0;
+
+        @media #{$md,$xs} {
+            justify-content: center;
+        }
+
+        @media #{$xs} {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    &-copy {
+        margin: 0;
+        font-size: 16px;
+        line-height: 24px;
+        color: rgb(255 255 255 / 72%);
+
+        strong {
+            font-weight: 500;
+            color: #fff;
+        }
+    }
+
+    &-legal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 16px;
+        font-size: 16px;
+        line-height: 24px;
+        opacity: .72;
+
+        a {
+            color: #fff;
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+    }
+}
+/*
+    ax-footer-3-end
+*/

@@ -420,6 +420,14 @@
         }
     }
 }
+
+.ax-project-1-area {
+    &:is(.has-projects-3) {
+        padding-top: 80px;
+        padding-bottom: 132px;
+        background-color: #fff;
+    }
+}
 /*
     ax-project-1-end
 */

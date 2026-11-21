@@ -379,6 +379,17 @@
         }
     }
 }
+
+
+.ax-faq-2-area {
+    &:is(.has-faqs-3) {
+        background-color: transparent;
+
+        &::before {
+            background: #fff;
+        }
+    }
+}
 /*
     ax-faq-2-end
 */

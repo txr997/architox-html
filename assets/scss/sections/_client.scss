@@ -164,3 +164,210 @@
 /*
     ax-client-1-end
 */
+
+
+/*
+    ax-client-3-start
+*/
+.ax-client-3 {
+    // 1920 x 294 in the design: four hairlines (16% black) cross like a # (the horizontal ones 54px from the screen edges, the vertical ones 79px,
+    // they run 24px / 25px past the crossings) and the logo row (84 high, 139px from the edges) runs between the horizontal ones, 31px under the top one
+    &-area {
+        overflow: hidden;
+    }
+
+    &-wrap {
+        position: relative;
+        max-width: 1920px;
+        height: 294px;
+        margin: 0 auto;
+    }
+
+    &-line {
+        position: absolute;
+        background: rgb(0 0 0 / 16%);
+
+        &:is(.is-top, .is-bottom) {
+            right: 54px;
+            left: 54px;
+            height: 1px;
+
+            @media #{$xl} {
+                right: 36px;
+                left: 36px;
+            }
+
+            @media #{$lg} {
+                right: 30px;
+                left: 30px;
+            }
+
+            @media #{$md} {
+                right: 20px;
+                left: 20px;
+            }
+
+            @media #{$xs} {
+                right: 12px;
+                left: 12px;
+            }
+        }
+
+        &:is(.is-top) {
+            top: 124px;
+        }
+
+        &:is(.is-bottom) {
+            top: 269px;
+        }
+
+        &:is(.is-left, .is-right) {
+            top: 100px;
+            bottom: 0;
+            width: 1px;
+        }
+
+        &:is(.is-left) {
+            left: 79px;
+
+            @media #{$xl} {
+                left: 53px;
+            }
+
+            @media #{$lg} {
+                left: 45px;
+            }
+
+            @media #{$md} {
+                left: 32px;
+            }
+
+            @media #{$xs} {
+                left: 24px;
+            }
+        }
+
+        &:is(.is-right) {
+            right: 77px;
+
+            @media #{$xl} {
+                right: 52px;
+            }
+
+            @media #{$lg} {
+                right: 44px;
+            }
+
+            @media #{$md} {
+                right: 31px;
+            }
+
+            @media #{$xs} {
+                right: 23px;
+            }
+        }
+    }
+
+    // the window of the marquee, the logos run through it and are cut at its edges (the plugin wraps what is inside in .js-marquee)
+    &-marquee {
+        position: absolute;
+        top: 155px;
+        right: 139px;
+        left: 139px;
+        height: 84px;
+        overflow: hidden;
+
+        @media #{$xl} {
+            right: 93px;
+            left: 93px;
+        }
+
+        @media #{$lg} {
+            right: 80px;
+            left: 80px;
+        }
+
+        @media #{$md} {
+            right: 56px;
+            left: 56px;
+        }
+
+        @media #{$xs} {
+            right: 40px;
+            left: 40px;
+        }
+    }
+
+    // the logos stand in a line, each one has the room after it (160px), also the last one, so the seam of the two copies is the same as the rest
+    &-track {
+        display: flex;
+        align-items: center;
+        height: 84px;
+    }
+
+    // on hover a logo turns black (brightness 0 makes every drawn pixel black and keeps the transparent ones)
+    &-logo {
+        flex: none;
+        margin-right: 160px;
+        transition: filter .4s ease;
+
+        &:hover {
+            filter: brightness(0);
+        }
+
+        @media #{$xxl} {
+            margin-right: 140px;
+        }
+
+        @media #{$xl} {
+            margin-right: 120px;
+        }
+
+        @media #{$lg} {
+            margin-right: 100px;
+        }
+
+        @media #{$md} {
+            margin-right: 80px;
+        }
+
+        @media (max-width: 767px) {
+            margin-right: 56px;
+        }
+
+        // the sizes of the logos in the design (the plugin measures the row before the pictures are loaded, so the boxes have their size here)
+        &:nth-child(1),
+        &:nth-child(7) {
+            width: 185px;
+            height: 75px;
+        }
+
+        &:nth-child(2) {
+            width: 146px;
+            height: 69px;
+        }
+
+        &:nth-child(3) {
+            width: 205px;
+            height: 69px;
+        }
+
+        &:nth-child(4) {
+            width: 199px;
+            height: 82px;
+        }
+
+        &:nth-child(5) {
+            width: 100px;
+            height: 82px;
+        }
+
+        &:nth-child(6) {
+            width: 151px;
+            height: 80px;
+        }
+    }
+}
+/*
+    ax-client-3-end
+*/

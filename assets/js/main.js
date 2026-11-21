@@ -108,6 +108,7 @@ var agPreloader = agPreloaderInit();
 // the hero intro, played by afterPreloader
 var agHero1First = null;
 var agHero2First = null;
+var agHero3First = null;
 var agHero2Swiper = null;
 
 
@@ -179,6 +180,158 @@ function agHero2Intro() {
 			tl.play();
 		}
 	};
+}
+
+
+/*
+	hero-3 — after the preloader: the plate of the form and the form on it slide in over the photo from the left edge of the card (the card clips them),
+	then the last line of the title is typed once the title (wa_blinds_text) is open, the cursor follows the text
+*/
+function agHero3Intro() {
+
+	var area = document.querySelector(".ax-hero-3-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var parts = area.querySelectorAll(".ax-hero-3-panel, .ax-hero-3-form-wrap");
+
+	// the from-tween parks them behind the preloader, afterPreloader plays it
+	var tl = gsap.timeline({ paused: true });
+	// 520px: the plate (456px wide) starts wholly outside the card
+	tl.from(parts, { x: -520, duration: 1.3, ease: "power3.out", clearProps: "transform" }, .3);
+
+	// the title opens at 0.9s and takes 1.1s, the typing starts while its last slats are still opening
+	var type = area.querySelector(".ax-hero-3-type-text");
+	if (type) {
+		var full = type.textContent.trim();
+		var typed = { n: 0 };
+		type.textContent = "";
+		tl.to(typed, {
+			n: full.length,
+			duration: full.length * .09,
+			ease: "none",
+			onUpdate: function () {
+				type.textContent = full.slice(0, Math.round(typed.n));
+			},
+			onComplete: function () {
+				type.textContent = full;
+			}
+		}, 1.5);
+	}
+
+	agHero3First = {
+		play: function () {
+			tl.play();
+		}
+	};
+}
+
+
+/*
+	hero-3 — parallax: the photo drops slower than the page while the hero scrolls away (it is 50% taller than the hero, 16.5% of its own height is the 25% it has)
+*/
+function agHero3Parallax() {
+
+	var area = document.querySelector(".ax-hero-3-area");
+	var bg = area && area.querySelector(".ax-hero-3-bg");
+	if (!bg || prefersReducedMotion()) return;
+
+	gsap.to(bg, {
+		yPercent: 16.5,
+		ease: "none",
+		scrollTrigger: { trigger: area, start: "top top", end: "bottom top", scrub: true }
+	});
+}
+
+
+/*
+	service-3 — from 992px up the section is pinned (is-pinned) and the cards go up with the scroll, the list follows the card in the middle,
+	a click on a list item scrolls to its card
+*/
+function agService3Scroll() {
+
+	var area = document.querySelector(".ax-service-3-area");
+	if (!area || prefersReducedMotion()) return;
+
+	var track = area.querySelector(".ax-service-3-track");
+	var list = area.querySelector(".ax-service-3-list");
+	var cards = gsap.utils.toArray(".ax-service-3-card", area);
+	var items = gsap.utils.toArray(".ax-service-3-item", area);
+	if (!track || !list || cards.length < 2) return;
+
+	gsap.matchMedia().add("(min-width: 992px)", function () {
+
+		area.classList.add("is-pinned");
+
+		// the middle of every card inside the track
+		var centers = [];
+		var measure = function () {
+			centers = cards.map(function (card) {
+				return card.offsetTop + card.offsetHeight / 2;
+			});
+		};
+		measure();
+
+		var active = -1;
+		var setActive = function (i) {
+			if (i === active) return;
+			active = i;
+			items.forEach(function (item, n) {
+				item.classList.toggle("is-active", n === i);
+			});
+			list.style.setProperty("--ax-i", i);
+		};
+
+		// the first card stands in the middle of the section, the last one ends there; 1px of scroll is 1px of the cards
+		var tween = gsap.fromTo(track, {
+			y: function () {
+				measure();
+				return area.offsetHeight / 2 - centers[0];
+			}
+		}, {
+			y: function () {
+				return area.offsetHeight / 2 - centers[centers.length - 1];
+			},
+			ease: "none",
+			scrollTrigger: {
+				trigger: area,
+				start: "top top",
+				end: function () {
+					measure();
+					return "+=" + (centers[centers.length - 1] - centers[0]);
+				},
+				pin: true,
+				scrub: 0.6,
+				anticipatePin: 1,
+				invalidateOnRefresh: true,
+				refreshPriority: 1,
+				onUpdate: function (self) {
+					var run = self.progress * (centers[centers.length - 1] - centers[0]);
+					var near = 0;
+					centers.forEach(function (c, n) {
+						if (Math.abs(c - centers[0] - run) < Math.abs(centers[near] - centers[0] - run)) near = n;
+					});
+					setActive(near);
+				}
+			}
+		});
+
+		var clicks = items.map(function (item, n) {
+			var go = function () {
+				window.scrollTo({ top: tween.scrollTrigger.start + centers[n] - centers[0], behavior: "smooth" });
+			};
+			item.addEventListener("click", go);
+			return go;
+		});
+
+		return function () {
+			items.forEach(function (item, n) {
+				item.removeEventListener("click", clicks[n]);
+			});
+			area.classList.remove("is-pinned");
+			area.removeAttribute("style");
+			list.style.removeProperty("--ax-i");
+		};
+	});
 }
 
 
@@ -509,7 +662,8 @@ function agGlassReveal() {
 */
 function agAbout1Slider() {
 
-	if (!document.querySelector(".ax-about-1-slider")) return;
+	// a single photo (home 3) has no wrapper; Swiper throws on it and stops every call after this one
+	if (!document.querySelector(".ax-about-1-slider .swiper-wrapper")) return;
 
 	new Swiper(".ax-about-1-slider", {
 		slidesPerView: 1,
@@ -1164,6 +1318,7 @@ function axFooter1Touch() {
 function afterPreloader() {
 	if (agHero1First) agHero1First.play();
 	if (agHero2First) agHero2First.play();
+	if (agHero3First) agHero3First.play();
 
 	// titles that waited behind the preloader (main-common.js) come in
 	(window.waTextEffectWaiting || []).forEach(function (tl) {
@@ -1197,10 +1352,10 @@ window.addEventListener("load", function () {
 });
 
 /*
-	contact-2 — the select of the form becomes a nice-select
+	contact-2 + hero-3 — the select of the form becomes a nice-select
 */
 function axContact2Select() {
-	if ($.fn.niceSelect) $(".ax-contact-2-select").niceSelect();
+	if ($.fn.niceSelect) $(".ax-contact-2-select, .ax-hero-3-select").niceSelect();
 }
 
 /*
@@ -1330,12 +1485,32 @@ function agFaq2Cta() {
 	});
 }
 
+// gallery-3 — the photos use wa-glass-reveal; the badge spins open when it scrolls into view, a little after the first row
+function agGallery3In() {
+
+	var sticker = document.querySelector(".ax-gallery-3-sticker");
+	if (!sticker || prefersReducedMotion()) return;
+
+	gsap.from(sticker, {
+		scale: 0,
+		rotation: -180,
+		duration: 1.2,
+		delay: .3,
+		ease: "back.out(1.6)",
+		clearProps: "transform",
+		scrollTrigger: { trigger: sticker, start: "top 85%", once: true }
+	});
+}
+
 // measure first, so a later trigger does not kill the passed ones (pin error)
 ScrollTrigger.refresh();
 
 agHero1Intro();
 agHero2Slider();
 agHero2Intro();
+agHero3Intro();
+agHero3Parallax();
+agService3Scroll();
 agService2Accordion();
 agAbout2Tabs();
 agExperience2Ring();
@@ -1355,6 +1530,7 @@ agTestimonial2Slider();
 agTestimonial2Follow();
 agFaq2Accordion();
 agFaq2Cta();
+agGallery3In();
 agTeam1In();
 agProcess1Steps();
 agChoose1In();
