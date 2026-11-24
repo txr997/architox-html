@@ -1,0 +1,135 @@
+@use '../abstracts/variables' as *;
+
+// the ends of the tab (64 x 60): a slanted side, a rounded top corner and a flare at the foot that melts into the page
+$ax-breadcrumb-1-tab-l: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='60' viewBox='0 0 64 60'%3E%3Cpath fill='%23EFEFEB' d='M0 60C7 60 13.7 56.3 16.7 50L36.2 8.15Q40 0 49 0H64V60Z'/%3E%3C/svg%3E");
+$ax-breadcrumb-1-tab-r: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='60' viewBox='0 0 64 60'%3E%3Cpath fill='%23EFEFEB' d='M64 60C57 60 50.3 56.3 47.3 50L27.8 8.15Q24 0 15 0H0V60Z'/%3E%3C/svg%3E");
+
+/*
+    ax-breadcrumb-1-start
+*/
+.ax-breadcrumb-1 {
+    // 1920 x 560, the header lies on top: the title is centred in what is left under it, the tab sits on the lower edge
+    &-area {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background: #000;
+    }
+
+    // dark top so the logo and the links of the header read on the pale sky
+    &-bg {
+        position: absolute;
+        inset: 0;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgb(0 12 24 / 55%) 0, rgb(0 12 24 / 0%) 200px);
+        }
+    }
+
+    // the blue wash of the hero: it multiplies the pale sky into the deep blue
+    &-shade {
+        position: absolute;
+        inset: 0;
+        background: var(--ax-clr-gd-11);
+        opacity: 0.8;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+    }
+
+    // the title is centred under the 72px of the header, the lg / md header is a flex row (16px + 48px) and the sm / xs one is 12px + 48px
+    &-wrap {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        min-height: 560px;
+        padding-top: 72px;
+
+        @media #{$xxl} {
+            min-height: 540px;
+        }
+
+        @media #{$xl} {
+            min-height: 500px;
+        }
+
+        @media #{$lg} {
+            min-height: 440px;
+        }
+
+        @media #{$md} {
+            min-height: 400px;
+        }
+
+        @media #{$xs} {
+            min-height: 320px;
+            padding-top: 64px;
+        }
+
+        @media #{$sm} {
+            min-height: 360px;
+        }
+    }
+
+    // page-colour tab that grows out of the section: the two ends are fixed pieces, a plain fill runs between them (1px under each)
+    &-nav {
+        position: absolute;
+        right: 12px;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 60px;
+        padding: 0 52px;
+        background-image: $ax-breadcrumb-1-tab-l, linear-gradient(#EFEFEB, #EFEFEB), $ax-breadcrumb-1-tab-r;
+        background-size: 64px 60px, calc(100% - 126px) 100%, 64px 60px;
+        background-position: 0 0, 63px 0, 100% 0;
+        background-repeat: no-repeat;
+        font-family: var(--ax-font-3);
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+        color: #000;
+
+        a {
+            transition: var(--ax-cube-1);
+
+            &:hover {
+                color: var(--ax-clr-ac-1);
+            }
+        }
+
+        @media #{$xs,$sm} {
+            gap: 8px;
+            height: 48px;
+            padding: 0 42px;
+            background-size: 51px 48px, calc(100% - 100px) 100%, 51px 48px;
+            background-position: 0 0, 50px 0, 100% 0;
+            font-size: 15px;
+        }
+    }
+
+    &-sep {
+        display: flex;
+        flex: none;
+        width: 16px;
+        height: 16px;
+        color: var(--ax-clr-ac-1);
+
+        svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-current {
+        opacity: 0.6;
+    }
+}
+/*
+    ax-breadcrumb-1-end
+*/

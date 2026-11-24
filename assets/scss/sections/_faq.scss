@@ -388,6 +388,29 @@
         &::before {
             background: #fff;
         }
+
+
+        .ax-subtitle-2  {
+            background-color: #EFEFEB;
+        }
+
+        .ax-faq-2-item {
+            background: transparent;
+
+            &:is(.is-open) {
+                background-color: #EFEFEB;
+            }
+
+        }
+
+        
+        .ax-faq-2-cta {
+            background: #EFEFEB;
+        }
+
+        .ax-faq-2-cta-img {
+            mix-blend-mode: multiply;
+        }
     }
 }
 /*

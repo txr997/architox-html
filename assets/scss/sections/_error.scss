@@ -1,0 +1,163 @@
+@use '../abstracts/variables' as *;
+
+/*
+    ax-error-1-start
+*/
+.ax-error-1 {
+    // on the page colour, everything on the centre line: the 404 (the zero is a photo), then the tag, the title, the text and the button
+    &-area {
+        padding: 110px 0 120px;
+
+        @media #{$lg} {
+            padding: 90px 0 100px;
+        }
+
+        @media #{$md} {
+            padding: 80px 0 90px;
+        }
+
+        @media #{$xs,$sm} {
+            padding: 64px 0 72px;
+        }
+    }
+
+    &-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    // digit height is 0.72em in Lato, the oval is 1.16 x that; the digits sit 0.03em low in their line, so they are lifted back
+    &-code {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        margin-bottom: 70px;
+
+        @media #{$xxl,$xl} {
+            gap: 24px;
+            margin-bottom: 62px;
+        }
+
+        @media #{$lg} {
+            gap: 20px;
+            margin-bottom: 54px;
+        }
+
+        @media #{$md} {
+            gap: 18px;
+            margin-bottom: 48px;
+        }
+
+        @media #{$xs} {
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        @media #{$sm} {
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+    }
+
+    &-digit {
+        font-family: var(--ax-font-3);
+        font-size: 360px;
+        font-weight: 700;
+        line-height: 0.72;
+        letter-spacing: -0.02em;
+        color: #000;
+        transform: translateY(-0.03em);
+
+        @media #{$xxl,$xl} {
+            font-size: 320px;
+        }
+
+        @media #{$lg} {
+            font-size: 280px;
+        }
+
+        @media #{$md} {
+            font-size: 240px;
+        }
+
+        @media #{$xs} {
+            font-size: 140px;
+        }
+
+        @media #{$sm} {
+            font-size: 190px;
+        }
+    }
+
+    // the pill of the zero, a thin gold ring 10px outside it
+    &-img {
+        flex: none;
+        width: 240px;
+        height: 300px;
+        border-radius: 999px;
+        outline: 1px solid var(--ax-clr-ac-1);
+        outline-offset: 10px;
+
+        @media #{$xxl,$xl} {
+            width: 214px;
+            height: 268px;
+        }
+
+        @media #{$lg} {
+            width: 188px;
+            height: 236px;
+        }
+
+        @media #{$md} {
+            width: 160px;
+            height: 200px;
+        }
+
+        @media #{$xs} {
+            width: 94px;
+            height: 118px;
+            outline-offset: 6px;
+        }
+
+        @media #{$sm} {
+            width: 126px;
+            height: 158px;
+            outline-offset: 8px;
+        }
+    }
+
+    &-content {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    &-title {
+        margin-top: 18px;
+    }
+
+    &-text {
+        max-width: 560px;
+        margin: 20px auto 0;
+
+        @media #{$xs} {
+            font-size: 16px;
+            line-height: 26px;
+        }
+    }
+
+    &-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 34px;
+
+        @media #{$xs} {
+            margin-top: 28px;
+        }
+    }
+}
+/*
+    ax-error-1-end
+*/

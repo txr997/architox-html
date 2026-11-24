@@ -1343,7 +1343,7 @@
         padding: 0 89px 0 20px;
         font-family: var(--ax-font-5);
         font-size: 16px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 52px;
         letter-spacing: 0.03em;
         white-space: nowrap;
@@ -1368,12 +1368,24 @@
             left: 0;
             border-radius: 12px 0 0 12px;
             background: var(--ax-clr-ac-1);
+            transition: right .4s cubic-bezier(.18, .82, .41, 1), border-radius .4s;
+        }
+
+        // 35px: the body closes 4px after the moved square (its right edge sits 39px in), a plain 12px-radius box
+        &:hover::before {
+            right: 35px;
+            border-radius: 12px;
         }
 
         &::after {
             right: 0;
             width: 79.318px;
+            transition: opacity .4s;
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='136.682 0 79.318 52'%3E%3Cpath d='M216 40C216 46.6274 210.627 52 204 52H174.316C170.414 52 166.816 49.8928 164.908 46.4895C160.787 39.1422 150.211 39.1422 146.091 46.4895C144.182 49.8928 140.584 52 136.682 52V0C140.584 0 144.182 2.10721 146.091 5.51049C150.211 12.8578 160.787 12.8578 164.908 5.51049C166.816 2.10721 170.414 0 174.316 0H204C210.627 0 216 5.37258 216 12V40Z' fill='%23B79B6F'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+        }
+
+        &:hover::after {
+            opacity: 0;
         }
 
         .icon {
@@ -1388,14 +1400,21 @@
             border-radius: 10px;
             background: #000;
             color: var(--ax-clr-ac-1);
-
-            svg {
-                transition: transform .4s cubic-bezier(.18, .82, .41, 1);
-            }
+            transition: transform .4s cubic-bezier(.18, .82, .41, 1);
         }
 
-        &:hover .icon svg {
-            transform: translateX(4px);
+        .text {
+            display: inline-block;
+            transition: transform .4s cubic-bezier(.18, .82, .41, 1);
+        }
+
+        // the square crosses the neck (35px) and the text steps 3px left: a 9px gap between them
+        &:hover .icon {
+            transform: translateX(-35px);
+        }
+
+        &:hover .text {
+            transform: translateX(-3px);
         }
     }
 

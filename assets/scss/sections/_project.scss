@@ -426,6 +426,19 @@
         padding-top: 80px;
         padding-bottom: 132px;
         background-color: #fff;
+
+
+        .ax-project-1-bg::after {
+            background: linear-gradient(0deg, #ffffff 0%, rgba(239, 239, 235, 0) 88%);
+        }
+
+        .ax-project-1-tab {
+            background: #EFEFEB;
+
+            &:is(.is-active) {
+                background-color: var(--ax-clr-ac-1);
+            }
+        }
     }
 }
 /*
